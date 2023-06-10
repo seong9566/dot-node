@@ -1,4 +1,5 @@
 import 'package:dot_node/controller/widget_controller.dart';
+import 'package:dot_node/models/widget_element_provider.dart';
 import 'package:dot_node/models/widget_model.dart';
 import 'package:dot_node/web_view/components/widget_insert_button.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     final wControl =
         ref.read(widgetController); // homePage가 controller를 가지고 있는게 맞다고생각.
+    final eControl = ref.read(widgetElementProvider.notifier);
+
     Logger().d("위젯의 길이 확인 : ${widgetLists!.length}");
     return Scaffold(
       appBar: AppBar(
@@ -68,6 +71,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               return InsertWidget(
                 widgetList: widgetLists,
                 wControl: wControl,
+                eControl: eControl,
                 onWidgetAdd: () {
                   setState(() {});
                 },

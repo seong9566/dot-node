@@ -41,6 +41,8 @@ class ContainerWidget extends ConsumerStatefulWidget {
 class _ContainerWidgetState extends ConsumerState {
   // final _title = TextEditingController();
   // final _content = TextEditingController();
+  final _title = TextEditingController();
+  final _content = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final eContorl = ref.watch(widgetElementProvider.notifier);
@@ -75,10 +77,10 @@ class _ContainerWidgetState extends ConsumerState {
                       ),
                       hintText: '제목을 입력하세요',
                     ),
-                    // controller: _title,
-                    onChanged: ((title) {
-                      eContorl.setTitle(title);
-                    }),
+                    controller: _title,
+                    // onChanged: ((title) {
+                    //   eContorl.setTitle(title);
+                    // }),
                   ),
                   TextFormField(
                     style: TextStyle(fontSize: fContentSize),
@@ -87,13 +89,20 @@ class _ContainerWidgetState extends ConsumerState {
                       border: InputBorder.none,
                       hintText: '내용을 입력하세요.',
                     ),
-                    // controller: _content,
-                    onChanged: (content) {
-                      eContorl.setContent(content);
-                    },
+                    controller: _content,
+                    // onChanged: (content) {
+                    //   eContorl.setContent(content);
+                    // },
                   ),
                 ],
               ),
+            ),
+            ElevatedButton(
+              onPressed: (() {
+                eContorl.setTitle(_title.text);
+                eContorl.setContent(_content.text);
+              }),
+              child: Text("추가"),
             ),
           ],
         ),
