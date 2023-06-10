@@ -44,7 +44,7 @@ class _ContainerWidgetState extends State<ContainerWidget> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            ContainerInputForm(),
+            ContainerWidgetInputForm(),
           ],
         ),
       ),

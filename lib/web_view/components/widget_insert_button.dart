@@ -28,7 +28,7 @@ class InsertWidget extends StatefulWidget {
 }
 
 class _InsertWidget extends State<InsertWidget> {
-  String _selectedValue = 'Container';
+  String _selectedValue = 'Container'; // 기본 선택 위젯
 
   void openDialog({required BuildContext context}) async {
     final ImagePicker picker = ImagePicker();

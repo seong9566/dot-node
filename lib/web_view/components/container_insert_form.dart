@@ -1,20 +1,20 @@
 import 'package:dot_node/models/widget_model.dart';
 import 'package:flutter/material.dart';
 
-class ContainerInputForm extends StatefulWidget {
-  ContainerInputForm({
+class ContainerWidgetInputForm extends StatefulWidget {
+  ContainerWidgetInputForm({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<ContainerInputForm> createState() => _ContainerInputFormState();
+  State<ContainerWidgetInputForm> createState() => _ContainerInputFormState();
+}
 
+class _ContainerInputFormState extends State<ContainerWidgetInputForm> {
   FontWeight fWeight = FontWeight.bold;
   double fTitleSize = 24;
   double fContentSize = 16;
-}
 
-class _ContainerInputFormState extends State<ContainerInputForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -40,6 +40,7 @@ class _ContainerInputFormState extends State<ContainerInputForm> {
               ),
               hintText: '제목을 입력하세요',
             ),
+            //controller: ,
           ),
           TextFormField(
             style: TextStyle(fontSize: fContentSize),
