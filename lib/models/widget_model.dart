@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:dot_node/web_view/components/container_insert_form.dart';
 import 'package:flutter/material.dart';
 
 /*
@@ -41,18 +44,7 @@ class _ContainerWidgetState extends State<ContainerWidget> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Text(
-              "책임감이 강합니다.",
-              style: TextStyle(fontWeight: fWeight, fontSize: fTitleSize),
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 20),
-            Text(
-              "책임감이 강한 사람은 자신이 맡은 일에 대해 책임을 지고 최선을 다하며, 어려움에 직면해도 꾸준히 노력하여 목표를 이루는 데 주도적인 역할을 합니다. 이러한 사람들은 신뢰와 예측 가능성을 제공하며, 주변 사람들에게는 안정감과 동기부여를 주는 존재입니다.",
-              style: TextStyle(fontSize: fContentSize),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
+            ContainerInputForm(),
           ],
         ),
       ),

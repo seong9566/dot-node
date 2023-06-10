@@ -14,11 +14,13 @@ import 'package:logger/logger.dart';
  *              Description
  * Widget을 선택하고 Insert하는 버튼 
  * TextField가 만들어져야함.
+ * 기본 선택 위젯은 Container로 우선 시작.
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
-class InsertWidget extends StatefulBuilder {
-  InsertWidget({required this.widgetList, required this.onWidgetAdd, Key? key})
-      : super(key: key);
+
+class InsertWidget extends StatefulWidget {
+  InsertWidget(
+      {required this.widgetList, required this.onWidgetAdd, super.key});
   List<Widget>? widgetList;
   final VoidCallback onWidgetAdd;
   @override
@@ -95,13 +97,22 @@ class _InsertWidget extends State<InsertWidget> {
   void selectedWidget(BuildContext context, List<String> dropDownButtonItems,
       List<Widget> widgetList) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) => StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) {
-              return AlertDialog(
-                title: const Text('사용할 위젯을 선택하세요.'),
-                // dropdown박스 구현하기.
-                content: DropdownButton(
+      context: context,
+      builder: (BuildContext context) => StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          Widget contentWidget;
+          if (_selectedValue == "Container") {
+            contentWidget = ContainerWidget();
+          } else if (_selectedValue == "Stack") {
+            contentWidget = StackWidget();
+          } else {
+            contentWidget = ListWidget();
+          }
+          return AlertDialog(
+            title: const Text('사용할 위젯을 선택하세요.'),
+            content: Column(
+              children: [
+                DropdownButton(
                   value: _selectedValue,
                   items: dropDownButtonItems
                       .map<DropdownMenuItem<String>>((value) {
@@ -117,34 +128,41 @@ class _InsertWidget extends State<InsertWidget> {
                     });
                   },
                 ),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, 'Cancel'),
-                    child: const Text('Cancel'),
-                  ),
-                  TextButton(
-                    onPressed: () => {
-                      if (_selectedValue == "Container")
-                        {
-                          widgetList.add(ContainerWidget()),
-                        }
-                      else if (_selectedValue == "Stack")
-                        {
-                          widgetList.add(StackWidget()),
-                        }
-                      else
-                        {
-                          widgetList.add(ListWidget()),
-                        },
-                      Logger().d("위젯 확인 : ${widgetList.length}"),
-                      widget.onWidgetAdd(),
-                      Navigator.pop(context, 'OK'),
+                contentWidget,
+              ],
+            ),
+            // actions 버튼은 버튼 누르면 서버에 post 요청을 하고, main에 띄우는 역할을 하게된다.
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'Cancel'),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => {
+                  if (_selectedValue == "Container")
+                    {
+                      // 서버에 post요청 하는 로직 필요.
+                      widgetList.add(ContainerWidget()),
+                    }
+                  else if (_selectedValue == "Stack")
+                    {
+                      widgetList.add(StackWidget()),
+                    }
+                  else
+                    {
+                      widgetList.add(ListWidget()),
                     },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            }));
+                  Logger().d("위젯 확인 : ${widgetList.length}"),
+                  widget.onWidgetAdd(),
+                  Navigator.pop(context, 'OK'),
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 
   @override
