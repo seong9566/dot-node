@@ -5,13 +5,17 @@ import 'package:flutter/material.dart';
 //
 /*
  * Project Name:  [DOTnode]
- * Created Date: 2023-04-29 14:07:48
- * Last Modified: 2023-04-30 00:11:44
+ * Created Date: 2023-04-29
+ * Last Modified: 2023-06-10
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  *              Description
+ * TODO : 
+ * 1. 테스트 코드 모두 본코드로 먼저 이관하기
+ * 2. TextField를 만들고 서버에 insert 하기
+ * 3. Get요청으로 위젯이 불러와지는지 확인하기. (List에 담겨야함.)
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 class HomePage extends StatelessWidget {
@@ -24,24 +28,26 @@ class HomePage extends StatelessWidget {
         title: const Text("HomePage"),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              color: Colors.yellow,
-              width: 800,
-              height: 500,
-            ),
-            Container(
-              color: Colors.green,
-              width: 800,
-              height: 500,
-            ),
-            Container(
-              color: Colors.blue,
-              width: 800,
-              height: 500,
-            ),
-          ],
+        child: Center(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.yellow,
+                width: 800,
+                height: 500,
+              ),
+              Container(
+                color: Colors.green,
+                width: 800,
+                height: 500,
+              ),
+              Container(
+                color: Colors.blue,
+                width: 800,
+                height: 500,
+              ),
+            ],
+          ),
         ),
       ),
     );
