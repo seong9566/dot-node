@@ -1,3 +1,4 @@
+import 'package:dot_node/controller/widget_controller.dart';
 import 'package:dot_node/models/widget_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,16 +21,22 @@ import 'package:logger/logger.dart';
 
 class InsertWidget extends StatefulWidget {
   InsertWidget(
-      {required this.widgetList, required this.onWidgetAdd, super.key});
+      {required this.widgetList,
+      required this.onWidgetAdd,
+      required this.wControl,
+      super.key});
   List<Widget>? widgetList;
   final VoidCallback onWidgetAdd;
+  WidgetController wControl;
   @override
   State<InsertWidget> createState() => _InsertWidget();
 }
 
 class _InsertWidget extends State<InsertWidget> {
   String _selectedValue = 'Container'; // 기본 선택 위젯
-
+  //controller
+  final _elementName = TextEditingController();
+  final _content = TextEditingController();
   void openDialog({required BuildContext context}) async {
     final ImagePicker picker = ImagePicker();
     final ImageProvider? image = await showDialog<ImageProvider>(
@@ -139,10 +146,15 @@ class _InsertWidget extends State<InsertWidget> {
               ),
               TextButton(
                 onPressed: () => {
+                  //Container를 누르면 Container에 작성된 데이터들을 전달하면 된다.
                   if (_selectedValue == "Container")
                     {
+                      // widget.wControl.widgetInsert(
+                      //     widgetName: 'ContainerWidget',
+                      //     userUid: 'youngmin',
+                      //     widgetElement: widgetElement)
                       // 서버에 post요청 하는 로직 필요.
-                      widgetList.add(ContainerWidget()),
+                      //widgetList.add(ContainerWidget()),
                     }
                   else if (_selectedValue == "Stack")
                     {

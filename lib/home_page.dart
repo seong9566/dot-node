@@ -1,6 +1,8 @@
+import 'package:dot_node/controller/widget_controller.dart';
 import 'package:dot_node/models/widget_model.dart';
 import 'package:dot_node/web_view/components/widget_insert_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 /*
@@ -21,15 +23,22 @@ import 'package:logger/logger.dart';
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   List<Widget>? widgetLists;
+
+  final FontWeight fWeight = FontWeight.bold;
+  final double fTitleSize = 24;
+  final double fContentSize = 16;
+  final double fHeight = 400;
+  final double fWidth = 600;
+
   @override
   void initState() {
     // 처음 build시에만 아래 3개의 위젯이 만들어짐.
@@ -41,14 +50,10 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
-  final FontWeight fWeight = FontWeight.bold;
-  final double fTitleSize = 24;
-  final double fContentSize = 16;
-  final double fHeight = 400;
-  final double fWidth = 600;
-
   @override
   Widget build(BuildContext context) {
+    final wControl =
+        ref.read(widgetController); // homePage가 controller를 가지고 있는게 맞다고생각.
     Logger().d("위젯의 길이 확인 : ${widgetLists!.length}");
     return Scaffold(
       appBar: AppBar(
@@ -62,6 +67,7 @@ class _HomePageState extends State<HomePage> {
             if (index == widgetLists!.length) {
               return InsertWidget(
                 widgetList: widgetLists,
+                wControl: wControl,
                 onWidgetAdd: () {
                   setState(() {});
                 },

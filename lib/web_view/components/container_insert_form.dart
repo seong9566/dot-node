@@ -1,16 +1,17 @@
 import 'package:dot_node/models/widget_model.dart';
 import 'package:flutter/material.dart';
 
-class ContainerWidgetInputForm extends StatefulWidget {
-  ContainerWidgetInputForm({
+class ContainerInsertForm extends StatefulWidget {
+  ContainerInsertForm({
+    required this.onFormSubmit,
     Key? key,
   }) : super(key: key);
-
+  final Function(String, String) onFormSubmit;
   @override
-  State<ContainerWidgetInputForm> createState() => _ContainerInputFormState();
+  State<ContainerInsertForm> createState() => _ContainerInputFormState();
 }
 
-class _ContainerInputFormState extends State<ContainerWidgetInputForm> {
+class _ContainerInputFormState extends State<ContainerInsertForm> {
   FontWeight fWeight = FontWeight.bold;
   double fTitleSize = 24;
   double fContentSize = 16;

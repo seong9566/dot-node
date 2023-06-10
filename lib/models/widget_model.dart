@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:dot_node/dto/request/widget_insert_req_dto.dart';
+import 'package:dot_node/models/widget_element_provider.dart';
 import 'package:dot_node/web_view/components/container_insert_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -16,7 +19,8 @@ import 'package:flutter/material.dart';
  * 위젯의 형태 정의
  * 
  * 위젯의 기본틀은 갖춰져있음, Title,Text,img는 서버에서 가지고 와서 바인딩
- * 
+ * 1. Container위젯에서 데이터를 만들기
+ * 2. widgetInsertButton에서는 만들어진 ContainerWidget의 데이터를 받아서 post만 하도록 만들기. 
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
@@ -27,16 +31,19 @@ const double fContentSize = 16;
 const double fHeight = 400;
 const double fWidth = 600;
 
-class ContainerWidget extends StatefulWidget {
+class ContainerWidget extends ConsumerStatefulWidget {
   const ContainerWidget({super.key});
 
   @override
-  State<ContainerWidget> createState() => _ContainerWidgetState();
+  _ContainerWidgetState createState() => _ContainerWidgetState();
 }
 
-class _ContainerWidgetState extends State<ContainerWidget> {
+class _ContainerWidgetState extends ConsumerState {
+  // final _title = TextEditingController();
+  // final _content = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final eContorl = ref.watch(widgetElementProvider.notifier);
     return Container(
       width: fWidth,
       color: Colors.amber,
@@ -44,7 +51,50 @@ class _ContainerWidgetState extends State<ContainerWidget> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            ContainerWidgetInputForm(),
+            //ContainerInsertForm(),
+            Form(
+              child: Column(
+                children: [
+                  TextFormField(
+                    style: TextStyle(
+                      fontSize: fTitleSize,
+                      fontWeight: fWeight,
+                    ),
+                    decoration: InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black,
+                          width: 0.1,
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black,
+                          width: 0.1,
+                        ),
+                      ),
+                      hintText: '제목을 입력하세요',
+                    ),
+                    // controller: _title,
+                    onChanged: ((title) {
+                      eContorl.setTitle(title);
+                    }),
+                  ),
+                  TextFormField(
+                    style: TextStyle(fontSize: fContentSize),
+                    maxLines: 5,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: '내용을 입력하세요.',
+                    ),
+                    // controller: _content,
+                    onChanged: (content) {
+                      eContorl.setContent(content);
+                    },
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
