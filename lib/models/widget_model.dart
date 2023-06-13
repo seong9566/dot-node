@@ -32,15 +32,15 @@ const double fHeight = 400;
 const double fWidth = 600;
 
 class ContainerWidget extends ConsumerStatefulWidget {
-  const ContainerWidget({super.key});
-
+  ContainerWidget({this.titleElement, this.contentElement, Key? key})
+      : super(key: key);
+  final String? titleElement;
+  final String? contentElement;
   @override
   _ContainerWidgetState createState() => _ContainerWidgetState();
 }
 
-class _ContainerWidgetState extends ConsumerState {
-  // final _title = TextEditingController();
-  // final _content = TextEditingController();
+class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
   final _title = TextEditingController();
   final _content = TextEditingController();
   @override
@@ -53,47 +53,54 @@ class _ContainerWidgetState extends ConsumerState {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            //ContainerInsertForm(),
-            Form(
+            Visibility(
+              visible:
+                  widget.titleElement == null && widget.contentElement == null,
+              child: Form(
+                child: Column(
+                  children: [
+                    TextFormField(
+                      style: TextStyle(
+                        fontSize: fTitleSize,
+                        fontWeight: fWeight,
+                      ),
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 0.1,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                            width: 0.1,
+                          ),
+                        ),
+                        hintText: '제목을 입력하세요',
+                      ),
+                      controller: _title,
+                    ),
+                    TextFormField(
+                      style: TextStyle(fontSize: fContentSize),
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: '내용을 입력하세요.',
+                      ),
+                      controller: _content,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Visibility(
+              visible:
+                  widget.titleElement != null && widget.contentElement != null,
               child: Column(
                 children: [
-                  TextFormField(
-                    style: TextStyle(
-                      fontSize: fTitleSize,
-                      fontWeight: fWeight,
-                    ),
-                    decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 0.1,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 0.1,
-                        ),
-                      ),
-                      hintText: '제목을 입력하세요',
-                    ),
-                    controller: _title,
-                    // onChanged: ((title) {
-                    //   eContorl.setTitle(title);
-                    // }),
-                  ),
-                  TextFormField(
-                    style: TextStyle(fontSize: fContentSize),
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: '내용을 입력하세요.',
-                    ),
-                    controller: _content,
-                    // onChanged: (content) {
-                    //   eContorl.setContent(content);
-                    // },
-                  ),
+                  Text(widget.titleElement ?? ''),
+                  Text(widget.contentElement ?? ''),
                 ],
               ),
             ),

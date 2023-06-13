@@ -146,32 +146,31 @@ class _InsertWidget extends State<InsertWidget> {
                 child: const Text('Cancel'),
               ),
               TextButton(
-                onPressed: () => {
+                onPressed: () {
                   //Container를 누르면 Container에 작성된 데이터들을 전달하면 된다.
-                  if (_selectedValue == "Container")
-                    {
-                      widget.wControl.widgetInsert(
-                          widgetName: 'ContainerWidget',
-                          userUid: 'youngmin',
-                          widgetElement: widget.eControl.widgetElement),
-                      // 서버에 post요청 하는 로직 필요.
-                      //widgetList.add(ContainerWidget()),
-                      Logger().d(
-                          "엘리먼트 확인1 : ${widget.eControl.widgetElement[0].elementName},${widget.eControl.widgetElement[0].content}"),
-                      Logger().d(
-                          "엘리먼트 확인2 : ${widget.eControl.widgetElement[1].elementName},${widget.eControl.widgetElement[1].content}"),
-                    }
-                  else if (_selectedValue == "Stack")
-                    {
-                      widgetList.add(StackWidget()),
-                    }
-                  else
-                    {
-                      widgetList.add(ListWidget()),
-                    },
-                  Logger().d("위젯 확인 : ${widgetList.length}"),
-                  widget.onWidgetAdd(),
-                  Navigator.pop(context, 'OK'),
+                  if (_selectedValue == "Container") {
+                    widget.wControl.widgetInsert(
+                        widgetName: 'ContainerWidget',
+                        userUid: 'youngmin',
+                        widgetElement: widget.eControl.state);
+
+                    Logger().d("길이 : ${widget.eControl.state.length}");
+                    // containerWidget 초기화
+                    final containerWidget = ContainerWidget(
+                      // titleElement: widget.eControl.widgetElement[0].content,
+                      // contentElement: widget.eControl.widgetElement[1].content,
+                      titleElement: widget.eControl.state[0].content,
+                      contentElement: widget.eControl.state[1].content,
+                    );
+                    widgetList.add(containerWidget);
+                  } else if (_selectedValue == "Stack") {
+                    widgetList.add(StackWidget());
+                  } else {
+                    widgetList.add(ListWidget());
+                  }
+                  Logger().d("위젯 확인 : ${widgetList.length}");
+                  widget.onWidgetAdd();
+                  Navigator.pop(context, 'OK');
                 },
                 child: const Text('OK'),
               ),

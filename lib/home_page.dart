@@ -9,7 +9,7 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-04-29
- * Last Modified: 2023-06-10
+ * Last Modified: 2023-06-13
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -32,24 +32,13 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  List<Widget>? widgetLists;
+  List<Widget>? widgetLists = [];
 
   final FontWeight fWeight = FontWeight.bold;
   final double fTitleSize = 24;
   final double fContentSize = 16;
   final double fHeight = 400;
   final double fWidth = 600;
-
-  @override
-  void initState() {
-    // 처음 build시에만 아래 3개의 위젯이 만들어짐.
-    super.initState();
-    widgetLists = <Widget>[
-      ContainerWidget(),
-      StackWidget(),
-      ListWidget(),
-    ];
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-6-10 
- * Last Modified: 2023-06-10
+ * Last Modified: 2023-06-13
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -29,10 +29,18 @@ class WidgetElementProvider extends StateNotifier<List<WidgetElement>> {
   final List<WidgetElement> widgetElement = [];
 
   void setTitle(String title) {
-    widgetElement.add(WidgetElement(elementName: 'title', content: title));
+    state = [
+      ...state ?? [],
+      WidgetElement(elementName: 'title', content: title)
+    ];
+    //widgetElement.add(WidgetElement(elementName: 'title', content: title));
   }
 
   void setContent(String content) {
-    widgetElement.add(WidgetElement(elementName: 'content', content: content));
+    state = [
+      ...state ?? [],
+      WidgetElement(elementName: 'content', content: content)
+    ];
+    //widgetElement.add(WidgetElement(elementName: 'content', content: content));
   }
 }
