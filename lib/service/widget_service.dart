@@ -36,4 +36,10 @@ class WidgetService {
     Response response = await httpConnector.post("/widget", requestBody);
     return toResponseDto(response);
   }
+
+  Future<ResponseDto> fetchGet({required userName}) async {
+    // {{api-url}}/widget/youngmin
+    Response response = await httpConnector.get("/widget/${userName}");
+    return toResponseDto(response);
+  }
 }

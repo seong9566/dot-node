@@ -42,8 +42,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final wControl =
-        ref.read(widgetController); // homePage가 controller를 가지고 있는게 맞다고생각.
+    final wControl = ref.read(widgetController);
     final eControl = ref.read(widgetElementProvider.notifier);
 
     Logger().d("위젯의 길이 확인 : ${widgetLists!.length}");
@@ -60,7 +59,9 @@ class _HomePageState extends ConsumerState<HomePage> {
               return Column(
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      wControl.widgetGet(userName: "youngmin");
+                    },
                     child: Text("Get요청"),
                   ),
                   SizedBox(height: 20),

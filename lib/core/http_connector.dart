@@ -26,6 +26,10 @@ final httpConnector = Provider<HttpConnector>((ref) {
   return HttpConnector();
 });
 
+//Token값은 임시로 설정
+String testJwtToken =
+    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2ODcwNjgwMDcsInVzZXJVaWQiOiJ5b3VuZ21pbiJ9.3D2yu2BLO6mp6hakFVs_e8dg-PfuRDNLscJnu7RTo98";
+
 class HttpConnector {
   //header의 content 타입
   Map<String, String> headers = {
@@ -54,7 +58,7 @@ class HttpConnector {
     //1. Header
     Map<String, String> requestHeader = {
       ...headers,
-      "Access-Token": jwtToken ?? ""
+      "Access-Token": testJwtToken ?? ""
     };
     //2. Uri parse
     Uri uri = Uri.parse("$host$path");
@@ -65,9 +69,10 @@ class HttpConnector {
 
   //post
   Future<Response> post(String path, String body) async {
-    String jwtToken =
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2ODcwNjgwMDcsInVzZXJVaWQiOiJ5b3VuZ21pbiJ9.3D2yu2BLO6mp6hakFVs_e8dg-PfuRDNLscJnu7RTo98";
-    Map<String, String> requestHeader = {...headers, "Access-Token": jwtToken};
+    Map<String, String> requestHeader = {
+      ...headers,
+      "Access-Token": testJwtToken
+    };
     // Map<String, String> requestHeader = {
     //   ...headers,
     //   "Authorization": jwtToken ?? ""

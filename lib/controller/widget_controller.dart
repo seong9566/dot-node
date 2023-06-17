@@ -7,7 +7,7 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-06-10 
- * Last Modified: 2023-06-10
+ * Last Modified: 2023-06-17
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -36,6 +36,14 @@ class WidgetController {
         widgetName: widgetName, userUid: userUid, widgetElement: widgetElement);
     ResponseDto responseDto =
         await widgetService.fetchInsert(widgetInsertReqDto);
+    Logger().d("responseDto.code : ${responseDto.code}");
+    Logger().d("responseDto.data: ${responseDto.data}");
+    Logger().d("responseDto.msg : ${responseDto.msg}");
+  }
+
+  Future<void> widgetGet({required String userName}) async {
+    // TODO: 나중에는 user의 권한(Token,ID?) 받아서 해야함.
+    ResponseDto responseDto = await widgetService.fetchGet(userName: userName);
     Logger().d("responseDto.code : ${responseDto.code}");
     Logger().d("responseDto.data: ${responseDto.data}");
     Logger().d("responseDto.msg : ${responseDto.msg}");
