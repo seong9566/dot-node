@@ -9,7 +9,7 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-04-29
- * Last Modified: 2023-06-13
+ * Last Modified: 2023-06-17
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -57,13 +57,22 @@ class _HomePageState extends ConsumerState<HomePage> {
           itemCount: widgetLists!.length + 1,
           itemBuilder: (context, index) {
             if (index == widgetLists!.length) {
-              return InsertWidget(
-                widgetList: widgetLists,
-                wControl: wControl,
-                eControl: eControl,
-                onWidgetAdd: () {
-                  setState(() {});
-                },
+              return Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text("Get요청"),
+                  ),
+                  SizedBox(height: 20),
+                  InsertWidget(
+                    widgetList: widgetLists,
+                    wControl: wControl,
+                    eControl: eControl,
+                    onWidgetAdd: () {
+                      setState(() {});
+                    },
+                  ),
+                ],
               );
             } else {
               return Padding(

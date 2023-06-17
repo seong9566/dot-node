@@ -147,18 +147,13 @@ class _InsertWidget extends State<InsertWidget> {
               ),
               TextButton(
                 onPressed: () {
-                  //Container를 누르면 Container에 작성된 데이터들을 전달하면 된다.
                   if (_selectedValue == "Container") {
                     widget.wControl.widgetInsert(
                         widgetName: 'ContainerWidget',
                         userUid: 'youngmin',
                         widgetElement: widget.eControl.state);
 
-                    Logger().d("길이 : ${widget.eControl.state.length}");
-                    // containerWidget 초기화
                     final containerWidget = ContainerWidget(
-                      // titleElement: widget.eControl.widgetElement[0].content,
-                      // contentElement: widget.eControl.widgetElement[1].content,
                       titleElement: widget.eControl.state[0].content,
                       contentElement: widget.eControl.state[1].content,
                     );

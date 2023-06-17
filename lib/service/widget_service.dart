@@ -5,6 +5,7 @@ import 'package:dot_node/dto/request/widget_insert_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/dto/response_util.dart';
 import 'package:http/http.dart';
+import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-6-10 
@@ -31,7 +32,8 @@ class WidgetService {
 
   Future<ResponseDto> fetchInsert(WidgetInsertReqDto widgetInsertReqDto) async {
     String requestBody = jsonEncode(widgetInsertReqDto.toJson());
-    Response response = await httpConnector.post("/widget/test", requestBody);
+    Logger().d("Service 확인 : ${requestBody}");
+    Response response = await httpConnector.post("/widget", requestBody);
     return toResponseDto(response);
   }
 }
