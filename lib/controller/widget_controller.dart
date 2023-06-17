@@ -1,5 +1,6 @@
 import 'package:dot_node/dto/request/widget_insert_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
+import 'package:dot_node/models/widget_element.dart';
 import 'package:dot_node/service/widget_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -48,5 +49,6 @@ class WidgetController {
     Logger().d("responseDto.code : ${responseDto.code}");
     Logger().d("responseDto.data: ${responseDto.data}");
     Logger().d("responseDto.msg : ${responseDto.msg}");
+    if (responseDto.code == "OK") {}
   }
 }

@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:dot_node/dto/request/widget_insert_req_dto.dart';
-import 'package:dot_node/models/widget/widget_element_provider.dart';
 import 'package:dot_node/web_view/components/container_insert_form.dart';
+import 'package:dot_node/web_view/pages/home/model/widget_element_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -45,7 +45,7 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
   final _content = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final eContorl = ref.watch(widgetElementProvider.notifier);
+    final eContorl = ref.watch(widgetElementViewModel.notifier);
     return Container(
       width: fWidth,
       color: Colors.amber,

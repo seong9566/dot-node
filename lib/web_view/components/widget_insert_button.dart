@@ -1,6 +1,6 @@
 import 'package:dot_node/controller/widget_controller.dart';
-import 'package:dot_node/models/widget_element_provider.dart';
-import 'package:dot_node/models/widget_model.dart';
+import 'package:dot_node/widget_model.dart';
+import 'package:dot_node/web_view/pages/home/model/widget_element_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
@@ -30,7 +30,7 @@ class InsertWidget extends StatefulWidget {
   List<Widget>? widgetList;
   final VoidCallback onWidgetAdd;
   WidgetController wControl;
-  WidgetElementProvider eControl;
+  WidgetElementViewModel eControl;
   @override
   State<InsertWidget> createState() => _InsertWidget();
 }
@@ -148,7 +148,7 @@ class _InsertWidget extends State<InsertWidget> {
               TextButton(
                 onPressed: () {
                   if (_selectedValue == "Container") {
-                    widget.wControl.widgetInsert(
+                    widget.wControl.insertWidget(
                         widgetName: 'ContainerWidget',
                         userUid: 'youngmin',
                         widgetElement: widget.eControl.state);

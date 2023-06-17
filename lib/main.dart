@@ -1,4 +1,4 @@
-import 'package:dot_node/home_page.dart';
+import 'package:dot_node/web_view/pages/home/home_page.dart';
 import 'package:dot_node/service/local_service.dart';
 import 'package:dot_node/view/pages/auth/login_page.dart';
 import 'package:dot_node/core/util/locale_string.dart';

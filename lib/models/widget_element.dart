@@ -1,3 +1,16 @@
+/*
+ * Project Name:  [DOTnode]
+ * Created Date: 2023-06-17
+ * Last Modified: 2023-06-17
+ * Author: Hyeonseong
+ * Modified By: Hyeonseong
+ * copyright @ 2023 TeamDOT
+ * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+ *              Description
+ * Widget Class 원형
+ * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+ */
+
 class WidgetElement {
   String elementName;
   String content;

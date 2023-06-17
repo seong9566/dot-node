@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:dot_node/models/widget_element.dart';
+
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-06-10 
@@ -12,11 +14,6 @@ import 'dart:convert';
  * Widget의 요소 Insert ReqDto
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
-WidgetInsertReqDto welcomeFromJson(String str) =>
-    WidgetInsertReqDto.fromJson(json.decode(str));
-
-String welcomeToJson(WidgetInsertReqDto data) => json.encode(data.toJson());
-
 class WidgetInsertReqDto {
   String widgetName;
   String userUid;
@@ -41,29 +38,5 @@ class WidgetInsertReqDto {
         "userUid": userUid,
         "widgetElement":
             List<dynamic>.from(widgetElement.map((x) => x.toJson())),
-      };
-}
-
-class WidgetElement {
-  String elementName;
-  String content;
-  dynamic imageFile;
-
-  WidgetElement({
-    required this.elementName,
-    required this.content,
-    this.imageFile,
-  });
-
-  factory WidgetElement.fromJson(Map<String, dynamic> json) => WidgetElement(
-        elementName: json["elementName"],
-        content: json["content"],
-        imageFile: json["imageFile"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "elementName": elementName,
-        "content": content,
-        "imageFile": imageFile,
       };
 }

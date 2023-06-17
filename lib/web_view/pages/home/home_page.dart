@@ -1,7 +1,8 @@
 import 'package:dot_node/controller/widget_controller.dart';
-import 'package:dot_node/models/widget/widget_element_provider.dart';
-
 import 'package:dot_node/web_view/components/widget_insert_button.dart';
+import 'package:dot_node/web_view/pages/home/model/user_widget_view_model.dart';
+import 'package:dot_node/web_view/pages/home/model/widget_element_model.dart';
+import 'package:dot_node/web_view/pages/home/model/widget_element_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -43,9 +44,12 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final wControl = ref.read(widgetController);
-    final eControl = ref.read(widgetElementProvider.notifier);
+    final eControl = ref.read(widgetElementViewModel.notifier);
+    WidgetElementModel? widgetModel = ref.watch(userWidgetViewModel);
 
-    Logger().d("위젯의 길이 확인 : ${widgetLists!.length}");
+    if (widgetModel == null) {
+      return Center(child: CircularProgressIndicator());
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text("위젯 바인딩 테스트"),
@@ -56,6 +60,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           itemCount: widgetLists!.length + 1,
           itemBuilder: (context, index) {
             if (index == widgetLists!.length) {
+              Logger().d("위젯 모델 확인 : ${widgetModel.widgetElementList.length}");
               return Column(
                 children: [
                   ElevatedButton(

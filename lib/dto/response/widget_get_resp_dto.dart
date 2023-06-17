@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dot_node/dto/widget_element.dart';
+import 'package:dot_node/models/widget_element.dart';
 
 class WidgetGetRespDto {
   String widgetName;

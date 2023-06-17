@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dot_node/core/http_connector.dart';
 import 'package:dot_node/dto/request/widget_insert_req_dto.dart';
+import 'package:dot_node/dto/response/widget_get_resp_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/dto/response_util.dart';
 import 'package:http/http.dart';
@@ -9,7 +10,7 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-6-10 
- * Last Modified: 2023-06-1
+ * Last Modified: 2023-06-17
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -39,8 +40,13 @@ class WidgetService {
   }
 
   Future<ResponseDto> fetchGetWidget({required userName}) async {
-    // {{api-url}}/widget/youngmin
     Response response = await httpConnector.get("/widget/${userName}");
-    return toResponseDto(response);
+    ResponseDto responseDto = toResponseDto(response);
+    List<dynamic> mapList =
+        responseDto.data; //responseDto.data를 dynamic타입으로 바꾸는 것
+    List<WidgetGetRespDto> widgetList =
+        mapList.map((e) => WidgetGetRespDto.fromJson(e)).toList();
+    responseDto.data = widgetList;
+    return responseDto;
   }
 }

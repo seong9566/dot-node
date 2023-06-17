@@ -1,6 +1,6 @@
 import 'package:dot_node/dto/response_dto.dart';
-import 'package:dot_node/models/auth/sign_up_model.dart';
 import 'package:dot_node/service/user_service.dart';
+import 'package:dot_node/web_view/pages/auth/model/sign_up_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 /*

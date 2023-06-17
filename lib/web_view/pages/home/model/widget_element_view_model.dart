@@ -1,5 +1,5 @@
-import 'package:dot_node/dto/request/widget_insert_req_dto.dart';
-import 'package:dot_node/dto/widget_element.dart';
+import 'package:dot_node/models/widget_element.dart';
+import 'package:dot_node/service/widget_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /*
@@ -18,21 +18,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
  * widgetElement를 provider로 관리하는거면 .. 통일성을 위해 나머지도 모두 provider로 하는게 맞지않을까..?
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
-final widgetElementProvider =
-    StateNotifierProvider<WidgetElementProvider, List<WidgetElement>>(((ref) {
-  return WidgetElementProvider()..notifyViewModel();
+final widgetElementViewModel =
+    StateNotifierProvider<WidgetElementViewModel, List<WidgetElement>>(((ref) {
+  return WidgetElementViewModel();
 }));
 
-class WidgetElementProvider extends StateNotifier<List<WidgetElement>> {
-  WidgetElementProvider() : super([]); // 빈 list를 넣어서 초기화
+class WidgetElementViewModel extends StateNotifier<List<WidgetElement>> {
+  final WidgetService widgetService = WidgetService();
+  WidgetElementViewModel() : super([]); // 빈 list를 넣어서 초기화
 
-  Future<void> notifyViewModel() async {}
   void setTitle(String title) {
     state = [
       ...state ?? [],
       WidgetElement(elementName: 'title', content: title)
     ];
-    //widgetElement.add(WidgetElement(elementName: 'title', content: title));
   }
 
   void setContent(String content) {
@@ -40,6 +39,5 @@ class WidgetElementProvider extends StateNotifier<List<WidgetElement>> {
       ...state ?? [],
       WidgetElement(elementName: 'content', content: content)
     ];
-    //widgetElement.add(WidgetElement(elementName: 'content', content: content));
   }
 }
