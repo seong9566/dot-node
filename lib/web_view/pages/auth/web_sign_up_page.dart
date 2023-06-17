@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dot_node/controller/user_controller.dart';
 import 'package:dot_node/core/util/phone_number_formatter.dart';
+import 'package:dot_node/models/auth/sign_up_view_model.dart';
 import 'package:dot_node/models/sign_up_model.dart';
 import 'package:dot_node/models/sign_up_view_model.dart';
 import 'package:flutter/material.dart';
@@ -112,7 +113,7 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
   }
 
   Future<void> _checkUsernameAvailability(String username) async {
-    SignUpModel? signModel = ref.watch(signUpViewModel(username));
+    final signModel = ref.watch(signUpViewModel(username));
     if (username.isNotEmpty) {
       setState(() {
         _isCheckUsername = true;

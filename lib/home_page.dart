@@ -1,6 +1,6 @@
 import 'package:dot_node/controller/widget_controller.dart';
-import 'package:dot_node/models/widget_element_provider.dart';
-import 'package:dot_node/models/widget_model.dart';
+import 'package:dot_node/models/widget/widget_element_provider.dart';
+
 import 'package:dot_node/web_view/components/widget_insert_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

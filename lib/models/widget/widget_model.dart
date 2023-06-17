@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:dot_node/dto/request/widget_insert_req_dto.dart';
-import 'package:dot_node/models/widget_element_provider.dart';
+import 'package:dot_node/models/widget/widget_element_provider.dart';
 import 'package:dot_node/web_view/components/container_insert_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

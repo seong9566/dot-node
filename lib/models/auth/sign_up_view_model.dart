@@ -1,5 +1,5 @@
 import 'package:dot_node/dto/response_dto.dart';
-import 'package:dot_node/models/sign_up_model.dart';
+import 'package:dot_node/models/auth/sign_up_model.dart';
 import 'package:dot_node/service/user_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -23,7 +23,9 @@ import 'package:logger/logger.dart';
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
-final signUpViewModel = StateNotifierProvider.family<SignUpViewModel, SignUpModel?, String>((ref, username) {
+final signUpViewModel =
+    StateNotifierProvider.family<SignUpViewModel, SignUpModel?, String>(
+        (ref, username) {
   return SignUpViewModel(null, ref, username)..notifyViewModel();
 });
 
