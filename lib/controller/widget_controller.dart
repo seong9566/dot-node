@@ -28,22 +28,23 @@ class WidgetController {
   final Ref _ref;
   WidgetController(this._ref);
 
-  Future<void> widgetInsert(
+  Future<void> insertWidget(
       {required String widgetName,
       required String userUid,
       required List<WidgetElement> widgetElement}) async {
     WidgetInsertReqDto widgetInsertReqDto = WidgetInsertReqDto(
         widgetName: widgetName, userUid: userUid, widgetElement: widgetElement);
     ResponseDto responseDto =
-        await widgetService.fetchInsert(widgetInsertReqDto);
+        await widgetService.fetchInsertWidget(widgetInsertReqDto);
     Logger().d("responseDto.code : ${responseDto.code}");
     Logger().d("responseDto.data: ${responseDto.data}");
     Logger().d("responseDto.msg : ${responseDto.msg}");
   }
 
-  Future<void> widgetGet({required String userName}) async {
+  Future<void> getWidget({required String userName}) async {
     // TODO: 나중에는 user의 권한(Token,ID?) 받아서 해야함.
-    ResponseDto responseDto = await widgetService.fetchGet(userName: userName);
+    ResponseDto responseDto =
+        await widgetService.fetchGetWidget(userName: userName);
     Logger().d("responseDto.code : ${responseDto.code}");
     Logger().d("responseDto.data: ${responseDto.data}");
     Logger().d("responseDto.msg : ${responseDto.msg}");

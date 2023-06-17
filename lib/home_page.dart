@@ -60,7 +60,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      wControl.widgetGet(userName: "youngmin");
+                      wControl.getWidget(userName: "youngmin");
                     },
                     child: Text("Get요청"),
                   ),

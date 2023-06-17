@@ -9,7 +9,7 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-6-10 
- * Last Modified: 2023-06-10
+ * Last Modified: 2023-06-1
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -30,14 +30,15 @@ class WidgetService {
     return _instance;
   }
 
-  Future<ResponseDto> fetchInsert(WidgetInsertReqDto widgetInsertReqDto) async {
+  Future<ResponseDto> fetchInsertWidget(
+      WidgetInsertReqDto widgetInsertReqDto) async {
     String requestBody = jsonEncode(widgetInsertReqDto.toJson());
     Logger().d("Service 확인 : ${requestBody}");
     Response response = await httpConnector.post("/widget", requestBody);
     return toResponseDto(response);
   }
 
-  Future<ResponseDto> fetchGet({required userName}) async {
+  Future<ResponseDto> fetchGetWidget({required userName}) async {
     // {{api-url}}/widget/youngmin
     Response response = await httpConnector.get("/widget/${userName}");
     return toResponseDto(response);
