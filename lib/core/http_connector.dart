@@ -28,13 +28,11 @@ final httpConnector = Provider<HttpConnector>((ref) {
 
 //Token값은 임시로 설정
 String testJwtToken =
-    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2ODcwNjgwMDcsInVzZXJVaWQiOiJ5b3VuZ21pbiJ9.3D2yu2BLO6mp6hakFVs_e8dg-PfuRDNLscJnu7RTo98";
+    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2ODc1MDI1NDUsInVzZXJVaWQiOiJ5b3VuZ21pbiJ9.GL5rzYtN19Ae9LgRm5OIfVk1NMXWWGOr6KBYaj-DBNk";
 
 class HttpConnector {
   //header의 content 타입
-  Map<String, String> headers = {
-    "Content-Type": "application/json;charset=utf-8"
-  };
+  Map<String, String> headers = {"Content-Type": "application/json;charset=utf-8"};
   static const host = "http://localhost:8001";
 
   static final HttpConnector _instance = HttpConnector._single();
@@ -56,10 +54,7 @@ class HttpConnector {
   //get
   Future<Response> get(String path, {String? jwtToken}) async {
     //1. Header
-    Map<String, String> requestHeader = {
-      ...headers,
-      "Access-Token": testJwtToken ?? ""
-    };
+    Map<String, String> requestHeader = {...headers, "Access-Token": testJwtToken ?? ""};
     //2. Uri parse
     Uri uri = Uri.parse("$host$path");
     //3. response
@@ -69,38 +64,27 @@ class HttpConnector {
 
   //post
   Future<Response> post(String path, String body) async {
-    Map<String, String> requestHeader = {
-      ...headers,
-      "Access-Token": testJwtToken
-    };
+    Map<String, String> requestHeader = {...headers, "Access-Token": testJwtToken};
     // Map<String, String> requestHeader = {
     //   ...headers,
     //   "Authorization": jwtToken ?? ""
     // };
     Uri uri = Uri.parse("$host$path");
-    Response response =
-        await Client().post(uri, body: body, headers: requestHeader);
+    Response response = await Client().post(uri, body: body, headers: requestHeader);
     return response;
   }
 
   //put
   Future<Response> put(String path, String body, {String? jwtToken}) async {
-    Map<String, String> requestHeader = {
-      ...headers,
-      "Access-Token": jwtToken ?? ""
-    };
+    Map<String, String> requestHeader = {...headers, "Access-Token": jwtToken ?? ""};
     Uri uri = Uri.parse("$host$path");
-    Response response =
-        await Client().put(uri, body: body, headers: requestHeader);
+    Response response = await Client().put(uri, body: body, headers: requestHeader);
     return response;
   }
 
   //delete
   Future<Response> delete(String path, {String? jwtToken}) async {
-    Map<String, String> requestHeader = {
-      ...headers,
-      "Access-Token": jwtToken ?? ""
-    };
+    Map<String, String> requestHeader = {...headers, "Access-Token": jwtToken ?? ""};
     Uri uri = Uri.parse("$host$path");
     Response response = await Client().delete(uri, headers: requestHeader);
     return response;

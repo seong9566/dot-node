@@ -1,9 +1,10 @@
 import 'package:dot_node/controller/widget_controller.dart';
 import 'package:dot_node/widget_model.dart';
-import 'package:dot_node/web_view/pages/home/model/widget_element_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
+
+import '../../models/widget_element.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -21,22 +22,18 @@ import 'package:logger/logger.dart';
  */
 
 class InsertWidget extends StatefulWidget {
-  InsertWidget(
-      {required this.widgetList,
-      required this.onWidgetAdd,
-      required this.wControl,
-      required this.eControl,
-      super.key});
+  InsertWidget({required this.widgetList, required this.onWidgetAdd, required this.wControl, required this.widgetData, super.key});
   List<Widget>? widgetList;
   final VoidCallback onWidgetAdd;
   WidgetController wControl;
-  WidgetElementViewModel eControl;
+  List<WidgetElement> widgetData;
   @override
   State<InsertWidget> createState() => _InsertWidget();
 }
 
 class _InsertWidget extends State<InsertWidget> {
   String _selectedValue = 'Container'; // 기본 선택 위젯
+
   //controller
   void openDialog({required BuildContext context}) async {
     final ImagePicker picker = ImagePicker();
@@ -67,8 +64,7 @@ class _InsertWidget extends State<InsertWidget> {
               actions: [
                 ElevatedButton(
                   onPressed: () async {
-                    final XFile? imageFile =
-                        await picker.pickImage(source: ImageSource.gallery);
+                    final XFile? imageFile = await picker.pickImage(source: ImageSource.gallery);
                     imagePath = imageFile?.path ?? '';
                     Logger().d("선택 이미지 경로 : $imagePath");
                     setState(() {});
@@ -102,8 +98,7 @@ class _InsertWidget extends State<InsertWidget> {
     );
   }
 
-  void selectedWidget(BuildContext context, List<String> dropDownButtonItems,
-      List<Widget> widgetList) {
+  void selectedWidget(BuildContext context, List<String> dropDownButtonItems, List<Widget> widgetList) {
     showDialog(
       context: context,
       builder: (BuildContext context) => StatefulBuilder(
@@ -122,8 +117,7 @@ class _InsertWidget extends State<InsertWidget> {
               children: [
                 DropdownButton(
                   value: _selectedValue,
-                  items: dropDownButtonItems
-                      .map<DropdownMenuItem<String>>((value) {
+                  items: dropDownButtonItems.map<DropdownMenuItem<String>>((value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -132,44 +126,34 @@ class _InsertWidget extends State<InsertWidget> {
                   onChanged: (value) {
                     setState(() {
                       _selectedValue = value!;
-                      Logger().d("selected : ${_selectedValue}");
+                      Logger().d("selected : $_selectedValue");
                     });
                   },
                 ),
                 contentWidget,
               ],
             ),
-            // actions 버튼은 버튼 누르면 서버에 post 요청을 하고, main에 띄우는 역할을 하게된다.
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context, 'Cancel'),
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  if (_selectedValue == "Container") {
-                    widget.wControl.insertWidget(
-                        widgetName: 'ContainerWidget',
-                        userUid: 'youngmin',
-                        widgetElement: widget.eControl.state);
 
-                    final containerWidget = ContainerWidget(
-                      titleElement: widget.eControl.state[0].content,
-                      contentElement: widget.eControl.state[1].content,
-                    );
-                    widgetList.add(containerWidget);
-                  } else if (_selectedValue == "Stack") {
-                    widgetList.add(StackWidget());
-                  } else {
-                    widgetList.add(ListWidget());
-                  }
-                  Logger().d("위젯 확인 : ${widgetList.length}");
-                  widget.onWidgetAdd();
-                  Navigator.pop(context, 'OK');
-                },
-                child: const Text('OK'),
-              ),
-            ],
+            // actions: <Widget>[
+            //   TextButton(
+            //     onPressed: () => Navigator.pop(context, 'Cancel'),
+            //     child: const Text('Cancel'),
+            //   ),
+            //   TextButton(
+            //     onPressed: () {
+            //       if (_selectedValue == "Container") {
+            //       } else if (_selectedValue == "Stack") {
+            //         widgetList.add(StackWidget());
+            //       } else {
+            //         widgetList.add(ListWidget());
+            //       }
+            //       Logger().d("위젯 확인 : ${widgetList.length}");
+            //       widget.onWidgetAdd();
+            //       Navigator.pop(context, 'OK');
+            //     },
+            //     child: const Text('OK'),
+            //   ),
+            // ],
           );
         },
       ),

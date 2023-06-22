@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:dot_node/dto/request/widget_insert_req_dto.dart';
-import 'package:dot_node/web_view/components/container_insert_form.dart';
-import 'package:dot_node/web_view/pages/home/model/widget_element_view_model.dart';
+import 'package:dot_node/controller/widget_controller.dart';
+import 'package:dot_node/models/widget_element.dart';
+import 'package:dot_node/web_view/pages/home/model/widget_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,10 +32,10 @@ const double fHeight = 400;
 const double fWidth = 600;
 
 class ContainerWidget extends ConsumerStatefulWidget {
-  ContainerWidget({this.titleElement, this.contentElement, Key? key})
-      : super(key: key);
-  final String? titleElement;
-  final String? contentElement;
+  ContainerWidget({this.titleElement, this.contentElement, Key? key}) : super(key: key);
+  String? titleElement;
+  String? contentElement;
+
   @override
   _ContainerWidgetState createState() => _ContainerWidgetState();
 }
@@ -43,9 +43,11 @@ class ContainerWidget extends ConsumerStatefulWidget {
 class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
   final _title = TextEditingController();
   final _content = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final eContorl = ref.watch(widgetElementViewModel.notifier);
+    final widgetProvider = ref.watch(widgetDataProvider.notifier);
+    final wControl = ref.watch(widgetController);
     return Container(
       width: fWidth,
       color: Colors.amber,
@@ -54,8 +56,7 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
         child: Column(
           children: [
             Visibility(
-              visible:
-                  widget.titleElement == null && widget.contentElement == null,
+              visible: widget.titleElement == null && widget.contentElement == null,
               child: Form(
                 child: Column(
                   children: [
@@ -95,8 +96,7 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
               ),
             ),
             Visibility(
-              visible:
-                  widget.titleElement != null && widget.contentElement != null,
+              visible: widget.titleElement != null && widget.contentElement != null,
               child: Column(
                 children: [
                   Text(widget.titleElement ?? ''),
@@ -104,12 +104,16 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
                 ],
               ),
             ),
-            ElevatedButton(
+            TextButton(
               onPressed: (() {
-                eContorl.setTitle(_title.text);
-                eContorl.setContent(_content.text);
+                List<WidgetElement> containerWidget = [
+                  WidgetElement(elementName: "title", content: _title.text),
+                  WidgetElement(elementName: "content", content: _content.text),
+                ];
+                wControl.insertWidget(widgetName: "ContainerWidget", userUid: "youngmin", widgetElement: containerWidget);
+                Navigator.pop(context);
               }),
-              child: Text("추가"),
+              child: Text("저장"),
             ),
           ],
         ),
