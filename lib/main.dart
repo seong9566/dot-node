@@ -1,13 +1,10 @@
 import 'package:dot_node/web_view/pages/home/home_page.dart';
-import 'package:dot_node/service/local_service.dart';
 import 'package:dot_node/view/pages/auth/login_page.dart';
 import 'package:dot_node/core/util/locale_string.dart';
-import 'package:dot_node/web_view/pages/auth/web_login_page.dart';
-import 'package:dot_node/web_view/pages/auth/web_sign_up_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 /*
@@ -57,13 +54,18 @@ class MyWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      translations: LocaleString(),
-      locale: const Locale('kr_KR'), // kr_KR, en_US
-      //home: const WebSignUpPage(),
-      //home: const WebLoginPage(),
-      home: const HomePage(),
+    return ScreenUtilInit(
+      designSize: const Size(1920, 1080),
+      builder: (context, child) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          translations: LocaleString(),
+          locale: const Locale('kr_KR'), // kr_KR, en_US
+          //home: const WebSignUpPage(),
+          //home: const WebLoginPage(),
+          home: const HomePage(),
+        );
+      },
     );
   }
 }

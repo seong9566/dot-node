@@ -1,16 +1,15 @@
 import 'package:dot_node/controller/widget_controller.dart';
-import 'package:dot_node/models/widget_element.dart';
-import 'package:dot_node/web_view/components/widget_insert_button.dart';
 import 'package:dot_node/web_view/pages/home/model/user_widget_view_model.dart';
 import 'package:dot_node/web_view/pages/home/model/widget_element_model.dart';
-import 'package:dot_node/web_view/pages/home/model/widget_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../components/custom_app_bar.dart';
 
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-04-29
- * Last Modified: 2023-06-17
+ * Last Modified: 2023-06-27
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -44,51 +43,59 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final wControl = ref.read(widgetController);
-    List<WidgetElement> widgetData = ref.watch(widgetDataProvider);
     //final uModel = ref.watch(userWidgetViewModel.notifier);
     WidgetElementModel? widgetModel = ref.watch(userWidgetViewModel);
-
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     if (widgetModel == null) {
       return Center(child: CircularProgressIndicator());
     }
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("위젯 바인딩 테스트"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: ListView.builder(
-          itemCount: widgetLists!.length + 1,
-          itemBuilder: (context, index) {
-            if (index == widgetLists!.length) {
-              return Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      wControl.getWidget(userName: "youngmin");
-                    },
-                    child: Text("Get요청"),
-                  ),
-                  SizedBox(height: 20),
-                  InsertWidget(
-                    widgetList: widgetLists,
-                    wControl: wControl,
-                    widgetData: widgetData,
-                    onWidgetAdd: () {
-                      setState(() {});
-                    },
-                  ),
-                ],
-              );
-            } else {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: widgetLists![index],
-              );
-            }
-          },
+      appBar: CustomAppBar(scaffoldKey: scaffoldKey),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Divider(
+              height: 2,
+              color: Colors.grey.shade400,
+            )
+          ],
         ),
       ),
     );
+    // return Scaffold(
+    //   body: Padding(
+    //     padding: const EdgeInsets.all(30.0),
+    //     child: ListView.builder(
+    //       itemCount: widgetLists!.length + 1,
+    //       itemBuilder: (context, index) {
+    //         if (index == widgetLists!.length) {
+    //           return Column(
+    //             children: [
+    //               ElevatedButton(
+    //                 onPressed: () {
+    //                   wControl.getWidget(userName: "youngmin");
+    //                 },
+    //                 child: Text("Get요청"),
+    //               ),
+    //               SizedBox(height: 20),
+    //               InsertWidget(
+    //                 widgetList: widgetLists,
+    //                 wControl: wControl,
+    //                 onWidgetAdd: () {
+    //                   setState(() {});
+    //                 },
+    //               ),
+    //             ],
+    //           );
+    //         } else {
+    //           return Padding(
+    //             padding: const EdgeInsets.symmetric(vertical: 20),
+    //             child: widgetLists![index],
+    //           );
+    //         }
+    //       },
+    //     ),
+    //   ),
+    // );
   }
 }

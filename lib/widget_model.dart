@@ -46,7 +46,6 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final widgetProvider = ref.watch(widgetDataProvider.notifier);
     final wControl = ref.watch(widgetController);
     return Container(
       width: fWidth,

@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 
-import '../../models/widget_element.dart';
-
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-04-29
- * Last Modified: 2023-06-10
+ * Last Modified: 2023-06-22
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -18,15 +16,17 @@ import '../../models/widget_element.dart';
  * Widget을 선택하고 Insert하는 버튼 
  * TextField가 만들어져야함.
  * 기본 선택 위젯은 Container로 우선 시작.
+ * 
+ * 우선 저장 버튼을 모두 분리 시킴.
+ * Why? 각 위젯마다 데이터를 저장 시키려면 결국 함수 호출이 필요하기에 분리 시킴.-> 추후 개선
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
 class InsertWidget extends StatefulWidget {
-  InsertWidget({required this.widgetList, required this.onWidgetAdd, required this.wControl, required this.widgetData, super.key});
+  InsertWidget({required this.widgetList, required this.onWidgetAdd, required this.wControl, super.key});
   List<Widget>? widgetList;
   final VoidCallback onWidgetAdd;
   WidgetController wControl;
-  List<WidgetElement> widgetData;
   @override
   State<InsertWidget> createState() => _InsertWidget();
 }

@@ -28,7 +28,7 @@ final httpConnector = Provider<HttpConnector>((ref) {
 
 //Token값은 임시로 설정
 String testJwtToken =
-    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2ODc1MDI1NDUsInVzZXJVaWQiOiJ5b3VuZ21pbiJ9.GL5rzYtN19Ae9LgRm5OIfVk1NMXWWGOr6KBYaj-DBNk";
+    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2ODgxOTc0NzgsInVzZXJVaWQiOiJ5b3VuZ21pbiJ9.5fHtDx3fNw8YpScqx_EasX0c4pWdy53_sDXJ3VQJlrY";
 
 class HttpConnector {
   //header의 content 타입

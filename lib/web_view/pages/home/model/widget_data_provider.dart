@@ -15,18 +15,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
  * 
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
-final widgetDataProvider = StateNotifierProvider<WidgetDataProvider, List<WidgetElement>>(((ref) {
-  return WidgetDataProvider();
-}));
+// final widgetDataProvider = StateNotifierProvider<WidgetDataProvider, List<WidgetElement>>(((ref) {
+//   return WidgetDataProvider();
+// }));
 
-class WidgetDataProvider extends StateNotifier<List<WidgetElement>> {
-  WidgetDataProvider() : super([]); // 빈 list를 넣어서 초기화
+// class WidgetDataProvider extends StateNotifier<List<WidgetElement>> {
+//   WidgetDataProvider() : super([]); // 빈 list를 넣어서 초기화
 
-  void setTitle(String title) {
-    state = [...state, WidgetElement(elementName: 'title', content: title)];
-  }
+//   void setTitle(String title) {
+//     state = [...state, WidgetElement(elementName: 'title', content: title)];
+//   }
 
-  void setContent(String content) {
-    state = [...state, WidgetElement(elementName: 'content', content: content)];
-  }
-}
+//   void setContent(String content) {
+//     state = [...state, WidgetElement(elementName: 'content', content: content)];
+//   }
+// }
