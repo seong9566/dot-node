@@ -16,8 +16,9 @@ dependencies:
   validators:
   flutter_screenutil:
   flutter_riverpod:
-  flutter_secure_storage: ^8.0.0
+  flutter_secure_storage:
   logger:
+  image_picker:
 
 
 
