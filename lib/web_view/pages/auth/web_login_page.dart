@@ -23,14 +23,14 @@ import 'package:get/get.dart';
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
-class WebLoginPage extends StatefulWidget {
+class WebLoginPage extends ConsumerStatefulWidget {
   const WebLoginPage({super.key});
 
   @override
   _WebLoginPageState createState() => _WebLoginPageState();
 }
 
-class _WebLoginPageState extends State<WebLoginPage> {
+class _WebLoginPageState extends ConsumerState<WebLoginPage> {
   @override
   void initState() {
     super.initState();
@@ -51,6 +51,7 @@ class _WebLoginPageState extends State<WebLoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    //ref.read(authService.notifier).autoLogin();
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
       builder: ((context, child) => Scaffold(

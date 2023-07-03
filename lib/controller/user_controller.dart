@@ -2,15 +2,20 @@ import 'dart:async';
 
 import 'package:dot_node/dto/request/auth_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
-import 'package:dot_node/service/local_service.dart';
+import 'package:dot_node/main.dart';
+import 'package:dot_node/service/auth_service.dart';
 import 'package:dot_node/service/user_service.dart';
+import 'package:dot_node/web_view/components/custom_alert_dialog.dart';
+import 'package:dot_node/web_view/pages/home/home_page.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-05-19 
- * Last Modified: 2023-05-19
+ * Last Modified: 2023-07-01
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -28,17 +33,14 @@ final userController = Provider<UserController>((ref) {
 });
 
 class UserController {
+  final dContext = navigatorKey.currentContext;
   final UserService userService = UserService();
   final Ref _ref;
   UserController(this._ref);
 
-  Future<void> sign(
-      {required String username,
-      required String userEmail,
-      required String userPassword}) async {
+  Future<void> sign({required String username, required String userEmail, required String userPassword}) async {
     // 1. Dto
-    SignReqDto signReqDto = SignReqDto(
-        username: username, userEmail: userEmail, userPassword: userPassword);
+    SignReqDto signReqDto = SignReqDto(username: username, userEmail: userEmail, userPassword: userPassword);
     // 2. Service 요청
     ResponseDto responseDto = await userService.fetchSign(signReqDto);
     Logger().d("responseDto.code : ${responseDto.code}");
@@ -51,31 +53,27 @@ class UserController {
     return;
   }
 
-  Future<void> login(
-      {required String userEmail, required String userPassword}) async {
+// 로그인 성공 후 Token으로 데이터 가져오는 API아직 없음.
+  Future<void> login({required String userEmail, required String userPassword}) async {
     // 1. Dto
-    LoginReqDto loginReqDto =
-        LoginReqDto(userEmail: userEmail, userPassword: userPassword);
+    LoginReqDto loginReqDto = LoginReqDto(userEmail: userEmail, userPassword: userPassword);
     // 2. Service 요청
-    Logger().d("controller 서비스 요청");
+    Logger().d("Controller호출");
     ResponseDto responseDto = await userService.fetchLogin(loginReqDto);
-    Logger().d("responseDto.code : ${responseDto.code}");
-    Logger().d("responseDto.data: ${responseDto.data}");
-    Logger().d("responseDto.msg : ${responseDto.msg}");
+    Logger().d("responseDto 확인 : ${responseDto.data.runtimeType}");
+
     // 3. 비즈니스 로직
     if (responseDto.code == "OK") {
-      //Logger().d("컨트롤러 토큰 인증 실행 ");
-      // await LocalService().fetchJwtToken();
+      _ref.read(authService.notifier).authentication(responseDto.data);
+      Get.to(() => HomePage());
+    } else {
+      return showDialog(context: dContext!, builder: ((context) => CustomAlertDialog(msg: 'login_faild'.tr)));
     }
-    return;
   }
 
   Future<void> usernameCheck({required String username}) async {
     // 2. Service 요청
     ResponseDto responseDto = await userService.fetchUsernameCheck(username);
-    Logger().d("responseDto.code : ${responseDto.code}");
-    Logger().d("responseDto.data $username: ${responseDto.data}");
-    Logger().d("responseDto.msg : ${responseDto.msg}");
     // 3. 비즈니스 로직
     if (responseDto.code == "OK") {
       return;

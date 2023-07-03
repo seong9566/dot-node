@@ -1,5 +1,5 @@
-import 'package:dot_node/dto/response/widget_get_resp_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
+import 'package:dot_node/service/auth_service.dart';
 import 'package:dot_node/service/widget_service.dart';
 import 'package:dot_node/web_view/pages/home/model/widget_element_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,19 +18,19 @@ import 'package:logger/logger.dart';
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
-final userWidgetViewModel =
-    StateNotifierProvider<UserWidgetViewModel, WidgetElementModel?>((ref) {
-  return UserWidgetViewModel(null)..notifyViewModel();
+final userWidgetViewModel = StateNotifierProvider<UserWidgetViewModel, WidgetElementModel?>((ref) {
+  return UserWidgetViewModel(null, ref)..notifyViewModel();
 });
 
 class UserWidgetViewModel extends StateNotifier<WidgetElementModel?> {
   final WidgetService widgetService = WidgetService();
-  UserWidgetViewModel(super.state);
+  UserWidgetViewModel(super.state, this.ref);
+  final Ref ref;
 
   Future<void> notifyViewModel() async {
     String userName = "youngmin";
-    ResponseDto responseDto =
-        await widgetService.fetchGetWidget(userName: userName);
+    Logger().d("뷰 모델 토큰 확인 : ${ref.read(authService).jwtToken}");
+    ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userName, jwtToken: ref.read(authService).jwtToken);
     state = WidgetElementModel(responseDto.data);
   }
 }

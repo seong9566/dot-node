@@ -2,7 +2,6 @@
 
 import 'package:dot_node/controller/widget_controller.dart';
 import 'package:dot_node/models/widget_element.dart';
-import 'package:dot_node/web_view/pages/home/model/widget_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,6 +30,7 @@ const double fContentSize = 16;
 const double fHeight = 400;
 const double fWidth = 600;
 
+// ignore: must_be_immutable
 class ContainerWidget extends ConsumerStatefulWidget {
   ContainerWidget({this.titleElement, this.contentElement, Key? key}) : super(key: key);
   String? titleElement;
