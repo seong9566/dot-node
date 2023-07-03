@@ -1,4 +1,5 @@
-import 'package:dot_node/web_view/pages/home/home_page.dart';
+import 'package:dot_node/service/auth_service.dart';
+import 'package:dot_node/web_view/pages/auth/web_login_page.dart';
 import 'package:dot_node/view/pages/auth/login_page.dart';
 import 'package:dot_node/core/util/locale_string.dart';
 import 'package:flutter/foundation.dart';
@@ -10,7 +11,7 @@ import 'package:get/get.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-04-29 
- * Last Modified: 2023-06-10
+ * Last Modified: 2023-07-01
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -23,9 +24,13 @@ import 'package:get/get.dart';
  * TODO: HomePage를 메인으로 변경 (HomePage 구상 완료 까지만)
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
+final navigatorKey = GlobalKey<NavigatorState>();
+final dAuthService = ProviderContainer().read(authService.notifier);
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await LocalService().fetchJwtToken();
+  dAuthService.autoLogin();
   if (kIsWeb) {
     runApp(const ProviderScope(child: MyWeb()));
   } else {
@@ -58,12 +63,13 @@ class MyWeb extends StatelessWidget {
       designSize: const Size(1920, 1080),
       builder: (context, child) {
         return GetMaterialApp(
+          navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           translations: LocaleString(),
           locale: const Locale('kr_KR'), // kr_KR, en_US
           //home: const WebSignUpPage(),
-          //home: const WebLoginPage(),
-          home: const HomePage(),
+          home: const WebLoginPage(),
+          //home: const HomePage(),
         );
       },
     );

@@ -1,8 +1,7 @@
-import 'package:dot_node/service/local_service.dart';
 /*
  * Project Name:  [DOTnode]
- * Created Date: 2023-05-23 
- * Last Modified: 2023-05-23
+ * Created Date: 2023-07-01
+ * Last Modified: 2023-07-01
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -15,26 +14,11 @@ import 'package:dot_node/service/local_service.dart';
  */
 
 class UserToken {
-  // 유저의 정보가 필요하다면 추가.
-  static String? _jwtToken;
-  static bool _isLogin = false;
+  final String? _jwtToken;
+  final bool? _isLogin;
 
-  static get jwtToken => _jwtToken;
+  UserToken(this._jwtToken, this._isLogin);
 
-  static void successAuthentication(String jwtToken) {
-    _isLogin = true;
-    _jwtToken = jwtToken;
-  }
-
-  static Future<void> removeAuthentication() async {
-    _jwtToken = null;
-    _isLogin = false;
-    await LocalService().fetchRemoveJwtToke();
-  }
-
-  static Map<String, String> getJwtTokenHeader(Map<String, String> headers) {
-    return UserToken._jwtToken == null
-        ? headers
-        : {...headers, "Authorization": UserToken._jwtToken!};
-  }
+  get jwtToken => _jwtToken!;
+  get isLogin => _isLogin!;
 }
