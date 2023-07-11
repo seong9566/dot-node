@@ -1,5 +1,6 @@
 import 'package:dot_node/main.dart';
 import 'package:dot_node/models/user_token.dart';
+import 'package:dot_node/web_view/pages/personal/personal_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart' hide Response;
