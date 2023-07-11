@@ -54,7 +54,7 @@ class HttpConnector {
   //get
   Future<Response> get(String path, {String? jwtToken}) async {
     //1. Header
-    Map<String, String> requestHeader = {...headers, "Access-Token": testJwtToken ?? ""};
+    Map<String, String> requestHeader = {...headers, "Access-Token": jwtToken ?? ""};
     //2. Uri parse
     Uri uri = Uri.parse("$host$path");
     //3. response
@@ -63,12 +63,9 @@ class HttpConnector {
   }
 
   //post
-  Future<Response> post(String path, String body) async {
-    Map<String, String> requestHeader = {...headers, "Access-Token": testJwtToken};
-    // Map<String, String> requestHeader = {
-    //   ...headers,
-    //   "Authorization": jwtToken ?? ""
-    // };
+  Future<Response> post(String path, String body, {String? jwtToken}) async {
+    Map<String, String> requestHeader = {...headers, "Access-Token": jwtToken ?? ""};
+
     Uri uri = Uri.parse("$host$path");
     Response response = await Client().post(uri, body: body, headers: requestHeader);
     return response;

@@ -31,21 +31,24 @@ class WidgetService {
     return _instance;
   }
 
-  Future<ResponseDto> fetchInsertWidget(
-      WidgetInsertReqDto widgetInsertReqDto) async {
+  Future<ResponseDto> fetchInsertWidget({required WidgetInsertReqDto widgetInsertReqDto, String? jwtToken}) async {
+    Logger().d("Service 실행");
     String requestBody = jsonEncode(widgetInsertReqDto.toJson());
-    Logger().d("Service 확인 : ${requestBody}");
-    Response response = await httpConnector.post("/widget", requestBody);
+    Logger().d("Service 확인 : $requestBody");
+    Response response = await httpConnector.post("/widget", requestBody, jwtToken: jwtToken);
     return toResponseDto(response);
   }
 
-  Future<ResponseDto> fetchGetWidget({required userName}) async {
-    Response response = await httpConnector.get("/widget/${userName}");
+  Future<ResponseDto> fetchGetWidget({required userName, String? jwtToken}) async {
+    Logger().d("토큰 확인 : $jwtToken");
+    Response response = await httpConnector.get("/widget/$userName", jwtToken: jwtToken);
     ResponseDto responseDto = toResponseDto(response);
-    List<dynamic> mapList =
-        responseDto.data; //responseDto.data를 dynamic타입으로 바꾸는 것
-    List<WidgetGetRespDto> widgetList =
-        mapList.map((e) => WidgetGetRespDto.fromJson(e)).toList();
+    Logger().d("로그 확인 : ${responseDto.data}");
+    Logger().d("로그 확인 : ${responseDto.msg}");
+    Logger().d("로그 확인 : ${responseDto.code}");
+
+    List<dynamic> mapList = responseDto.data; //responseDto.data를 dynamic타입으로 바꾸는 것
+    List<WidgetGetRespDto> widgetList = mapList.map((e) => WidgetGetRespDto.fromJson(e)).toList();
     responseDto.data = widgetList;
     return responseDto;
   }

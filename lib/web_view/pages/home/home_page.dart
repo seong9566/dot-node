@@ -1,9 +1,8 @@
-import 'package:dot_node/controller/widget_controller.dart';
-import 'package:dot_node/web_view/pages/home/model/user_widget_view_model.dart';
-import 'package:dot_node/web_view/pages/home/model/widget_element_model.dart';
+import 'package:dot_node/web_view/pages/personal/personal_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import '../../components/custom_app_bar.dart';
 
 /*
@@ -42,13 +41,13 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final wControl = ref.read(widgetController);
+    //final wControl = ref.read(widgetController);
     //final uModel = ref.watch(userWidgetViewModel.notifier);
-    WidgetElementModel? widgetModel = ref.watch(userWidgetViewModel);
+    //WidgetElementModel? widgetModel = ref.watch(userWidgetViewModel);
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    if (widgetModel == null) {
-      return Center(child: CircularProgressIndicator());
-    }
+    // if (widgetModel == null) {
+    //   return Center(child: CircularProgressIndicator());
+    // }
     return Scaffold(
       appBar: CustomAppBar(scaffoldKey: scaffoldKey),
       body: SingleChildScrollView(
@@ -57,7 +56,14 @@ class _HomePageState extends ConsumerState<HomePage> {
             Divider(
               height: 2,
               color: Colors.grey.shade400,
-            )
+            ),
+            SizedBox(height: 100.h),
+            ElevatedButton(
+              onPressed: () {
+                Get.to(PersonalPage());
+              },
+              child: Text("개인페이지"),
+            ),
           ],
         ),
       ),
