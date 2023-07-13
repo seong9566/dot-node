@@ -171,8 +171,7 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                         controller: _username,
                         onFieldSubmitted: ((value) {
                           ref.read(signUpViewModel.notifier).notifyViewModel(value);
-                          Logger().d("서브밋 확인 ${model!.result}");
-                          validateUsername(value, model);
+                          validateUsername(value, model!);
                         }),
                       ),
                       Positioned(
@@ -200,7 +199,9 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                         bottom: 5,
                         right: 5,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            uControl.emailVerification(uid: _username.text, to: _email.text);
+                          },
                           child: Text(
                             'verify'.tr,
                           ),

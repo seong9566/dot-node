@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dot_node/dto/request/auth_req_dto.dart';
+import 'package:dot_node/dto/request/email_ver_req_dto.dart';
 import 'package:dot_node/dto/request/sms_ver_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/main.dart';
@@ -107,6 +108,15 @@ class UserController {
   Future<void> smsVerification({required String uid, required String to}) async {
     SmsVerReqDto smsVerReqDto = SmsVerReqDto(uid: uid, to: to, content: "sms 테스트");
     ResponseDto responseDto = await userService.fetchSmsVerification(smsVerReqDto);
+    Logger().d("to : $to");
+    Logger().d("데이터 확인 : ${responseDto.data}");
+    Logger().d("데이터 확인 : ${responseDto.code}");
+    Logger().d("데이터 확인 : ${responseDto.msg}");
+  }
+
+  Future<void> emailVerification({required String uid, required String to}) async {
+    EmailVerReqDto emailVerReqDto = EmailVerReqDto(uid: uid, to: to, title: "email 테스트");
+    ResponseDto responseDto = await userService.fetchEmailVerification(emailVerReqDto);
     Logger().d("to : $to");
     Logger().d("데이터 확인 : ${responseDto.data}");
     Logger().d("데이터 확인 : ${responseDto.code}");
