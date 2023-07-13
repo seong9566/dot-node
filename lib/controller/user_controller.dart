@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dot_node/dto/request/auth_req_dto.dart';
+import 'package:dot_node/dto/request/sms_ver_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/main.dart';
 import 'package:dot_node/service/auth_provider.dart';
@@ -96,5 +97,19 @@ class UserController {
       return;
     }
     return;
+  }
+
+// {
+//     "uid":"heo",
+//     "to":"01099966462",
+//     "content":"테스트 발송입니다"
+// }
+  Future<void> smsVerification({required String uid, required String to}) async {
+    SmsVerReqDto smsVerReqDto = SmsVerReqDto(uid: uid, to: to, content: "sms 테스트");
+    ResponseDto responseDto = await userService.fetchSmsVerification(smsVerReqDto);
+    Logger().d("to : $to");
+    Logger().d("데이터 확인 : ${responseDto.data}");
+    Logger().d("데이터 확인 : ${responseDto.code}");
+    Logger().d("데이터 확인 : ${responseDto.msg}");
   }
 }

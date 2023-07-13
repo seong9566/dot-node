@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dot_node/core/http_connector.dart';
 import 'package:dot_node/dto/request/auth_req_dto.dart';
+import 'package:dot_node/dto/request/sms_ver_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/dto/response_util.dart';
 import 'package:dot_node/models/user_token.dart';
@@ -66,5 +67,13 @@ class UserService {
     Logger().d("몇번 실행 되지?username : $username");
     Response response = await httpConnector.get("/auth/check-id/$username");
     return toResponseDto(response);
+  }
+
+//{{api-url}}/auth/sms-naver
+  Future<ResponseDto> fetchSmsVerification(SmsVerReqDto smsVerReqDto) async {
+    String requestBody = jsonEncode(smsVerReqDto.toJson());
+    Response response = await httpConnector.post("/auth/sms-naver", requestBody);
+    ResponseDto responseDto = toResponseDto(response);
+    return responseDto;
   }
 }

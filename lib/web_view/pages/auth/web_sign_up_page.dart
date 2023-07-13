@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:dot_node/controller/user_controller.dart';
-import 'package:dot_node/core/util/phone_number_formatter.dart';
 import 'package:dot_node/web_view/pages/auth/model/sign_up_model.dart';
 import 'package:dot_node/web_view/pages/auth/model/sign_up_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dot_node/core/util/validator.dart';
@@ -214,11 +212,12 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                   Stack(
                     children: [
                       TextFormField(
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly, // 숫자만 사용
-                          PhoneNumberFormatter(),
-                          LengthLimitingTextInputFormatter(13)
-                        ],
+                        // 서버에 전달 값이 "-"가 빠져있으므로 현재 사용 x, 추후 포맷팅 필요시 사용하기
+                        // inputFormatters: [
+                        //   FilteringTextInputFormatter.digitsOnly, // 숫자만 사용
+                        //   PhoneNumberFormatter(),
+                        //   LengthLimitingTextInputFormatter(13)
+                        // ],
                         decoration: InputDecoration(
                           labelText: 'phoneNumber'.tr,
                           hintText: 'hint_phoneNumber'.tr,
@@ -229,7 +228,9 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                         bottom: 5,
                         right: 5,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            uControl.smsVerification(uid: _username.text, to: _phoneNumber.text);
+                          },
                           child: Text(
                             'verify'.tr,
                           ),
