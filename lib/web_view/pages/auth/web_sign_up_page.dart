@@ -200,7 +200,7 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                         right: 5,
                         child: TextButton(
                           onPressed: () {
-                            uControl.emailVerification(uid: _username.text, to: _email.text);
+                            uControl.emailVerification(uid: _username.text.trim(), to: _email.text.trim());
                           },
                           child: Text(
                             'verify'.tr,
@@ -230,7 +230,7 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                         right: 5,
                         child: TextButton(
                           onPressed: () {
-                            uControl.smsVerification(uid: _username.text, to: _phoneNumber.text);
+                            uControl.smsVerification(uid: _username.text.trim(), to: _phoneNumber.text.trim());
                           },
                           child: Text(
                             'verify'.tr,
@@ -263,9 +263,11 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          uControl.login(
+                          uControl.sign(
+                            userUid: _username.text.trim(),
                             userEmail: _email.text.trim(),
                             userPassword: _password.text.trim(),
+                            userTel: _phoneNumber.text.trim(),
                           );
                         }
                       },

@@ -15,3 +15,22 @@ class SmsVerReqDto {
     };
   }
 }
+
+class SmsVerCheckReqDto {
+  String uid;
+  String from;
+  String key;
+
+  SmsVerCheckReqDto({
+    required this.uid,
+    required this.from,
+    required this.key,
+  });
+  Map<String, dynamic> toJson() {
+    return {
+      "uid": uid,
+      "from": from,
+      "key": key,
+    };
+  }
+}

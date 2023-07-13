@@ -89,8 +89,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
   }
 
   // ignore: non_constant_identifier_names
-  Widget SignUpForm(BuildContext context, double dTitle, double dSubText,
-      UserController uControl) {
+  Widget SignUpForm(BuildContext context, double dTitle, double dSubText, UserController uControl) {
     return Form(
       key: _formKey,
       child: Padding(
@@ -196,9 +195,10 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   uControl.sign(
-                    username: _username.text.trim(),
+                    userUid: _username.text.trim(),
                     userEmail: _email.text.trim(),
                     userPassword: _password.text.trim(),
+                    userTel: _phoneNumber.text.trim(),
                   );
                 }
               },

@@ -84,4 +84,12 @@ class UserService {
     ResponseDto responseDto = toResponseDto(response);
     return responseDto;
   }
+
+//{{api-url}}/auth/check-key
+  Future<ResponseDto> fetchSmsVerCheck(SmsVerCheckReqDto smsVerCheckReqDto) async {
+    String requestBody = jsonEncode(smsVerCheckReqDto.toJson());
+    Response response = await httpConnector.post('/auth/check-key', requestBody);
+    ResponseDto responseDto = toResponseDto(response);
+    return responseDto;
+  }
 }
