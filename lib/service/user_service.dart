@@ -63,7 +63,7 @@ class UserService {
 
   // 중복체크
   Future<ResponseDto> fetchUsernameCheck(String username) async {
-    Logger().d("username : $username");
+    Logger().d("몇번 실행 되지?username : $username");
     Response response = await httpConnector.get("/auth/check-id/$username");
     return toResponseDto(response);
   }

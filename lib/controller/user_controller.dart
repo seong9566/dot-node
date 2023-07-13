@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dot_node/dto/request/auth_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/main.dart';
-import 'package:dot_node/service/auth_service.dart';
+import 'package:dot_node/service/auth_provider.dart';
 import 'package:dot_node/service/user_service.dart';
 import 'package:dot_node/web_view/components/custom_alert_dialog.dart';
 import 'package:dot_node/web_view/pages/home/home_page.dart';
@@ -38,6 +38,14 @@ class UserController {
   final Ref _ref;
   UserController(this._ref);
 
+  bool _isUsernameValid = false;
+
+  bool get isUsernameValid => _isUsernameValid;
+
+  void setIsUsernameValid(bool value) {
+    _isUsernameValid = value;
+  }
+
   Future<void> sign({required String username, required String userEmail, required String userPassword}) async {
     // 1. Dto
     SignReqDto signReqDto = SignReqDto(username: username, userEmail: userEmail, userPassword: userPassword);
@@ -71,11 +79,20 @@ class UserController {
     }
   }
 
-  Future<void> usernameCheck({required String username}) async {
+  Future<void> userNameCheck({required String username}) async {
     // 2. Service 요청
     ResponseDto responseDto = await userService.fetchUsernameCheck(username);
+    Logger().d("데이터 확인 : ${responseDto.data}");
+    Logger().d("데이터 확인 : ${responseDto.code}");
+    Logger().d("데이터 확인 : ${responseDto.msg}");
     // 3. 비즈니스 로직
     if (responseDto.code == "OK") {
+      if (responseDto.data is Map<String, dynamic>) {
+        dynamic result = responseDto.data['result'];
+        Logger().d("여기가 실행 안됌? $result");
+        setIsUsernameValid(result);
+        Logger().d("valid 컨트롤러에서 확인 : $isUsernameValid");
+      }
       return;
     }
     return;
