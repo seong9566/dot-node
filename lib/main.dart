@@ -1,6 +1,6 @@
 import 'package:dot_node/view/pages/auth/login_page.dart';
 import 'package:dot_node/core/util/locale_string.dart';
-import 'package:dot_node/web_view/pages/auth/web_login_page.dart';
+import 'package:dot_node/web_view/pages/auth/web_sign_up_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -63,8 +63,8 @@ class MyWeb extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           translations: LocaleString(),
           locale: const Locale('kr_KR'), // kr_KR, en_US
-          //home: const WebSignUpPage(),
-          home: const WebLoginPage(),
+          home: const WebSignUpPage(),
+          //home: const WebLoginPage(),
           //home: const HomePage(),
           //home: PersonalPage(),
         );

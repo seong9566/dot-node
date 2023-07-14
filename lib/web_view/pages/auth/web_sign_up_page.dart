@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:dot_node/controller/user_controller.dart';
-import 'package:dot_node/core/util/phone_number_formatter.dart';
+import 'package:dot_node/web_view/pages/auth/model/sign_up_model.dart';
 import 'package:dot_node/web_view/pages/auth/model/sign_up_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dot_node/core/util/validator.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -85,8 +85,8 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
 
   //변수
   late Timer _debounceTimer;
-  late String? _isUsernameValid = "false";
-  bool _isCheckUsername = false;
+  late dynamic _isUsernameValid = 'true';
+  late bool _isCheckUsername = false;
 
   // size 변수화
   static double dSizedBoxh = 28.h;
@@ -101,26 +101,28 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
   final _password_check = TextEditingController();
   final _phoneNumber = TextEditingController();
 
-  void validateUsername(String input) {
+  void validateUsername(String userName, SignUpModel model) {
     if (_debounceTimer.isActive) {
       _debounceTimer.cancel();
     }
-    _debounceTimer = Timer(const Duration(seconds: 3), () {
-      _checkUsernameAvailability(input);
+    _debounceTimer = Timer(const Duration(seconds: 1), () async {
+      _checkUsernameAvailability(userName, model);
+      setState(() {
+        _isCheckUsername = true;
+      });
     });
   }
 
-  Future<void> _checkUsernameAvailability(String username) async {
-    final signModel = ref.watch(signUpViewModel(username));
-    if (username.isNotEmpty) {
+  Future<void> _checkUsernameAvailability(String userName, SignUpModel model) async {
+    if (userName.isNotEmpty) {
       setState(() {
         _isCheckUsername = true;
       });
 
-      await Future.delayed(const Duration(seconds: 3));
-
+      await Future.delayed(const Duration(seconds: 1));
+      Logger().d("데이터 확인 : ${model.result}");
       setState(() {
-        _isUsernameValid = signModel?.result;
+        _isUsernameValid = model.result;
         _isCheckUsername = false;
       });
     }
@@ -142,6 +144,7 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
   @override
   Widget build(BuildContext context) {
     final uControl = ref.read(userController);
+    final model = ref.read(signUpViewModel);
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
       builder: (context, child) => Dialog(
@@ -166,8 +169,9 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                         ),
                         //validator: validateUsername,
                         controller: _username,
-                        onChanged: ((value) {
-                          validateUsername(value);
+                        onFieldSubmitted: ((value) {
+                          ref.read(signUpViewModel.notifier).notifyViewModel(value);
+                          validateUsername(value, model!);
                         }),
                       ),
                       Positioned(
@@ -175,11 +179,7 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                         right: 20,
                         child: Icon(
                           Icons.check_circle,
-                          color: !_isCheckUsername
-                              ? Colors.grey
-                              : _isUsernameValid == "true"
-                                  ? Colors.green
-                                  : Colors.red,
+                          color: _isCheckUsername ? (_isUsernameValid == true ? Colors.green : Colors.red) : Colors.grey,
                         ),
                       ),
                     ],
@@ -199,7 +199,9 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                         bottom: 5,
                         right: 5,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            uControl.emailVerification(uid: _username.text.trim(), to: _email.text.trim());
+                          },
                           child: Text(
                             'verify'.tr,
                           ),
@@ -211,11 +213,12 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                   Stack(
                     children: [
                       TextFormField(
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly, // 숫자만 사용
-                          PhoneNumberFormatter(),
-                          LengthLimitingTextInputFormatter(13)
-                        ],
+                        // 서버에 전달 값이 "-"가 빠져있으므로 현재 사용 x, 추후 포맷팅 필요시 사용하기
+                        // inputFormatters: [
+                        //   FilteringTextInputFormatter.digitsOnly, // 숫자만 사용
+                        //   PhoneNumberFormatter(),
+                        //   LengthLimitingTextInputFormatter(13)
+                        // ],
                         decoration: InputDecoration(
                           labelText: 'phoneNumber'.tr,
                           hintText: 'hint_phoneNumber'.tr,
@@ -226,7 +229,9 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                         bottom: 5,
                         right: 5,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            uControl.smsVerification(uid: _username.text.trim(), to: _phoneNumber.text.trim());
+                          },
                           child: Text(
                             'verify'.tr,
                           ),
@@ -258,9 +263,11 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          uControl.login(
+                          uControl.sign(
+                            userUid: _username.text.trim(),
                             userEmail: _email.text.trim(),
                             userPassword: _password.text.trim(),
+                            userTel: _phoneNumber.text.trim(),
                           );
                         }
                       },
