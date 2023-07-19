@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dot_node/core/http_connector.dart';
 import 'package:dot_node/dto/request/widget_insert_req_dto.dart';
 import 'package:dot_node/dto/response/widget_get_resp_dto.dart';

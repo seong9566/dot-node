@@ -15,10 +15,20 @@ dependencies:
   get:
   validators:
   flutter_screenutil:
-  flutter_riverpod:
+  # riverpod
+  flutter_riverpod: ^2.3.6
+  
   flutter_secure_storage:
   logger:
   image_picker:
+
+  # google auth,icon
+  google_sign_in: ^6.1.4
+  font_awesome_flutter: ^10.5.0
+  #firebase, google auth
+  firebase_core: ^2.15.0
+  firebase_auth: ^4.7.1
+ 
 
 
 
