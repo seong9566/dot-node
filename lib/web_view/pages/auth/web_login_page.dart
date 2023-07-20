@@ -1,9 +1,11 @@
 import 'package:dot_node/controller/user_controller.dart';
+import 'package:dot_node/provider/google_sign_provider.dart';
 import 'package:dot_node/web_view/pages/auth/web_sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dot_node/core/util/validator.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 /*
@@ -86,6 +88,7 @@ class LoginFormDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final uControl = ref.read(userController);
+    final googleProvider = ref.read(googleSignProvider);
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
       builder: (context, child) => Dialog(
@@ -142,6 +145,14 @@ class LoginFormDialog extends ConsumerWidget {
                               child: Text("sign".tr))),
                     ],
                   ),
+                  SizedBox(height: dSizedBoxh),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      googleProvider.googleLogin();
+                    },
+                    icon: FaIcon(FontAwesomeIcons.google),
+                    label: Text("Google login"),
+                  )
                 ],
               ),
             ),

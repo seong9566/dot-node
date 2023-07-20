@@ -1,11 +1,9 @@
-import 'dart:async';
-
 import 'package:dot_node/dto/request/auth_req_dto.dart';
 import 'package:dot_node/dto/request/email_ver_req_dto.dart';
 import 'package:dot_node/dto/request/sms_ver_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/main.dart';
-import 'package:dot_node/service/auth_provider.dart';
+import 'package:dot_node/provider/auth_provider.dart';
 import 'package:dot_node/service/user_service.dart';
 import 'package:dot_node/web_view/components/custom_alert_dialog.dart';
 import 'package:dot_node/web_view/pages/auth/components/verfication_modal.dart';
@@ -14,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
+import 'dart:async';
 
 /*
  * Project Name:  [DOTnode]
