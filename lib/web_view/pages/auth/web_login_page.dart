@@ -147,11 +147,12 @@ class LoginFormDialog extends ConsumerWidget {
                   ),
                   SizedBox(height: dSizedBoxh),
                   ElevatedButton.icon(
-                      onPressed: () {
-                        googleProvider.googleLogin();
-                      },
-                      icon: FaIcon(FontAwesomeIcons.google),
-                      label: Text("Google login"))
+                    onPressed: () {
+                      googleProvider.googleLogin();
+                    },
+                    icon: FaIcon(FontAwesomeIcons.google),
+                    label: Text("Google login"),
+                  )
                 ],
               ),
             ),

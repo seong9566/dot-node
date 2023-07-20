@@ -26,39 +26,33 @@ class GoogleSignProvider {
 
   final googleSignIn = GoogleSignIn();
 
-  GoogleSignInAccount? _user;
+  // 로그인한 사용자를 저장할 변수
+  User? _user;
 
-  GoogleSignInAccount get user => _user!;
+  // 사용자가 로그인한 경우만 반환하도록 변경
+  User get user => _user!;
 
   Future<void> googleLogin() async {
-    //final googleUser = await googleSignIn.signIn();
-    // final googleUser = await googleSignIn.signInSilently();
-    // if (googleUser == null) return;
-    // _user = googleUser;
-    // Logger().d("로그인 정보 : ${googleUser.email}");
-    // final googleAuth = await googleUser.authentication;
-    // final credential = GoogleAuthProvider.credential(
-    //   accessToken: googleAuth.accessToken,
-    //   idToken: googleAuth.idToken,
-    // );
-    // await FirebaseAuth.instance.signInWithCredential(credential);
-
     try {
-      UserCredential userCredential;
-
-      //구글 로그인
+      // 구글 로그인
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        // 사용자가 로그인을 취소한 경우
+        return;
+      }
 
-      //Firebase Authentication에 사용자 정보추가
-      final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+      // Firebase Authentication에 사용자 정보 추가
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final googleAuthCredential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      userCredential = await FirebaseAuth.instance.signInWithCredential(googleAuthCredential);
-      final user = userCredential.user;
+      final userCredential = await FirebaseAuth.instance
+          .signInWithCredential(googleAuthCredential);
+      _user = userCredential.user;
     } catch (error) {
-      Logger().d(error);
+      Logger().d('Google 로그인 에러: $error');
     }
   }
 }

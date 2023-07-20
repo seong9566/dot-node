@@ -25,7 +25,7 @@ dependencies:
   # google auth,icon
   google_sign_in: ^6.1.4
   font_awesome_flutter: ^10.5.0
-  #firebase, google auth
+  #firebase, google auth 
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.1
   firebase_auth_platform_interface: ^6.16.0
