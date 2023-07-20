@@ -34,10 +34,10 @@ String testJwtToken =
 class HttpConnector {
   //header의 content 타입
   Map<String, String> headers = {"Content-Type": "application/json;charset=utf-8"};
-  //static const host = "http://localhost:8001";
+  static const host = "http://localhost:8001";
 
   //핫스팟 사용시 임시 host
-  static const host = "http://172.20.10.2:8001";
+  //static const host = "http://172.20.10.2:8001";
   static final HttpConnector _instance = HttpConnector._single();
   HttpConnector._single();
   factory HttpConnector() {

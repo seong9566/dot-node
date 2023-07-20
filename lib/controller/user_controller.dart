@@ -58,10 +58,27 @@ class UserController {
     Logger().d("responseDto.data: ${responseDto.data}");
     Logger().d("responseDto.msg : ${responseDto.msg}");
     // 3. 비즈니스 로직
-    if (responseDto.code == "OK") {
+    if (responseDto.code == "CREATED") {
+      ScaffoldMessenger.of(dContext!).showSnackBar(
+        SnackBar(
+          content: Text('회원가입 성공!', style: TextStyle(color: Colors.black)),
+          duration: Duration(seconds: 3), //올라와있는 시간
+          backgroundColor: Colors.white,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      Get.to(() => HomePage());
       return;
+    } else {
+      ScaffoldMessenger.of(dContext!).showSnackBar(
+        SnackBar(
+          content: Text('${responseDto.msg}', style: TextStyle(color: Colors.black)),
+          duration: Duration(seconds: 3), //올라와있는 시간
+          backgroundColor: Colors.white,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
     }
-    return;
   }
 
 // 로그인 성공 후 Token으로 데이터 가져오는 API아직 없음.
@@ -75,7 +92,7 @@ class UserController {
 
     // 3. 비즈니스 로직
     if (responseDto.code == "OK") {
-      _ref.read(authService.notifier).authentication(responseDto.data);
+      _ref.read(authProvider.notifier).authentication(responseDto.data);
       Get.to(() => HomePage());
     } else {
       return showDialog(context: dContext!, builder: ((context) => CustomAlertDialog(msg: 'login_faild'.tr)));
@@ -89,16 +106,50 @@ class UserController {
     Logger().d("데이터 확인 : ${responseDto.code}");
     Logger().d("데이터 확인 : ${responseDto.msg}");
     // 3. 비즈니스 로직
+    // if (responseDto.code == "OK") {
+    //   if (responseDto.data is Map<String, dynamic>) {
+    //     dynamic result = responseDto.data['result'];
+    //     Logger().d("여기가 실행 안됌? $result");
+    //     setIsUsernameValid(result);
+    //     Logger().d("valid 컨트롤러에서 확인 : $isUsernameValid");
+    //   }
+    //   return;
+    // }
     if (responseDto.code == "OK") {
-      if (responseDto.data is Map<String, dynamic>) {
-        dynamic result = responseDto.data['result'];
-        Logger().d("여기가 실행 안됌? $result");
-        setIsUsernameValid(result);
-        Logger().d("valid 컨트롤러에서 확인 : $isUsernameValid");
+      //result값 추출
+      dynamic result = responseDto.data['result'];
+      Logger().d("result = ? $result");
+      Logger().d("result = ? ${result.runtimeType}");
+
+      if (result == true) {
+        ScaffoldMessenger.of(dContext!).showSnackBar(
+          SnackBar(
+            content: Text('사용 가능한 이름 입니다.', style: TextStyle(color: Colors.black)),
+            duration: Duration(seconds: 3), //올라와있는 시간
+            backgroundColor: Colors.white,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      } else if (result == false) {
+        ScaffoldMessenger.of(dContext!).showSnackBar(
+          SnackBar(
+            content: Text('이미 사용중인 이름입니다.', style: TextStyle(color: Colors.black)),
+            duration: Duration(seconds: 3), //올라와있는 시간
+            backgroundColor: Colors.white,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
       }
-      return;
+    } else {
+      ScaffoldMessenger.of(dContext!).showSnackBar(
+        SnackBar(
+          content: Text('잘못된 요청 입니다.', style: TextStyle(color: Colors.black)),
+          duration: Duration(seconds: 3), //올라와있는 시간
+          backgroundColor: Colors.white,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
     }
-    return;
   }
 
   Future<void> smsVerification({required String uid, required String to}) async {
