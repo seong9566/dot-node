@@ -33,6 +33,7 @@ class AuthProvider extends StateNotifier<UserToken> {
   final Ref ref;
   AuthProvider(super.state, this.ref);
 
+
 // 자동로그인
   Future<void> autoLogin() async {
     String? jwtToken = await secureStorage.read(key: "jwtToken");
