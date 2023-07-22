@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dot_node/controller/user_controller.dart';
 import 'package:dot_node/web_view/pages/auth/model/sign_up_model.dart';
-import 'package:dot_node/web_view/pages/auth/model/sign_up_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -101,31 +100,28 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
   final _password_check = TextEditingController();
   final _phoneNumber = TextEditingController();
 
+// 이름 중복 체크
   void validateUsername(String userName, SignUpModel model) {
     if (_debounceTimer.isActive) {
       _debounceTimer.cancel();
     }
     _debounceTimer = Timer(const Duration(seconds: 1), () async {
-      _checkUsernameAvailability(userName, model);
+      if (userName.isNotEmpty) {
+        setState(() {
+          _isCheckUsername = true;
+        });
+
+        await Future.delayed(const Duration(seconds: 1));
+        Logger().d("데이터 확인 : ${model.result}");
+        setState(() {
+          _isUsernameValid = model.result;
+          _isCheckUsername = false;
+        });
+      }
       setState(() {
         _isCheckUsername = true;
       });
     });
-  }
-
-  Future<void> _checkUsernameAvailability(String userName, SignUpModel model) async {
-    if (userName.isNotEmpty) {
-      setState(() {
-        _isCheckUsername = true;
-      });
-
-      await Future.delayed(const Duration(seconds: 1));
-      Logger().d("데이터 확인 : ${model.result}");
-      setState(() {
-        _isUsernameValid = model.result;
-        _isCheckUsername = false;
-      });
-    }
   }
 
   @override
@@ -144,7 +140,6 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
   @override
   Widget build(BuildContext context) {
     final uControl = ref.read(userController);
-    final model = ref.read(signUpViewModel);
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
       builder: (context, child) => Dialog(
@@ -169,19 +164,31 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                         ),
                         //validator: validateUsername,
                         controller: _username,
-                        onFieldSubmitted: ((value) {
-                          ref.read(signUpViewModel.notifier).notifyViewModel(value);
-                          validateUsername(value, model!);
-                        }),
+                        // onFieldSubmitted: ((value) {
+                        //   //ref.read(signUpViewModel.notifier).notifyViewModel(value);
+                        //   validateUsername(value, model!);
+                        // }),
                       ),
                       Positioned(
                         bottom: 5,
-                        right: 20,
-                        child: Icon(
-                          Icons.check_circle,
-                          color: _isCheckUsername ? (_isUsernameValid == true ? Colors.green : Colors.red) : Colors.grey,
+                        right: 5,
+                        child: TextButton(
+                          onPressed: () {
+                            uControl.userNameCheck(username: _username.text.trim());
+                          },
+                          child: Text(
+                            '중복 확인',
+                          ),
                         ),
                       ),
+                      // Positioned(
+                      //   bottom: 5,
+                      //   right: 20,
+                      //   child: Icon(
+                      //     Icons.check_circle,
+                      //     color: _isCheckUsername ? (_isUsernameValid == true ? Colors.green : Colors.red) : Colors.grey,
+                      //   ),
+                      // ),
                     ],
                   ),
                   SizedBox(height: dSizedBoxh),

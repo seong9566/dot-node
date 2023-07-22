@@ -24,14 +24,15 @@ import 'package:logger/logger.dart';
  */
 
 const secureStorage = FlutterSecureStorage();
-final authService = StateNotifierProvider<AuthService, UserToken>((ref) {
-  return AuthService(UserToken(null, false), ref);
+final authProvider = StateNotifierProvider<AuthProvider, UserToken>((ref) {
+  return AuthProvider(UserToken(null, false), ref);
 });
 
-class AuthService extends StateNotifier<UserToken> {
+class AuthProvider extends StateNotifier<UserToken> {
   final mContext = navigatorKey.currentContext;
   final Ref ref;
-  AuthService(super.state, this.ref);
+  AuthProvider(super.state, this.ref);
+
 
 // 자동로그인
   Future<void> autoLogin() async {
@@ -42,17 +43,6 @@ class AuthService extends StateNotifier<UserToken> {
     if (jwtToken != null && jwtToken.isNotEmpty) {
       Get.to(PersonalPage());
     }
-    // Logger().d(" Storage Token 확인 $jwtToken");
-    // if (jwtToken != null && jwtToken.isNotEmpty) {
-    //   Logger().d("여기 호출 되어서 그런가?");
-    // Response response = await HttpConnector().get("/jwtToken", jwtToken: jwtToken);
-    // ResponseDto responseDto = toResponseDto(response);
-    // if (responseDto.code == "OK") {
-    //   //User user = User.fromJson(responseDto.data);
-    //   state = UserToken(jwtToken, true);
-    //   Get.to(HomePage());
-    // }
-    // }
   }
 
   Future<void> authentication(UserToken userToken) async {

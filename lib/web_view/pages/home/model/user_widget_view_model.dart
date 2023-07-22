@@ -29,8 +29,8 @@ class UserWidgetViewModel extends StateNotifier<WidgetElementModel?> {
 
   Future<void> notifyViewModel() async {
     String userName = "youngmin";
-    Logger().d("뷰 모델 토큰 확인 : ${ref.read(authService).jwtToken}");
-    ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userName, jwtToken: ref.read(authService).jwtToken);
+    Logger().d("뷰 모델 토큰 확인 : ${ref.read(authProvider).jwtToken}");
+    ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userName, jwtToken: ref.read(authProvider).jwtToken);
     state = WidgetElementModel(responseDto.data);
   }
 }

@@ -34,7 +34,8 @@ class WidgetController {
   Future<void> insertWidget({required String widgetName, required String userUid, required List<WidgetElement> widgetElement}) async {
     Logger().d("컨트롤러 실행");
     WidgetInsertReqDto widgetInsertReqDto = WidgetInsertReqDto(widgetName: widgetName, userUid: userUid, widgetElement: widgetElement);
-    ResponseDto responseDto = await widgetService.fetchInsertWidget(widgetInsertReqDto: widgetInsertReqDto, jwtToken: ref.read(authService).jwtToken);
+    ResponseDto responseDto =
+        await widgetService.fetchInsertWidget(widgetInsertReqDto: widgetInsertReqDto, jwtToken: ref.read(authProvider).jwtToken);
     Logger().d("responseDto.code : ${responseDto.code}");
     Logger().d("responseDto.data: ${responseDto.data}");
     Logger().d("responseDto.msg : ${responseDto.msg}");
