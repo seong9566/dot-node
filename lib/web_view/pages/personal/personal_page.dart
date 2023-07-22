@@ -1,4 +1,4 @@
-import 'package:dot_node/web_view/pages/home/model/user_widget_view_model.dart';
+import 'package:dot_node/web_view/pages/personal/component/insert_container_widget.dart';
 import 'package:dot_node/widget_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,7 +46,7 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
         builder: (BuildContext context, StateSetter setState) {
           Widget contentWidget;
           if (_selectedValue == "Container") {
-            contentWidget = ContainerWidget();
+            contentWidget = InsertContainerWidget();
           } else if (_selectedValue == "Stack") {
             contentWidget = StackWidget();
           } else {
@@ -82,11 +82,11 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
 
   @override
   Widget build(BuildContext context) {
-    final widgetModel = ref.watch(userWidgetViewModel);
-    if (widgetModel == null) {
-      Logger().d("model이 null입니다.");
-      return CircularProgressIndicator();
-    }
+    // final widgetModel = ref.watch(userWidgetViewModel);
+    // if (widgetModel == null) {
+    //   Logger().d("model이 null입니다.");
+    //   return CircularProgressIndicator();
+    // }
     List<String> dropDownButtonItems = <String>["Container", "Stack", "List"];
     return Scaffold(
       appBar: PersonalAppBar(),
