@@ -25,6 +25,7 @@ class LocaleString extends Translations {
           'phoneNumber': 'PhoneNumber',
           'email': 'Email',
           'password_check': 'Password Check',
+          'verificationNumber': 'verificationNumber',
           // button
           'login': 'Login',
           'sign': 'Sign up',
@@ -37,6 +38,7 @@ class LocaleString extends Translations {
           'hint_phoneNumber': 'Please enter your PhoneNumber',
           'hint_email': 'Please enter your Email',
           'hint_password_check': 'Please re-enter your password',
+          'hint_verificationNumber': 'Please enter your verificationNumber'
         },
         //KR
         'kr_KR': {
@@ -46,6 +48,7 @@ class LocaleString extends Translations {
           'phoneNumber': '휴대폰 번호',
           'email': '이메일',
           'password_check': '비밀번호 확인',
+          'verificationNumber': '인증번호 입력',
           // button
           'login': '로그인',
           'sign': '회원가입',
@@ -58,6 +61,7 @@ class LocaleString extends Translations {
           'hint_phoneNumber': '휴대폰번호를 입력해주세요',
           'hint_email': '이메일을 입력해주세요',
           'hint_password_check': '비밀번호를 한번 더 입력해 주세요',
+          'hint_verificationNumber': '인증번호를 입력해 주세요.'
         },
       };
 }

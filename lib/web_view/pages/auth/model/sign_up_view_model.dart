@@ -23,24 +23,27 @@ import 'package:logger/logger.dart';
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
-final signUpViewModel =
-    StateNotifierProvider.family<SignUpViewModel, SignUpModel?, String>(
-        (ref, username) {
-  return SignUpViewModel(null, ref, username)..notifyViewModel();
+final signUpViewModel = StateNotifierProvider<SignUpViewModel, SignUpModel?>((ref) {
+  return SignUpViewModel(null, ref);
 });
 
 class SignUpViewModel extends StateNotifier<SignUpModel?> {
   final UserService userService = UserService();
-  final String username;
   //final mContext = navigatorKey.currentContext;
   Ref ref;
-  SignUpViewModel(super.state, this.ref, this.username);
+  SignUpViewModel(SignUpModel? state, this.ref) : super(state);
 
-  Future<void> notifyViewModel() async {
+  Future<void> notifyViewModel(String username) async {
     ResponseDto responseDto = await userService.fetchUsernameCheck(username);
     if (responseDto.code == "OK") {
-      Logger().d(responseDto.data);
-      state = SignUpModel(responseDto.data);
+      if (responseDto.data is Map<String, dynamic>) {
+        dynamic result = responseDto.data['result'];
+        Logger().d("여기가 실행 안됌? $result");
+        state = SignUpModel(result);
+        Logger().d("여기 실행 확인 : ${state!.result}");
+        //여기 까진 잘 들어갔음
+      }
+      return;
     }
   }
 }

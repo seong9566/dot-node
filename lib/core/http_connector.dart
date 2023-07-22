@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart';
@@ -35,6 +36,9 @@ class HttpConnector {
   Map<String, String> headers = {"Content-Type": "application/json;charset=utf-8"};
   static const host = "http://localhost:8001";
 
+  //핫스팟 사용시 임시 host
+  //static const host = "http://172.20.10.2:8001";
+
   static final HttpConnector _instance = HttpConnector._single();
   HttpConnector._single();
   factory HttpConnector() {
@@ -67,6 +71,7 @@ class HttpConnector {
     Map<String, String> requestHeader = {...headers, "Access-Token": jwtToken ?? ""};
 
     Uri uri = Uri.parse("$host$path");
+    Logger().d("uri chekc$uri");
     Response response = await Client().post(uri, body: body, headers: requestHeader);
     return response;
   }
