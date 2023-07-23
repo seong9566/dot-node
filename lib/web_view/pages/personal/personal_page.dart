@@ -1,4 +1,5 @@
 import 'package:dot_node/web_view/pages/personal/component/insert_container_widget.dart';
+import 'package:dot_node/web_view/pages/personal/model/user_widget_view_model.dart';
 import 'package:dot_node/widget_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -82,7 +83,7 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final widgetModel = ref.watch(userWidgetViewModel);
+    final widgetModel = ref.watch(userWidgetViewModel);
     // if (widgetModel == null) {
     //   Logger().d("model이 null입니다.");
     //   return CircularProgressIndicator();

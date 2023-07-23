@@ -40,7 +40,7 @@ class WidgetService {
 
   Future<ResponseDto> fetchGetWidget({required userName, String? jwtToken}) async {
     Logger().d("토큰 확인 : $jwtToken");
-    Response response = await httpConnector.get("/widget/$userName", jwtToken: jwtToken);
+    Response response = await httpConnector.get("/widget/$userName?page=0", jwtToken: jwtToken);
     ResponseDto responseDto = toResponseDto(response);
     Logger().d("로그 확인 : ${responseDto.data}");
     Logger().d("로그 확인 : ${responseDto.msg}");
