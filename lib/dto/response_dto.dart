@@ -12,8 +12,8 @@
  */
 
 class ResponseDto {
-  final String? code;
-  final String? msg;
+  String? code;
+  String? msg;
   dynamic data;
 
   ResponseDto({this.code, this.msg, this.data});
