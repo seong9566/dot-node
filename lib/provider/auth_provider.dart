@@ -49,7 +49,7 @@ class AuthProvider extends StateNotifier<UserToken> {
       state = userToken;
       await secureStorage.write(key: "jwtToken", value: userToken.jwtToken);
     } catch (e) {
-      Logger().d("$e, name : auth_provider");
+      Logger().d("$e, name : auth_provider , method : authentication");
     }
   }
 

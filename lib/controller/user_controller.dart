@@ -4,10 +4,10 @@ import 'package:dot_node/dto/request/email_ver_req_dto.dart';
 import 'package:dot_node/dto/request/sms_ver_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/main.dart';
-import 'package:dot_node/provider/auth_provider.dart';
 import 'package:dot_node/service/user_service.dart';
 import 'package:dot_node/web_view/components/custom_alert_dialog.dart';
 import 'package:dot_node/web_view/pages/auth/components/verfication_modal.dart';
+import 'package:dot_node/web_view/pages/auth/web_login_page.dart';
 import 'package:dot_node/web_view/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -56,38 +56,29 @@ class UserController {
     try {
       ResponseDto responseDto = await userService.fetchSign(signReqDto);
       if (responseDto.code == "CREATED") {
-        ScaffoldMessenger.of(dContext!).showSnackBar(
-          CustomSnackBar(msg: "회원가입 성공"),
-        );
-        Get.to(() => HomePage());
+        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "회원가입 성공"));
+        Get.to(() => WebLoginPage());
       } else {
-        ScaffoldMessenger.of(dContext!).showSnackBar(
-          SnackBar(
-            content: Text('${responseDto.msg}', style: TextStyle(color: Colors.black)),
-            duration: Duration(seconds: 3), //올라와있는 시간
-            backgroundColor: Colors.white,
-            behavior: SnackBarBehavior.floating,
-          ),
+        showDialog(
+          context: dContext!,
+          builder: (context) => CustomAlertDialog(msg: '${responseDto.msg}'.tr),
         );
       }
     } catch (e) {
       // 예외 발생 시 로그 출력
       Logger().d("$e, name : userController, method : sign");
     }
-    // 3. 비즈니스 로직
   }
 
+//로그인
   Future<void> login({required String userEmail, required String userPassword}) async {
-    // 로그인 요청을 위한 DTO 생성
     final loginReqDto = LoginReqDto(userEmail: userEmail, userPassword: userPassword);
+
     try {
-      // 로그인 요청
       final responseDto = await userService.fetchLogin(loginReqDto);
 
       // 로그인 성공 시
       if (responseDto.msg == "login success") {
-        // 인증 정보를 저장하고 홈 페이지로 이동
-        _ref.read(authProvider.notifier).authentication(responseDto.data);
         ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "환영합니다!"));
         Get.to(() => HomePage());
       } else {
@@ -120,28 +111,29 @@ class UserController {
 
   Future<void> smsVerification({required String uid, required String to}) async {
     SmsVerReqDto smsVerReqDto = SmsVerReqDto(uid: uid, to: to, content: "sms 테스트");
-    ResponseDto responseDto = await userService.fetchSmsVerification(smsVerReqDto);
-    if (responseDto.code == "OK") {
-      return showDialog(
-          context: dContext!,
-          builder: ((context) => VerificationModal(
-                uid: uid,
-                from: to,
-              )));
+    try {
+      ResponseDto responseDto = await userService.fetchSmsVerification(smsVerReqDto);
+      if (responseDto.code == "OK") {
+        return showDialog(
+            context: dContext!,
+            builder: ((context) => VerificationModal(
+                  uid: uid,
+                  from: to,
+                )));
+      } else if (uid.isEmpty) {
+        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "이름을 확인해주세요."));
+      } else {
+        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "중복된 전화번호 입니다."));
+      }
+    } catch (e) {
+      Logger().d("$e, name : userController, method : smsVerification");
     }
   }
 
-//   {
-//     "uid":"heo",
-//     "from":"010999664",
-//     "key":"k80"
-// }
   Future<void> smsVerCheck({required String uid, required String from, required String key}) async {
     SmsVerCheckReqDto smsVerCheckReqDto = SmsVerCheckReqDto(uid: uid, from: from, key: key);
     ResponseDto responseDto = await userService.fetchSmsVerCheck(smsVerCheckReqDto);
-    Logger().d("데이터 확인 : ${responseDto.data}");
-    Logger().d("데이터 확인 : ${responseDto.code}");
-    Logger().d("데이터 확인 : ${responseDto.msg}");
+
     if (responseDto.code == 'OK') {
       ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "인증 성공"));
 
@@ -153,10 +145,15 @@ class UserController {
 
   Future<void> emailVerification({required String uid, required String to}) async {
     EmailVerReqDto emailVerReqDto = EmailVerReqDto(uid: uid, to: to, title: "email 테스트");
-    ResponseDto responseDto = await userService.fetchEmailVerification(emailVerReqDto);
-    Logger().d("to : $to");
-    Logger().d("데이터 확인 : ${responseDto.data}");
-    Logger().d("데이터 확인 : ${responseDto.code}");
-    Logger().d("데이터 확인 : ${responseDto.msg}");
+    try {
+      ResponseDto responseDto = await userService.fetchEmailVerification(emailVerReqDto);
+      if (responseDto.code == 'OK' && responseDto.data != null) {
+        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "메일을 확인해 주세요."));
+      } else {
+        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "메일이 중복되었습니다."));
+      }
+    } catch (e) {
+      Logger().d("$e, name : userController, method : emailVerification");
+    }
   }
 }

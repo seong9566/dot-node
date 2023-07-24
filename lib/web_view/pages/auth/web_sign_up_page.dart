@@ -164,10 +164,6 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                         ),
                         //validator: validateUsername,
                         controller: _username,
-                        // onFieldSubmitted: ((value) {
-                        //   //ref.read(signUpViewModel.notifier).notifyViewModel(value);
-                        //   validateUsername(value, model!);
-                        // }),
                       ),
                       Positioned(
                         bottom: 5,
@@ -181,14 +177,6 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                           ),
                         ),
                       ),
-                      // Positioned(
-                      //   bottom: 5,
-                      //   right: 20,
-                      //   child: Icon(
-                      //     Icons.check_circle,
-                      //     color: _isCheckUsername ? (_isUsernameValid == true ? Colors.green : Colors.red) : Colors.grey,
-                      //   ),
-                      // ),
                     ],
                   ),
                   SizedBox(height: dSizedBoxh),
