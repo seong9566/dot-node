@@ -45,18 +45,15 @@ class UserService {
     return toResponseDto(response);
   }
 
-  // 로그인시 response에는 token만 담도록 하기
+  // 로그인
   Future<ResponseDto> fetchLogin(LoginReqDto loginReqDto) async {
-    Logger().d("service에서 connect요청");
     //1. json 변환
     String requestBody = jsonEncode(loginReqDto.toJson());
     //2. 통신
     Response response = await httpConnector.post("/auth/login", requestBody);
     String? jwtToken = response.headers['access-token'].toString();
     ResponseDto responseDto = toResponseDto(response);
-    Logger().d("user_service 확인 : ${responseDto.data}");
-    Logger().d("user_service 확인 : ${responseDto.msg}");
-    if (responseDto.code == "OK") {
+    if (responseDto.msg == "login success") {
       UserToken userToken = UserToken(jwtToken, true);
       responseDto.data = userToken;
     }
