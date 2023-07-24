@@ -4,6 +4,7 @@ import 'package:dot_node/dto/request/email_ver_req_dto.dart';
 import 'package:dot_node/dto/request/sms_ver_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/main.dart';
+import 'package:dot_node/provider/auth_provider.dart';
 import 'package:dot_node/service/user_service.dart';
 import 'package:dot_node/web_view/components/custom_alert_dialog.dart';
 import 'package:dot_node/web_view/pages/auth/components/verfication_modal.dart';
@@ -79,6 +80,7 @@ class UserController {
 
       // 로그인 성공 시
       if (responseDto.msg == "login success") {
+        _ref.read(authProvider.notifier).authentication(responseDto.data);
         ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "환영합니다!"));
         Get.to(() => HomePage());
       } else {

@@ -45,10 +45,13 @@ class AuthProvider extends StateNotifier<UserToken> {
   }
 
   Future<void> authentication(UserToken userToken) async {
-    state = userToken;
-    await secureStorage.write(key: "jwtToken", value: userToken.jwtToken);
-    Logger().d("토큰 저장 성공 스토리지 : ${secureStorage.read(key: "jwtToken")}");
-    Logger().d("토큰 저장 성공 state : ${state.jwtToken}}");
+    try {
+      state = userToken;
+      await secureStorage.write(key: "jwtToken", value: userToken.jwtToken);
+      Logger().d("토큰 저장 성공 ! ${state.jwtToken}");
+    } catch (e) {
+      Logger().d("$e, name : auth_provider , method : authentication");
+    }
   }
 
   Future<void> inValidate() async {
