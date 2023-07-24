@@ -25,7 +25,7 @@ final widgetController = Provider<WidgetController>((ref) {
   return WidgetController(ref);
 });
 String testJwtToken =
-    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2OTAxMDIyOTQsInVzZXJVaWQiOiJ5b3VuZ21pbiJ9.YbZvHEp0w9WqRNvN5gfLrERssuJ2Bu6rvJzTG_I7df0";
+    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2OTAyNjY2NjksInVzZXJVaWQiOiJ5b3VuZ21pbiJ9.iXFvj4g4MVe1l6P3atx2H6kKT5wvLvy-hdMTwhSniOU";
 
 class WidgetController {
   final WidgetService widgetService = WidgetService();

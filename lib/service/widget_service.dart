@@ -46,7 +46,7 @@ class WidgetService {
     Logger().d("로그 확인 : ${responseDto.msg}");
     Logger().d("로그 확인 : ${responseDto.code}");
 
-    List<dynamic> mapList = responseDto.data; //responseDto.data를 dynamic타입으로 바꾸는 것
+    List<dynamic> mapList = responseDto.data['data']; //responseDto.data를 dynamic타입으로 바꾸는 것
     List<WidgetGetRespDto> widgetList = mapList.map((e) => WidgetGetRespDto.fromJson(e)).toList();
     responseDto.data = widgetList;
     return responseDto;

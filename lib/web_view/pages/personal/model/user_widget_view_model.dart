@@ -21,7 +21,7 @@ final userWidgetViewModel = StateNotifierProvider<UserWidgetViewModel, WidgetEle
 });
 
 String testToken =
-    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2OTAxOTE3MjIsInVzZXJVaWQiOiJ5b3VuZ21pbiJ9.qAF-sSNHaOqiFliZQ94f4NMrJhoBEw2T07wIDkQYCYE";
+    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2OTAyNjY2NjksInVzZXJVaWQiOiJ5b3VuZ21pbiJ9.iXFvj4g4MVe1l6P3atx2H6kKT5wvLvy-hdMTwhSniOU";
 
 class UserWidgetViewModel extends StateNotifier<WidgetElementModel?> {
   final WidgetService widgetService = WidgetService();
