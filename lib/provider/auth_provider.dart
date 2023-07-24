@@ -33,7 +33,6 @@ class AuthProvider extends StateNotifier<UserToken> {
   final Ref ref;
   AuthProvider(super.state, this.ref);
 
-
 // 자동로그인
   Future<void> autoLogin() async {
     String? jwtToken = await secureStorage.read(key: "jwtToken");
@@ -46,8 +45,12 @@ class AuthProvider extends StateNotifier<UserToken> {
   }
 
   Future<void> authentication(UserToken userToken) async {
-    state = userToken;
-    await secureStorage.write(key: "jwtToken", value: userToken.jwtToken);
+    try {
+      state = userToken;
+      await secureStorage.write(key: "jwtToken", value: userToken.jwtToken);
+    } catch (e) {
+      Logger().d("$e, name : auth_provider , method : authentication");
+    }
   }
 
   Future<void> inValidate() async {
