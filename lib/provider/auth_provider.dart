@@ -48,6 +48,7 @@ class AuthProvider extends StateNotifier<UserToken> {
     try {
       state = userToken;
       await secureStorage.write(key: "jwtToken", value: userToken.jwtToken);
+      Logger().d("토큰 저장 성공 ! ${state.jwtToken}");
     } catch (e) {
       Logger().d("$e, name : auth_provider , method : authentication");
     }
