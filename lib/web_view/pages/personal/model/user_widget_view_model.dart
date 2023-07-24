@@ -1,7 +1,9 @@
 import 'package:dot_node/dto/response_dto.dart';
+import 'package:dot_node/provider/auth_provider.dart';
 import 'package:dot_node/service/widget_service.dart';
 import 'package:dot_node/web_view/pages/home/model/widget_element_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -20,17 +22,18 @@ final userWidgetViewModel = StateNotifierProvider<UserWidgetViewModel, WidgetEle
   return UserWidgetViewModel(null, ref)..notifyViewModel();
 });
 
-String testToken =
-    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2OTAyNjY2NjksInVzZXJVaWQiOiJ5b3VuZ21pbiJ9.iXFvj4g4MVe1l6P3atx2H6kKT5wvLvy-hdMTwhSniOU";
-
 class UserWidgetViewModel extends StateNotifier<WidgetElementModel?> {
   final WidgetService widgetService = WidgetService();
   UserWidgetViewModel(super.state, this.ref);
   final Ref ref;
 
   Future<void> notifyViewModel() async {
-    String userName = "youngmin";
-    ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userName, jwtToken: testToken);
-    state = WidgetElementModel(responseDto.data);
+    try {
+      String userName = "hyeon";
+      ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userName, jwtToken: ref.read(authProvider).jwtToken);
+      state = WidgetElementModel(responseDto.data);
+    } catch (e) {
+      Logger().d("Error : $e | name : userWidgetViewModel, method : notifyViewModel");
+    }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:dot_node/dto/request/widget_insert_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/models/widget_element.dart';
+import 'package:dot_node/provider/auth_provider.dart';
 
 import 'package:dot_node/service/widget_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +10,7 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-06-10 
- * Last Modified: 2023-06-17
+ * Last Modified: 2023-07-24
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -24,8 +25,6 @@ import 'package:logger/logger.dart';
 final widgetController = Provider<WidgetController>((ref) {
   return WidgetController(ref);
 });
-String testJwtToken =
-    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2OTAyNjY2NjksInVzZXJVaWQiOiJ5b3VuZ21pbiJ9.iXFvj4g4MVe1l6P3atx2H6kKT5wvLvy-hdMTwhSniOU";
 
 class WidgetController {
   final WidgetService widgetService = WidgetService();
@@ -33,17 +32,21 @@ class WidgetController {
   WidgetController(this.ref);
 
   Future<void> insertWidget({required String widgetName, required String userUid, required List<WidgetElement> widgetElement}) async {
-    Logger().d("컨트롤러 실행");
     WidgetInsertReqDto widgetInsertReqDto = WidgetInsertReqDto(widgetName: widgetName, userUid: userUid, widgetElement: widgetElement);
-    Logger().d("컨트롤러 실행1");
-    ResponseDto responseDto = await widgetService.fetchInsertWidget(widgetInsertReqDto: widgetInsertReqDto, jwtToken: testJwtToken);
+    try {
+      String jwtToken = ref.read(authProvider).jwtToken;
+      Logger().d("jwtToken : $jwtToken");
+      ResponseDto responseDto = await widgetService.fetchInsertWidget(widgetInsertReqDto: widgetInsertReqDto, jwtToken: jwtToken);
+      Logger().d("responseDto.code : ${responseDto.code}");
+      Logger().d("responseDto.data: ${responseDto.data}");
+      Logger().d("responseDto.msg : ${responseDto.msg}");
+    } catch (e) {
+      Logger().d("Error : $e | name : widgetController, method : insertWidget");
+    }
 
     // 추후 완성 되면 로그인 이후 jwtToken을 넣기.
     // ResponseDto responseDto =
     //     await widgetService.fetchInsertWidget(widgetInsertReqDto: widgetInsertReqDto, jwtToken: ref.read(authProvider).jwtToken);
-    Logger().d("responseDto.code : ${responseDto.code}");
-    Logger().d("responseDto.data: ${responseDto.data}");
-    Logger().d("responseDto.msg : ${responseDto.msg}");
   }
 
   Future<void> getWidget({required String userName}) async {
