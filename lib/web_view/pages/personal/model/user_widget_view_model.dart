@@ -29,8 +29,8 @@ class UserWidgetViewModel extends StateNotifier<WidgetElementModel?> {
 
   Future<void> notifyViewModel() async {
     try {
-      String userName = "hyeon";
-      ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userName, jwtToken: ref.read(authProvider).jwtToken);
+      String userUid = "hyeon"; // 임시 userUid
+      ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userUid, jwtToken: ref.read(authProvider).jwtToken);
       state = WidgetElementModel(responseDto.data);
     } catch (e) {
       Logger().d("Error : $e | name : userWidgetViewModel, method : notifyViewModel");

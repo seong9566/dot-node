@@ -41,11 +41,8 @@ class WidgetService {
   Future<ResponseDto> fetchGetWidget({required userName, String? jwtToken}) async {
     Response response = await httpConnector.get("/widget/$userName?page=0", jwtToken: jwtToken);
     ResponseDto responseDto = toResponseDto(response);
-    Logger().d("로그 확인 : ${responseDto.data}");
-    Logger().d("로그 확인 : ${responseDto.msg}");
-    Logger().d("로그 확인 : ${responseDto.code}");
 
-    List<dynamic> mapList = responseDto.data['data']; //responseDto.data를 dynamic타입으로 바꾸는 것
+    List<dynamic> mapList = responseDto.data; //responseDto.data를 dynamic타입으로 바꾸는 것
     List<WidgetGetRespDto> widgetList = mapList.map((e) => WidgetGetRespDto.fromJson(e)).toList();
     responseDto.data = widgetList;
     return responseDto;
