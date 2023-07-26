@@ -8,7 +8,7 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-6-17 
- * Last Modified: 2023-06-17
+ * Last Modified: 2023-07-25
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -18,22 +18,24 @@ import 'package:logger/logger.dart';
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
-final userWidgetViewModel = StateNotifierProvider<UserWidgetViewModel, WidgetElementModel?>((ref) {
-  return UserWidgetViewModel(null, ref)..notifyViewModel();
+final personalWidgetViewModel = StateNotifierProvider<PersonalWidgetViewModel, WidgetElementModel?>((ref) {
+  return PersonalWidgetViewModel(null, ref)..notifyViewModel();
 });
 
-class UserWidgetViewModel extends StateNotifier<WidgetElementModel?> {
+class PersonalWidgetViewModel extends StateNotifier<WidgetElementModel?> {
   final WidgetService widgetService = WidgetService();
-  UserWidgetViewModel(super.state, this.ref);
+  PersonalWidgetViewModel(super.state, this.ref);
   final Ref ref;
 
   Future<void> notifyViewModel() async {
     try {
-      String userUid = "hyeon"; // 임시 userUid
+      String userUid = "이현성"; // 임시 userUid
       ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userUid, jwtToken: ref.read(authProvider).jwtToken);
       state = WidgetElementModel(responseDto.data);
+      Logger().d("widgetViewModel : ${state?.widgetElementList.length}");
+      Logger().d("widgetViewModel : ${state?.widgetElementList}");
     } catch (e) {
-      Logger().d("Error : $e | name : userWidgetViewModel, method : notifyViewModel");
+      Logger().d("Error : $e , name : userWidgetViewModel, method : notifyViewModel");
     }
   }
 }

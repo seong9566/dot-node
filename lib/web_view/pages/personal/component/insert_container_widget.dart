@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-06-17
- * Last Modified: 2023-07-22
+ * Last Modified: 2023-08-21
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -31,16 +31,16 @@ class InsertContainerWidget extends ConsumerStatefulWidget {
   String? contentElement;
 
   @override
-  _ContainerWidgetState createState() => _ContainerWidgetState();
+  _InsertContainerWidget createState() => _InsertContainerWidget();
 }
 
-class _ContainerWidgetState extends ConsumerState<InsertContainerWidget> {
+class _InsertContainerWidget extends ConsumerState<InsertContainerWidget> {
   final _title = TextEditingController();
   final _content = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final wControl = ref.watch(widgetController);
+    final wControl = ref.read(widgetController);
     return Container(
       width: fWidth,
       color: Colors.amber,
@@ -91,7 +91,7 @@ class _ContainerWidgetState extends ConsumerState<InsertContainerWidget> {
                   WidgetElement(elementName: "title", content: _title.text),
                   WidgetElement(elementName: "content", content: _content.text),
                 ];
-                wControl.insertWidget(widgetName: "ContainerWidget", userUid: "hyeon", widgetElement: containerWidget);
+                wControl.insertWidget(widgetName: "ContainerWidget", userUid: "이현성", widgetElement: containerWidget);
                 Navigator.pop(context);
               }),
               child: Text("저장"),

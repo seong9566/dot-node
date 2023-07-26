@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:dot_node/controller/widget_controller.dart';
-import 'package:dot_node/models/widget_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,8 +16,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
  * 위젯의 형태 정의
  * 
  * 위젯의 기본틀은 갖춰져있음, Title,Text,img는 서버에서 가지고 와서 바인딩
- * 1. Container위젯에서 데이터를 만들기
- * 2. widgetInsertButton에서는 만들어진 ContainerWidget의 데이터를 받아서 post만 하도록 만들기. 
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
@@ -30,6 +26,7 @@ const double fContentSize = 16;
 const double fHeight = 400;
 const double fWidth = 600;
 
+//ContainerWidget Read Only
 // ignore: must_be_immutable
 class ContainerWidget extends ConsumerStatefulWidget {
   ContainerWidget({this.titleElement, this.contentElement, Key? key}) : super(key: key);
@@ -41,78 +38,26 @@ class ContainerWidget extends ConsumerStatefulWidget {
 }
 
 class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
-  final _title = TextEditingController();
-  final _content = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
-    final wControl = ref.watch(widgetController);
     return Container(
       width: fWidth,
       color: Colors.amber,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Visibility(
-              visible: widget.titleElement == null && widget.contentElement == null,
-              child: Form(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      style: TextStyle(
-                        fontSize: fTitleSize,
-                        fontWeight: fWeight,
-                      ),
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 0.1,
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 0.1,
-                          ),
-                        ),
-                        hintText: '제목을 입력하세요',
-                      ),
-                      controller: _title,
-                    ),
-                    TextFormField(
-                      style: TextStyle(fontSize: fContentSize),
-                      maxLines: 5,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: '내용을 입력하세요.',
-                      ),
-                      controller: _content,
-                    ),
-                  ],
-                ),
-              ),
+            Text(
+              "${widget.titleElement}",
+              style: TextStyle(fontSize: fTitleSize, fontWeight: fWeight),
             ),
-            Visibility(
-              visible: widget.titleElement != null && widget.contentElement != null,
-              child: Column(
-                children: [
-                  Text(widget.titleElement ?? ''),
-                  Text(widget.contentElement ?? ''),
-                ],
-              ),
-            ),
-            TextButton(
-              onPressed: (() {
-                List<WidgetElement> containerWidget = [
-                  WidgetElement(elementName: "title", content: _title.text),
-                  WidgetElement(elementName: "content", content: _content.text),
-                ];
-                wControl.insertWidget(widgetName: "ContainerWidget", userUid: "youngmin", widgetElement: containerWidget);
-                Navigator.pop(context);
-              }),
-              child: Text("저장"),
+            SizedBox(height: 24),
+            Divider(thickness: 1, height: 1, color: Colors.black),
+            SizedBox(height: 24),
+            Text(
+              "${widget.contentElement}",
+              style: TextStyle(fontSize: fContentSize),
             ),
           ],
         ),

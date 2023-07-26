@@ -4,13 +4,14 @@ import 'package:dot_node/models/widget_element.dart';
 import 'package:dot_node/provider/auth_provider.dart';
 
 import 'package:dot_node/service/widget_service.dart';
+import 'package:dot_node/web_view/pages/personal/model/personal_widget_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-06-10 
- * Last Modified: 2023-07-24
+ * Last Modified: 2023-08-21
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -18,7 +19,9 @@ import 'package:logger/logger.dart';
  *              Description
  * Widget Controller 
  * 정의 : Widget에서 입력 받은 데이터를 서버에 통신 요청 역할
- * controller는 무조건 void return.
+ * 
+ * Widget에 대한 CRUD
+ * 
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
@@ -32,14 +35,18 @@ class WidgetController {
   WidgetController(this.ref);
 
   Future<void> insertWidget({required String widgetName, required String userUid, required List<WidgetElement> widgetElement}) async {
+    final model = ref.watch(personalWidgetViewModel);
     WidgetInsertReqDto widgetInsertReqDto = WidgetInsertReqDto(widgetName: widgetName, userUid: userUid, widgetElement: widgetElement);
     try {
       String jwtToken = ref.read(authProvider).jwtToken;
-      Logger().d("jwtToken : $jwtToken");
+      Logger().d("Insert이전 ViewModel length : ${model!.widgetElementList.length}");
       ResponseDto responseDto = await widgetService.fetchInsertWidget(widgetInsertReqDto: widgetInsertReqDto, jwtToken: jwtToken);
       Logger().d("responseDto.code : ${responseDto.code}");
       Logger().d("responseDto.data: ${responseDto.data}");
       Logger().d("responseDto.msg : ${responseDto.msg}");
+      // insert이후 상태 업데이트.
+      ref.read(personalWidgetViewModel.notifier).notifyViewModel();
+      Logger().d("Insert이후 ViewModel length : ${model.widgetElementList.length}");
     } catch (e) {
       Logger().d("Error : $e | name : widgetController, method : insertWidget");
     }
@@ -57,4 +64,7 @@ class WidgetController {
     Logger().d("responseDto.msg : ${responseDto.msg}");
     if (responseDto.code == "OK") {}
   }
+
+  Future<void> updateWidget() async {}
+  Future<void> deleteWidget() async {}
 }

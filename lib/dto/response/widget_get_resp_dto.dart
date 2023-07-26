@@ -1,7 +1,7 @@
 class WidgetGetRespDto {
   int widgetId;
   String widgetName;
-  List<WidgetElement> widgetElement;
+  List<ResWidgetElement> widgetElement;
 
   WidgetGetRespDto({
     required this.widgetId,
@@ -12,7 +12,7 @@ class WidgetGetRespDto {
   factory WidgetGetRespDto.fromJson(Map<String, dynamic> json) => WidgetGetRespDto(
         widgetId: json["widgetId"],
         widgetName: json["widgetName"],
-        widgetElement: List<WidgetElement>.from(json["widgetElement"].map((x) => WidgetElement.fromJson(x))),
+        widgetElement: List<ResWidgetElement>.from(json["widgetElement"].map((x) => ResWidgetElement.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -22,22 +22,22 @@ class WidgetGetRespDto {
       };
 }
 
-class WidgetElement {
-  int elementId;
+class ResWidgetElement {
+  int? elementId;
   String elementName;
   String content;
   dynamic imageId;
   dynamic imageFile;
 
-  WidgetElement({
-    required this.elementId,
+  ResWidgetElement({
+    this.elementId,
     required this.elementName,
     required this.content,
     this.imageId,
     this.imageFile,
   });
 
-  factory WidgetElement.fromJson(Map<String, dynamic> json) => WidgetElement(
+  factory ResWidgetElement.fromJson(Map<String, dynamic> json) => ResWidgetElement(
         elementId: json["elementId"],
         elementName: json["elementName"],
         content: json["content"],
