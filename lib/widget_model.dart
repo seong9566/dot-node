@@ -50,44 +50,41 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Visibility(
-              visible: widget.titleElement == null && widget.contentElement == null,
-              child: Form(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      style: TextStyle(
-                        fontSize: fTitleSize,
-                        fontWeight: fWeight,
-                      ),
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 0.1,
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 0.1,
-                          ),
-                        ),
-                        hintText: '제목을 입력하세요',
-                      ),
-                      controller: _title,
+            Form(
+              child: Column(
+                children: [
+                  TextFormField(
+                    style: TextStyle(
+                      fontSize: fTitleSize,
+                      fontWeight: fWeight,
                     ),
-                    TextFormField(
-                      style: TextStyle(fontSize: fContentSize),
-                      maxLines: 5,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: '내용을 입력하세요.',
+                    decoration: InputDecoration(
+                      labelText: widget.titleElement,
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black,
+                          width: 0.1,
+                        ),
                       ),
-                      controller: _content,
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.black,
+                          width: 0.1,
+                        ),
+                      ),
                     ),
-                  ],
-                ),
+                    controller: _title,
+                  ),
+                  TextFormField(
+                    style: TextStyle(fontSize: fContentSize),
+                    maxLines: 5,
+                    decoration: InputDecoration(
+                      labelText: widget.contentElement,
+                      border: InputBorder.none,
+                    ),
+                    controller: _content,
+                  ),
+                ],
               ),
             ),
           ],

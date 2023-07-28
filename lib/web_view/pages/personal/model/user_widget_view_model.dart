@@ -32,8 +32,9 @@ class UserWidgetViewModel extends StateNotifier<WidgetElementModel?> {
       String userUid = "hyeon"; // 임시 userUid
       ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userUid, jwtToken: ref.read(authProvider).jwtToken);
       state = WidgetElementModel(responseDto.data);
+      Logger().d("widgetViewModel : ${state?.widgetElementList.length}");
     } catch (e) {
-      Logger().d("Error : $e | name : userWidgetViewModel, method : notifyViewModel");
+      Logger().d("Error : $e , name : userWidgetViewModel, method : notifyViewModel");
     }
   }
 }

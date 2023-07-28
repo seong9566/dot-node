@@ -10,13 +10,13 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-07-01
- * Last Modified: 2023-07-05
+ * Last Modified: 2023-08-06
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  *              Description
- * 개인 페이지의 위젯 바인딩 테스트 진행 중 
+ * 개인 페이지의 위젯 바인딩 진행 중 
  * - 위젯의 배치를 사용자가 자유롭게 상 하 로 이동이 가능.
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
@@ -32,9 +32,8 @@ class PersonalPage extends ConsumerStatefulWidget {
 }
 
 class _PersonalPageState extends ConsumerState<PersonalPage> {
-  List<Widget> initWidgetList = [ContainerWidget(), ListWidget(), StackWidget()];
   late String _selectedValue;
-  List<Widget> widgetModelList = [];
+  late List<Widget> widgetModelList = [];
 
   @override
   void initState() {
@@ -88,7 +87,6 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
     WidgetElementModel? widgetModel = ref.watch(userWidgetViewModel);
     if (widgetModel == null) {
       Logger().d("model이 null입니다.");
-      Logger().d("모델 확인 : ${widgetModel?.widgetElementList.length}");
       return Center(child: CircularProgressIndicator());
     } else {
       List<String> dropDownButtonItems = <String>["Container", "Stack", "List"];
@@ -110,14 +108,14 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
                 physics: ClampingScrollPhysics(),
                 itemCount: widgetModel.widgetElementList.length,
                 itemBuilder: (context, index) {
-                  //1. 위젯으로 만들기
+                  // 1. 위젯으로 만들기
                   for (var data in widgetModel.widgetElementList) {
                     if (data.widgetName == "ContainerWidget") {
                       //2. widgetModel에 추가하기
                       widgetModelList.add(
                         ContainerWidget(
-                          titleElement: data.widgetElement[index].content,
-                          contentElement: data.widgetElement[index].content,
+                          titleElement: data.widgetElement[0].content,
+                          contentElement: data.widgetElement[1].content,
                         ),
                       );
                     }
@@ -145,8 +143,8 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
                     if (oldIndex < newIndex) {
                       newIndex--;
                     }
-                    final Widget item = initWidgetList.removeAt(oldIndex);
-                    initWidgetList.insert(newIndex, item);
+                    final Widget item = widgetModelList.removeAt(oldIndex);
+                    widgetModelList.insert(newIndex, item);
                   });
                 },
               ),
