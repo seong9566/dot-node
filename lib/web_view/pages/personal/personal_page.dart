@@ -1,4 +1,6 @@
-import 'package:dot_node/web_view/pages/home/model/user_widget_view_model.dart';
+import 'package:dot_node/web_view/pages/home/model/widget_element_model.dart';
+import 'package:dot_node/web_view/pages/personal/component/insert_container_widget.dart';
+import 'package:dot_node/web_view/pages/personal/model/user_widget_view_model.dart';
 import 'package:dot_node/widget_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,13 +10,13 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-07-01
- * Last Modified: 2023-07-05
+ * Last Modified: 2023-08-06
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  *              Description
- * 개인 페이지의 위젯 바인딩 테스트 진행 중 
+ * 개인 페이지의 위젯 바인딩 진행 중 
  * - 위젯의 배치를 사용자가 자유롭게 상 하 로 이동이 가능.
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
@@ -30,8 +32,8 @@ class PersonalPage extends ConsumerStatefulWidget {
 }
 
 class _PersonalPageState extends ConsumerState<PersonalPage> {
-  List<Widget> widgetList = [ContainerWidget(), ListWidget(), StackWidget()];
   late String _selectedValue;
+  late List<Widget> widgetModelList = [];
 
   @override
   void initState() {
@@ -46,7 +48,7 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
         builder: (BuildContext context, StateSetter setState) {
           Widget contentWidget;
           if (_selectedValue == "Container") {
-            contentWidget = ContainerWidget();
+            contentWidget = InsertContainerWidget();
           } else if (_selectedValue == "Stack") {
             contentWidget = StackWidget();
           } else {
@@ -82,61 +84,75 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
 
   @override
   Widget build(BuildContext context) {
-    final widgetModel = ref.watch(userWidgetViewModel);
+    WidgetElementModel? widgetModel = ref.watch(userWidgetViewModel);
     if (widgetModel == null) {
       Logger().d("model이 null입니다.");
-      return CircularProgressIndicator();
-    }
-    List<String> dropDownButtonItems = <String>["Container", "Stack", "List"];
-    return Scaffold(
-      appBar: PersonalAppBar(),
-      backgroundColor: firstBackGroundColor,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                selectedWidget(context, dropDownButtonItems);
-              },
-              child: Text("위젯 추가하기"),
-            ),
-            ReorderableListView.builder(
-              buildDefaultDragHandles: false,
-              shrinkWrap: true, //리스트 자식 높이 크기의 합 만큼으로 영역을 고정 시켜준다.
-              physics: ClampingScrollPhysics(),
-              itemCount: widgetList.length,
-              itemBuilder: (context, index) {
-                final item = widgetList[index];
-                return ListTile(
-                  key: ValueKey(item),
-                  title: item,
-                  leading: ReorderableDragStartListener(
-                    index: index,
-                    child: Icon(
-                      Icons.drag_handle,
-                      color: Colors.white,
-                    ),
-                  ),
-                  tileColor: firstBackGroundColor,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide.none,
-                  ),
-                );
-              },
-              onReorder: (oldIndex, newIndex) {
-                setState(() {
-                  if (oldIndex < newIndex) {
-                    newIndex--;
+      return Center(child: CircularProgressIndicator());
+    } else {
+      List<String> dropDownButtonItems = <String>["Container", "Stack", "List"];
+      return Scaffold(
+        appBar: PersonalAppBar(),
+        backgroundColor: firstBackGroundColor,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  selectedWidget(context, dropDownButtonItems);
+                },
+                child: Text("위젯 추가하기"),
+              ),
+              ReorderableListView.builder(
+                buildDefaultDragHandles: false,
+                shrinkWrap: true, //리스트 자식 높이 크기의 합 만큼으로 영역을 고정 시켜준다.
+                physics: ClampingScrollPhysics(),
+                itemCount: widgetModel.widgetElementList.length,
+                itemBuilder: (context, index) {
+                  // 1. 위젯으로 만들기
+                  for (var data in widgetModel.widgetElementList) {
+                    if (data.widgetName == "ContainerWidget") {
+                      //2. widgetModel에 추가하기
+                      widgetModelList.add(
+                        ContainerWidget(
+                          titleElement: data.widgetElement[0].content,
+                          contentElement: data.widgetElement[1].content,
+                        ),
+                      );
+                    }
                   }
-                  final Widget item = widgetList.removeAt(oldIndex);
-                  widgetList.insert(newIndex, item);
-                });
-              },
-            ),
-          ],
+                  final widgetData = widgetModelList[index];
+                  return ListTile(
+                    key: ValueKey(widgetData),
+                    //위젯을 만들어서 title에 줘야함.
+                    title: widgetData,
+                    leading: ReorderableDragStartListener(
+                      index: index,
+                      child: Icon(
+                        Icons.drag_handle,
+                        color: Colors.white,
+                      ),
+                    ),
+                    tileColor: firstBackGroundColor,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide.none,
+                    ),
+                  );
+                },
+                onReorder: (oldIndex, newIndex) {
+                  setState(() {
+                    if (oldIndex < newIndex) {
+                      newIndex--;
+                    }
+                    final Widget item = widgetModelList.removeAt(oldIndex);
+                    widgetModelList.insert(newIndex, item);
+                  });
+                },
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 }
 

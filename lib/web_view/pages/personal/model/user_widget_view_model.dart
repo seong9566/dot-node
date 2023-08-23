@@ -8,7 +8,7 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-6-17 
- * Last Modified: 2023-06-17
+ * Last Modified: 2023-07-25
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -28,9 +28,13 @@ class UserWidgetViewModel extends StateNotifier<WidgetElementModel?> {
   final Ref ref;
 
   Future<void> notifyViewModel() async {
-    String userName = "youngmin";
-    Logger().d("뷰 모델 토큰 확인 : ${ref.read(authProvider).jwtToken}");
-    ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userName, jwtToken: ref.read(authProvider).jwtToken);
-    state = WidgetElementModel(responseDto.data);
+    try {
+      String userUid = "hyeon"; // 임시 userUid
+      ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userUid, jwtToken: ref.read(authProvider).jwtToken);
+      state = WidgetElementModel(responseDto.data);
+      Logger().d("widgetViewModel : ${state?.widgetElementList.length}");
+    } catch (e) {
+      Logger().d("Error : $e , name : userWidgetViewModel, method : notifyViewModel");
+    }
   }
 }
