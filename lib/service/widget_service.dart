@@ -30,12 +30,17 @@ class WidgetService {
     return _instance;
   }
 
-//TODO : Insert이후 read가 필요함.
   Future<ResponseDto> fetchInsertWidget({required WidgetInsertReqDto widgetInsertReqDto, String? jwtToken}) async {
-    Logger().d("Service 실행");
     String requestBody = jsonEncode(widgetInsertReqDto.toJson());
-    Logger().d("Service 확인 : $requestBody");
+    Logger().d("Insert Service 확인 : $requestBody");
     Response response = await httpConnector.post("/widget", requestBody, jwtToken: jwtToken);
+    return toResponseDto(response);
+  }
+
+  Future<ResponseDto> fetchUpdateWidget({required WidgetInsertReqDto widgetInsertReqDto, String? jwtToken}) async {
+    String requestBody = jsonEncode(widgetInsertReqDto.toJson());
+    Logger().d("Update Service 확인 : $requestBody");
+    Response response = await httpConnector.put("/element", requestBody, jwtToken: jwtToken);
     return toResponseDto(response);
   }
 

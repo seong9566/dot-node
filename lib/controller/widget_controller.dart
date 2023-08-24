@@ -35,18 +35,15 @@ class WidgetController {
   WidgetController(this.ref);
 
   Future<void> insertWidget({required String widgetName, required String userUid, required List<WidgetElement> widgetElement}) async {
-    final model = ref.watch(personalWidgetViewModel);
     WidgetInsertReqDto widgetInsertReqDto = WidgetInsertReqDto(widgetName: widgetName, userUid: userUid, widgetElement: widgetElement);
     try {
       String jwtToken = ref.read(authProvider).jwtToken;
-      Logger().d("Insert이전 ViewModel length : ${model!.widgetElementList.length}");
       ResponseDto responseDto = await widgetService.fetchInsertWidget(widgetInsertReqDto: widgetInsertReqDto, jwtToken: jwtToken);
       Logger().d("responseDto.code : ${responseDto.code}");
       Logger().d("responseDto.data: ${responseDto.data}");
       Logger().d("responseDto.msg : ${responseDto.msg}");
       // insert이후 상태 업데이트.
       ref.read(personalWidgetViewModel.notifier).notifyViewModel();
-      Logger().d("Insert이후 ViewModel length : ${model.widgetElementList.length}");
     } catch (e) {
       Logger().d("Error : $e | name : widgetController, method : insertWidget");
     }
@@ -65,6 +62,20 @@ class WidgetController {
     if (responseDto.code == "OK") {}
   }
 
-  Future<void> updateWidget() async {}
+  Future<void> updateWidget(
+      {required int elementId, required String widgetName, required String userUid, required List<WidgetElement> widgetElement}) async {
+    WidgetInsertReqDto widgetInsertReqDto = WidgetInsertReqDto(widgetName: widgetName, userUid: userUid, widgetElement: widgetElement);
+    try {
+      String jwtToken = ref.read(authProvider).jwtToken;
+      ResponseDto responseDto = await widgetService.fetchUpdateWidget(widgetInsertReqDto: widgetInsertReqDto, jwtToken: jwtToken);
+      Logger().d("responseDto.data: ${responseDto.data}");
+      Logger().d("responseDto.msg : ${responseDto.msg}");
+      // insert이후 상태 업데이트.
+      ref.read(personalWidgetViewModel.notifier).notifyViewModel();
+    } catch (e) {
+      Logger().d("Error : $e | name : widgetController, method : updateWidget");
+    }
+  }
+
   Future<void> deleteWidget() async {}
 }

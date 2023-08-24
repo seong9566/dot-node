@@ -32,7 +32,6 @@ class PersonalPage extends ConsumerStatefulWidget {
 
 class _PersonalPageState extends ConsumerState<PersonalPage> {
   late String _selectedValue;
-  late List<Widget> widgetModelList = [];
 
   @override
   void initState() {
@@ -47,7 +46,6 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
         builder: (BuildContext context, StateSetter setState) {
           Widget contentWidget;
           if (_selectedValue == "Container") {
-            contentWidget = InsertContainerWidget();
             contentWidget = InsertContainerWidget();
           } else if (_selectedValue == "Stack") {
             contentWidget = StackWidget();
@@ -89,6 +87,7 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
       Logger().d("model이 null입니다.");
       return Center(child: CircularProgressIndicator());
     } else {
+      Logger().d("personal페이지 출력 : ${widgetModel.widgetElementList.length}");
       List<String> dropDownButtonItems = <String>["Container", "Stack", "List"];
       return Scaffold(
         appBar: PersonalAppBar(),
@@ -113,8 +112,7 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
                     return ListTile(
                       key: ValueKey(data), // 각 위젯의 고유한 Key를 사용
                       title: ContainerWidget(
-                        titleElement: data.widgetElement[0].content,
-                        contentElement: data.widgetElement[1].content,
+                        model: data,
                       ),
                       leading: ReorderableDragStartListener(
                         index: index,
