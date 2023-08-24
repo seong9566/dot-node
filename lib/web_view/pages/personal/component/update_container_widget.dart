@@ -1,8 +1,10 @@
 // 모든 위젯의 변수들은 전역적으로 관리
 import 'package:dot_node/controller/widget_controller.dart';
+import 'package:dot_node/dto/response/widget_get_resp_dto.dart';
 import 'package:dot_node/models/widget_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -18,29 +20,41 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
-const FontWeight fWeight = FontWeight.bold;
-const double fTitleSize = 24;
-const double fContentSize = 16;
-const double fHeight = 400;
-const double fWidth = 600;
-
 // ignore: must_be_immutable
-class InsertContainerWidget extends ConsumerStatefulWidget {
-  InsertContainerWidget({this.titleElement, this.contentElement, Key? key}) : super(key: key);
-  String? titleElement;
-  String? contentElement;
-
+class UpdateContainerWidget extends ConsumerStatefulWidget {
+  UpdateContainerWidget({this.model, Key? key}) : super(key: key);
+  WidgetGetRespDto? model;
   @override
-  _InsertContainerWidget createState() => _InsertContainerWidget();
+  _UpdateContainerWidget createState() => _UpdateContainerWidget();
 }
 
-class _InsertContainerWidget extends ConsumerState<InsertContainerWidget> {
-  final _title = TextEditingController();
-  final _content = TextEditingController();
+class _UpdateContainerWidget extends ConsumerState<UpdateContainerWidget> {
+  TextEditingController _title = TextEditingController();
+  TextEditingController _content = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _title = TextEditingController(text: widget.model!.widgetElement[0].content);
+    _content = TextEditingController(text: widget.model!.widgetElement[1].content);
+  }
+
+  @override
+  void dispose() {
+    _title.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    const FontWeight fWeight = FontWeight.bold;
+    const double fTitleSize = 24;
+    const double fContentSize = 16;
+    double fWidth = MediaQuery.of(context).size.width;
     final wControl = ref.read(widgetController);
+
+    Logger().d("model이 null? ${widget.model}");
+
     return Container(
       width: fWidth,
       color: Colors.amber,
@@ -88,8 +102,8 @@ class _InsertContainerWidget extends ConsumerState<InsertContainerWidget> {
             TextButton(
               onPressed: (() {
                 List<WidgetElement> containerWidget = [
-                  WidgetElement(elementName: "title", content: _title.text),
-                  WidgetElement(elementName: "content", content: _content.text),
+                  WidgetElement(elementId: widget.model!.widgetElement[0].elementId, elementName: "title", content: _title.text),
+                  WidgetElement(elementId: widget.model!.widgetElement[1].elementId, elementName: "content", content: _content.text),
                 ];
                 wControl.insertWidget(widgetName: "ContainerWidget", userUid: "이현성", widgetElement: containerWidget);
                 Navigator.pop(context);

@@ -1,6 +1,6 @@
 import 'package:dot_node/web_view/pages/home/model/widget_element_model.dart';
 import 'package:dot_node/web_view/pages/personal/component/insert_container_widget.dart';
-import 'package:dot_node/web_view/pages/personal/model/user_widget_view_model.dart';
+import 'package:dot_node/web_view/pages/personal/model/personal_widget_view_model.dart';
 import 'package:dot_node/widget_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,13 +10,12 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-07-01
- * Last Modified: 2023-08-06
+ * Last Modified: 2023-08-21
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  *              Description
- * 개인 페이지의 위젯 바인딩 진행 중 
  * - 위젯의 배치를 사용자가 자유롭게 상 하 로 이동이 가능.
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
@@ -33,7 +32,6 @@ class PersonalPage extends ConsumerStatefulWidget {
 
 class _PersonalPageState extends ConsumerState<PersonalPage> {
   late String _selectedValue;
-  late List<Widget> widgetModelList = [];
 
   @override
   void initState() {
@@ -84,11 +82,12 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetElementModel? widgetModel = ref.watch(userWidgetViewModel);
+    WidgetElementModel? widgetModel = ref.watch(personalWidgetViewModel);
     if (widgetModel == null) {
       Logger().d("model이 null입니다.");
       return Center(child: CircularProgressIndicator());
     } else {
+      Logger().d("personal페이지 출력 : ${widgetModel.widgetElementList.length}");
       List<String> dropDownButtonItems = <String>["Container", "Stack", "List"];
       return Scaffold(
         appBar: PersonalAppBar(),
@@ -104,50 +103,43 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
               ),
               ReorderableListView.builder(
                 buildDefaultDragHandles: false,
-                shrinkWrap: true, //리스트 자식 높이 크기의 합 만큼으로 영역을 고정 시켜준다.
+                shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
                 itemCount: widgetModel.widgetElementList.length,
                 itemBuilder: (context, index) {
-                  // 1. 위젯으로 만들기
-                  for (var data in widgetModel.widgetElementList) {
-                    if (data.widgetName == "ContainerWidget") {
-                      //2. widgetModel에 추가하기
-                      widgetModelList.add(
-                        ContainerWidget(
-                          titleElement: data.widgetElement[0].content,
-                          contentElement: data.widgetElement[1].content,
-                        ),
-                      );
-                    }
-                  }
-                  final widgetData = widgetModelList[index];
-                  return ListTile(
-                    key: ValueKey(widgetData),
-                    //위젯을 만들어서 title에 줘야함.
-                    title: widgetData,
-                    leading: ReorderableDragStartListener(
-                      index: index,
-                      child: Icon(
-                        Icons.drag_handle,
-                        color: Colors.white,
+                  final data = widgetModel.widgetElementList[index];
+                  if (data.widgetName == "ContainerWidget") {
+                    return ListTile(
+                      key: ValueKey(data), // 각 위젯의 고유한 Key를 사용
+                      title: ContainerWidget(
+                        model: data,
                       ),
-                    ),
-                    tileColor: firstBackGroundColor,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide.none,
-                    ),
-                  );
+                      leading: ReorderableDragStartListener(
+                        index: index,
+                        child: Icon(
+                          Icons.drag_handle,
+                          color: Colors.white,
+                        ),
+                      ),
+                      tileColor: firstBackGroundColor,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide.none,
+                      ),
+                    );
+                  }
+                  // "ContainerWidget"가 아닌 경우 빈 위젯을 반환하거나 다른 위젯을 사용
+                  return SizedBox.shrink();
                 },
                 onReorder: (oldIndex, newIndex) {
                   setState(() {
                     if (oldIndex < newIndex) {
                       newIndex--;
                     }
-                    final Widget item = widgetModelList.removeAt(oldIndex);
-                    widgetModelList.insert(newIndex, item);
+                    final item = widgetModel.widgetElementList.removeAt(oldIndex);
+                    widgetModel.widgetElementList.insert(newIndex, item);
                   });
                 },
-              ),
+              )
             ],
           ),
         ),
