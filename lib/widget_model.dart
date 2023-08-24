@@ -1,12 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:dot_node/dto/response/widget_get_resp_dto.dart';
+import 'package:dot_node/web_view/pages/personal/component/insert_container_widget.dart';
+import 'package:dot_node/web_view/pages/personal/component/update_container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-6-10 
- * Last Modified: 2023-06-10
+ * Last Modified: 2023-08-24
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -19,72 +22,61 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
-// 모든 위젯의 변수들은 전역적으로 관리
-const FontWeight fWeight = FontWeight.bold;
-const double fTitleSize = 24;
-const double fContentSize = 16;
-const double fHeight = 400;
-const double fWidth = 600;
-
 //ContainerWidget Read Only
 // ignore: must_be_immutable
 class ContainerWidget extends ConsumerStatefulWidget {
-  ContainerWidget({this.titleElement, this.contentElement, Key? key}) : super(key: key);
-  String? titleElement;
-  String? contentElement;
+  ContainerWidget({this.model, Key? key}) : super(key: key);
+
+  WidgetGetRespDto? model;
 
   @override
   _ContainerWidgetState createState() => _ContainerWidgetState();
 }
 
 class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
-  final _title = TextEditingController();
-  final _content = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    // 모든 위젯의 변수들은 전역적으로 관리
+    const FontWeight fWeight = FontWeight.bold;
+    const double fTitleSize = 24;
+    const double fContentSize = 16;
+    final double fWidth = MediaQuery.of(context).size.width;
+
     return Container(
       width: fWidth,
       color: Colors.amber,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Form(
-              child: Column(
-                children: [
-                  TextFormField(
-                    style: TextStyle(
-                      fontSize: fTitleSize,
-                      fontWeight: fWeight,
+            Text(
+              widget.model!.widgetElement[0].content,
+              style: TextStyle(fontSize: fTitleSize, fontWeight: fWeight),
+            ),
+            SizedBox(height: 24),
+            Divider(thickness: 1, height: 1, color: Colors.black),
+            SizedBox(height: 24),
+            Text(
+              widget.model!.widgetElement[1].content,
+              style: TextStyle(fontSize: fContentSize),
+            ),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        return AlertDialog(
+                          title: Text("위젯 내용 수정"),
+                          content: UpdateContainerWidget(model: widget.model),
+                        );
+                      },
                     ),
-                    decoration: InputDecoration(
-                      labelText: widget.titleElement,
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 0.1,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black,
-                          width: 0.1,
-                        ),
-                      ),
-                    ),
-                    controller: _title,
-                  ),
-                  TextFormField(
-                    style: TextStyle(fontSize: fContentSize),
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                      labelText: widget.contentElement,
-                      border: InputBorder.none,
-                    ),
-                    controller: _content,
-                  ),
-                ],
+                  );
+                },
+                child: Text("수정"),
               ),
             ),
           ],

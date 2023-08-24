@@ -1,5 +1,10 @@
+import 'package:dot_node/core/util/custom_snack_bar.dart';
+import 'package:dot_node/main.dart';
+import 'package:dot_node/web_view/pages/home/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
@@ -22,6 +27,7 @@ final googleSignProvider = Provider<GoogleSignProvider>((ref) {
 
 class GoogleSignProvider {
   final Ref _ref;
+  final dContext = navigatorKey.currentContext;
   GoogleSignProvider(this._ref);
 
   final googleSignIn = GoogleSignIn();
@@ -51,6 +57,8 @@ class GoogleSignProvider {
       final userCredential = await FirebaseAuth.instance.signInWithCredential(googleAuthCredential);
       _user = userCredential.user;
       Logger().d("로그 확인 : $_user");
+      ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "${_user!.displayName}님 환영합니다!"));
+      Get.to(() => HomePage());
     } catch (error) {
       Logger().d('Google 로그인 에러: $error');
     }
