@@ -36,21 +36,21 @@ class GoogleSignProvider {
     try {
       // 구글 로그인
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      //final GoogleSignInAccount? googleUser = await googleSignIn.signInSilently();
       if (googleUser == null) {
         // 사용자가 로그인을 취소한 경우
         return;
       }
 
       // Firebase Authentication에 사용자 정보 추가
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       final googleAuthCredential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      final userCredential = await FirebaseAuth.instance
-          .signInWithCredential(googleAuthCredential);
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(googleAuthCredential);
       _user = userCredential.user;
+      Logger().d("로그 확인 : $_user");
     } catch (error) {
       Logger().d('Google 로그인 에러: $error');
     }

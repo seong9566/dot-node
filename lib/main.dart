@@ -30,10 +30,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: "AIzaSyD4XYSjVar6Ie_OysHtIxjskBsbiqada7U",
-      appId: "1:596174272297:web:2d6f4cffad3630dd02a938",
-      messagingSenderId: "596174272297",
-      projectId: "dot-node-5f8bb",
+      apiKey: "AIzaSyAeGR8vnCeVdx3_rcawQJLSxywp9IVeExs",
+      appId: "1:796745330897:web:1c0e63f670633eefd915f0",
+      messagingSenderId: "796745330897",
+      projectId: "dot-node",
     ),
   );
   if (kIsWeb) {
