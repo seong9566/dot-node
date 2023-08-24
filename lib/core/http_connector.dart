@@ -85,10 +85,10 @@ class HttpConnector {
   }
 
   //delete
-  Future<Response> delete(String path, {String? jwtToken}) async {
+  Future<Response> delete(String path, String body, {String? jwtToken}) async {
     Map<String, String> requestHeader = {...headers, "Access-Token": jwtToken ?? ""};
     Uri uri = Uri.parse("$host$path");
-    Response response = await Client().delete(uri, headers: requestHeader);
+    Response response = await Client().delete(uri, headers: requestHeader, body: body);
     return response;
   }
 }

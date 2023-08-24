@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:dot_node/controller/widget_controller.dart';
 import 'package:dot_node/dto/response/widget_get_resp_dto.dart';
 import 'package:dot_node/web_view/pages/personal/component/insert_container_widget.dart';
 import 'package:dot_node/web_view/pages/personal/component/update_container_widget.dart';
@@ -41,7 +42,7 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
     const double fTitleSize = 24;
     const double fContentSize = 16;
     final double fWidth = MediaQuery.of(context).size.width;
-
+    final wControl = ref.read(widgetController);
     return Container(
       width: fWidth,
       color: Colors.amber,
@@ -61,23 +62,34 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
               widget.model!.widgetElement[1].content,
               style: TextStyle(fontSize: fContentSize),
             ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) => StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState) {
-                        return AlertDialog(
-                          title: Text("위젯 내용 수정"),
-                          content: UpdateContainerWidget(model: widget.model),
-                        );
-                      },
-                    ),
-                  );
-                },
-                child: Text("수정"),
-              ),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                          return AlertDialog(
+                            title: Text("위젯 내용 수정"),
+                            content: UpdateContainerWidget(model: widget.model),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  child: Text("수정"),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    wControl.deleteWidget(widgetId: widget.model!.widgetId, userUid: "이현성");
+                  },
+                  child: Text("삭제"),
+                ),
+              ],
             ),
           ],
         ),
