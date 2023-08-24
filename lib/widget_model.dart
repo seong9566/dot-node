@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-6-10 
- * Last Modified: 2023-06-10
+ * Last Modified: 2023-08-21
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -26,7 +26,6 @@ const double fContentSize = 16;
 const double fHeight = 400;
 const double fWidth = 600;
 
-//ContainerWidget Read Only
 //ContainerWidget Read Only
 // ignore: must_be_immutable
 class ContainerWidget extends ConsumerStatefulWidget {

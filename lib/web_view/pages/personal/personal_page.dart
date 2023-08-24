@@ -16,7 +16,6 @@ import 'package:logger/logger.dart';
  * copyright @ 2023 TeamDOT
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  *              Description
- * 개인 페이지의 위젯 바인딩 진행 중 
  * - 위젯의 배치를 사용자가 자유롭게 상 하 로 이동이 가능.
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
@@ -48,6 +47,7 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
         builder: (BuildContext context, StateSetter setState) {
           Widget contentWidget;
           if (_selectedValue == "Container") {
+            contentWidget = InsertContainerWidget();
             contentWidget = InsertContainerWidget();
           } else if (_selectedValue == "Stack") {
             contentWidget = StackWidget();
