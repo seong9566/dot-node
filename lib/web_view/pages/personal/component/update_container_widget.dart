@@ -105,7 +105,8 @@ class _UpdateContainerWidget extends ConsumerState<UpdateContainerWidget> {
                   WidgetElement(elementId: widget.model!.widgetElement[0].elementId, elementName: "title", content: _title.text),
                   WidgetElement(elementId: widget.model!.widgetElement[1].elementId, elementName: "content", content: _content.text),
                 ];
-                wControl.insertWidget(widgetName: "ContainerWidget", userUid: "이현성", widgetElement: containerWidget);
+                wControl.updateWidget(
+                    widgetId: widget.model!.widgetId, widgetName: "ContainerWidget", userUid: "이현성", widgetElement: containerWidget);
                 Navigator.pop(context);
               }),
               child: Text("저장"),
