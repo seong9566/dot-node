@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:dot_node/core/http_connector.dart';
+import 'package:dot_node/dto/request/widget_delete_req_dto.dart';
 import 'package:dot_node/dto/request/widget_insert_req_dto.dart';
+import 'package:dot_node/dto/request/widget_update_req_dto.dart';
 import 'package:dot_node/dto/response/widget_get_resp_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/dto/response_util.dart';
@@ -8,8 +10,8 @@ import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
- * Created Date: 2023-6-10 
- * Last Modified: 2023-06-17
+ * Created Date: 2023-06-10 
+ * Last Modified: 2023-08-21
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -37,10 +39,10 @@ class WidgetService {
     return toResponseDto(response);
   }
 
-  Future<ResponseDto> fetchUpdateWidget({required WidgetInsertReqDto widgetInsertReqDto, String? jwtToken}) async {
-    String requestBody = jsonEncode(widgetInsertReqDto.toJson());
+  Future<ResponseDto> fetchUpdateWidget({required WidgetUpdateReqDto widgetUpdateReqDto, String? jwtToken}) async {
+    String requestBody = jsonEncode(widgetUpdateReqDto.toJson());
     Logger().d("Update Service 확인 : $requestBody");
-    Response response = await httpConnector.put("/element", requestBody, jwtToken: jwtToken);
+    Response response = await httpConnector.put("/widget", requestBody, jwtToken: jwtToken);
     return toResponseDto(response);
   }
 
@@ -51,6 +53,13 @@ class WidgetService {
     List<dynamic> mapList = responseDto.data; //responseDto.data를 dynamic타입으로 바꾸는 것
     List<WidgetGetRespDto> widgetList = mapList.map((e) => WidgetGetRespDto.fromJson(e)).toList();
     responseDto.data = widgetList;
+    return responseDto;
+  }
+
+  Future<ResponseDto> fetchDeleteWidget({required WidgetDeleteReqDto widgetDeleteReqDto, String? jwtToken}) async {
+    String requestBody = jsonEncode(widgetDeleteReqDto.toJson());
+    Response response = await httpConnector.delete("/widget", requestBody, jwtToken: jwtToken);
+    ResponseDto responseDto = toResponseDto(response);
     return responseDto;
   }
 }

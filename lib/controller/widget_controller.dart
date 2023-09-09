@@ -1,4 +1,6 @@
+import 'package:dot_node/dto/request/widget_delete_req_dto.dart';
 import 'package:dot_node/dto/request/widget_insert_req_dto.dart';
+import 'package:dot_node/dto/request/widget_update_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/models/session_user.dart';
 import 'package:dot_node/models/widget_element.dart';
@@ -63,19 +65,35 @@ class WidgetController {
   }
 
   Future<void> updateWidget(
-      {required int elementId, required String widgetName, required String userUid, required List<WidgetElement> widgetElement}) async {
-    WidgetInsertReqDto widgetInsertReqDto = WidgetInsertReqDto(widgetName: widgetName, userUid: userUid, widgetElement: widgetElement);
+      {required String widgetName, required int widgetId, required String userUid, required List<WidgetElement> widgetElement}) async {
+    WidgetUpdateReqDto widgetUpdateReqDto = WidgetUpdateReqDto(widgetId: widgetId, widgetName: widgetName, widgetElement: widgetElement);
     try {
       String? jwtToken = SessionUser.jwtToken;
-      ResponseDto responseDto = await widgetService.fetchUpdateWidget(widgetInsertReqDto: widgetInsertReqDto, jwtToken: jwtToken);
+      ResponseDto responseDto = await widgetService.fetchUpdateWidget(widgetUpdateReqDto: widgetUpdateReqDto, jwtToken: jwtToken);
       Logger().d("responseDto.data: ${responseDto.data}");
       Logger().d("responseDto.msg : ${responseDto.msg}");
-      // insert이후 상태 업데이트.
+      // update이후 상태 업데이트.
       ref.read(personalWidgetViewModel.notifier).notifyViewModel();
     } catch (e) {
       Logger().d("Error : $e | name : widgetController, method : updateWidget");
     }
   }
 
-  Future<void> deleteWidget() async {}
+  Future<void> deleteWidget({required int widgetId, required String userUid}) async {
+    Logger().d("widgetId출력 : $widgetId");
+    if (userUid != "이현성") {
+      Logger().d("잘못된 접근 입니다.");
+    }
+    try {
+      String? jwtToken = SessionUser.jwtToken;
+      WidgetDeleteReqDto widgetDeleteReqDto = WidgetDeleteReqDto(widgetId: widgetId);
+
+      ResponseDto responseDto = await widgetService.fetchDeleteWidget(widgetDeleteReqDto: widgetDeleteReqDto, jwtToken: jwtToken);
+      ref.read(personalWidgetViewModel.notifier).notifyViewModel();
+      Logger().d("responseDto.data: ${responseDto.data}");
+      Logger().d("responseDto.msg : ${responseDto.msg}");
+    } catch (e) {
+      Logger().d("Error : $e | name : widgetController, method : deleteWidget");
+    }
+  }
 }
