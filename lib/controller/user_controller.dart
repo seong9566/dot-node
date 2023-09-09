@@ -4,7 +4,7 @@ import 'package:dot_node/dto/request/email_ver_req_dto.dart';
 import 'package:dot_node/dto/request/sms_ver_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/main.dart';
-import 'package:dot_node/provider/auth_provider.dart';
+import 'package:dot_node/service/local_service.dart';
 import 'package:dot_node/service/user_service.dart';
 import 'package:dot_node/web_view/components/custom_alert_dialog.dart';
 import 'package:dot_node/web_view/pages/auth/components/verfication_modal.dart';
@@ -16,10 +16,12 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'dart:async';
 
+import '../models/user.dart';
+
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-05-19 
- * Last Modified: 2023-07-24
+ * Last Modified: 2023-09-01
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -80,7 +82,10 @@ class UserController {
 
       // 로그인 성공 시
       if (responseDto.msg == "login success") {
-        _ref.read(authProvider.notifier).authentication(responseDto.data);
+        //TODO: response에 uid,email가 있을때 주석 풀기.
+        //String uid = responseDto.data;
+        User user = User(uid: "이현성", userEmail: userEmail);
+        LocalService().fetchSessionUser(user: user);
         ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "환영합니다!"));
         Get.to(() => HomePage());
       } else {

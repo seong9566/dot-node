@@ -1,6 +1,7 @@
 // 모든 위젯의 변수들은 전역적으로 관리
 import 'package:dot_node/controller/widget_controller.dart';
 import 'package:dot_node/dto/response/widget_get_resp_dto.dart';
+import 'package:dot_node/models/session_user.dart';
 import 'package:dot_node/models/widget_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -105,7 +106,7 @@ class _UpdateContainerWidget extends ConsumerState<UpdateContainerWidget> {
                   WidgetElement(elementId: widget.model!.widgetElement[0].elementId, elementName: "title", content: _title.text),
                   WidgetElement(elementId: widget.model!.widgetElement[1].elementId, elementName: "content", content: _content.text),
                 ];
-                wControl.insertWidget(widgetName: "ContainerWidget", userUid: "이현성", widgetElement: containerWidget);
+                wControl.insertWidget(widgetName: "ContainerWidget", userUid: "${SessionUser.user.uid}", widgetElement: containerWidget);
                 Navigator.pop(context);
               }),
               child: Text("저장"),

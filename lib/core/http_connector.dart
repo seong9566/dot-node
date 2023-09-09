@@ -47,9 +47,9 @@ class HttpConnector {
   }
 
   //Token인증
-  Future<Response> getInitToken(String path, String? jwtToken) async {
+  Future<Response> getInitToken(String path, String? refreshToken) async {
     Logger().d("getInitToken 실행");
-    Map<String, String> requestHeader = {...headers, "Access-Token": jwtToken!};
+    Map<String, String> requestHeader = {...headers, "Refresh-Token": refreshToken!};
     Uri uri = Uri.parse("$host$path");
     Response response = await Client().get(uri, headers: requestHeader);
     return response;

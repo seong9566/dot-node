@@ -1,7 +1,7 @@
 import 'package:dot_node/dto/request/widget_insert_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
+import 'package:dot_node/models/session_user.dart';
 import 'package:dot_node/models/widget_element.dart';
-import 'package:dot_node/provider/auth_provider.dart';
 
 import 'package:dot_node/service/widget_service.dart';
 import 'package:dot_node/web_view/pages/personal/model/personal_widget_view_model.dart';
@@ -11,7 +11,7 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-06-10 
- * Last Modified: 2023-08-21
+ * Last Modified: 2023-09-01
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -37,7 +37,7 @@ class WidgetController {
   Future<void> insertWidget({required String widgetName, required String userUid, required List<WidgetElement> widgetElement}) async {
     WidgetInsertReqDto widgetInsertReqDto = WidgetInsertReqDto(widgetName: widgetName, userUid: userUid, widgetElement: widgetElement);
     try {
-      String jwtToken = ref.read(authProvider).jwtToken;
+      String? jwtToken = SessionUser.jwtToken;
       ResponseDto responseDto = await widgetService.fetchInsertWidget(widgetInsertReqDto: widgetInsertReqDto, jwtToken: jwtToken);
       Logger().d("responseDto.code : ${responseDto.code}");
       Logger().d("responseDto.data: ${responseDto.data}");
@@ -66,7 +66,7 @@ class WidgetController {
       {required int elementId, required String widgetName, required String userUid, required List<WidgetElement> widgetElement}) async {
     WidgetInsertReqDto widgetInsertReqDto = WidgetInsertReqDto(widgetName: widgetName, userUid: userUid, widgetElement: widgetElement);
     try {
-      String jwtToken = ref.read(authProvider).jwtToken;
+      String? jwtToken = SessionUser.jwtToken;
       ResponseDto responseDto = await widgetService.fetchUpdateWidget(widgetInsertReqDto: widgetInsertReqDto, jwtToken: jwtToken);
       Logger().d("responseDto.data: ${responseDto.data}");
       Logger().d("responseDto.msg : ${responseDto.msg}");
