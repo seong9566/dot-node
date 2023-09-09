@@ -19,6 +19,7 @@ import 'package:logger/logger.dart';
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  *              Description
  * Google Sign 관련 Provider
+ * TODO: Flutter가 토큰 인증을 지원x 보류
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 final googleSignProvider = Provider<GoogleSignProvider>((ref) {

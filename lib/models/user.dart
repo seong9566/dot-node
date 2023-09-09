@@ -12,21 +12,20 @@
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 class User {
+  String uid;
+  String userEmail;
   User({
-    required this.username,
+    required this.uid,
     required this.userEmail,
   });
 
-  String username;
-  String userEmail;
-
   factory User.fromJson(Map<String, dynamic> json) => User(
-        username: json["username"],
+        uid: json["username"],
         userEmail: json["userEmail"],
       );
 
   Map<String, dynamic> toJson() => {
-        "username": username,
+        "username": uid,
         "email": userEmail,
       };
 }
