@@ -53,26 +53,33 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
             contentWidget = ListWidget();
           }
           return AlertDialog(
+            scrollable: true,
             title: const Text('사용할 위젯을 선택하세요.'),
-            content: Column(
-              children: [
-                DropdownButton(
-                  value: _selectedValue,
-                  items: dropDownButtonItems.map<DropdownMenuItem<String>>((value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedValue = value!;
-                      Logger().d("selected : $_selectedValue");
-                    });
-                  },
-                ),
-                contentWidget,
-              ],
+            content: SingleChildScrollView(
+              child: Column(
+                children: [
+                  DropdownButton(
+                    value: _selectedValue,
+                    items: dropDownButtonItems.map<DropdownMenuItem<String>>((value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedValue = value!;
+                        Logger().d("selected : $_selectedValue");
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: contentWidget,
+                  )
+                ],
+              ),
             ),
           );
         },
