@@ -16,6 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
  *              Description
  * Insert 할 때와 View위젯을 분리
  * 입력가능한 Container 위젯
+ * 위젯의 요소 추가/제거/수정 해야함.
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
@@ -97,6 +98,7 @@ class _InsertContainerWidget extends ConsumerState<InsertContainerWidget> {
               }),
               child: Text("저장"),
             ),
+            TextButton(onPressed: () {}, child: Text(""))
           ],
         ),
       ),

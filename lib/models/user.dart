@@ -20,12 +20,12 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        uid: json["username"],
+        uid: json["uid"],
         userEmail: json["userEmail"],
       );
 
   Map<String, dynamic> toJson() => {
-        "username": uid,
+        "uid": uid,
         "email": userEmail,
       };
 }
