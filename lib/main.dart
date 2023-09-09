@@ -1,13 +1,15 @@
+import 'package:dot_node/models/session_user.dart';
+import 'package:dot_node/service/local_service.dart';
 import 'package:dot_node/view/pages/auth/login_page.dart';
 import 'package:dot_node/core/util/locale_string.dart';
+import 'package:dot_node/web_view/pages/auth/web_login_page.dart';
+import 'package:dot_node/web_view/pages/home/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
-import 'web_view/pages/auth/web_login_page.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -26,9 +28,9 @@ import 'web_view/pages/auth/web_login_page.dart';
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 final navigatorKey = GlobalKey<NavigatorState>();
-
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await LocalService().fetchJwtToken();
   await Firebase.initializeApp(
     options: FirebaseOptions(
       apiKey: "AIzaSyAeGR8vnCeVdx3_rcawQJLSxywp9IVeExs",
@@ -74,7 +76,7 @@ class MyWeb extends StatelessWidget {
           translations: LocaleString(),
           locale: const Locale('kr_KR'), // kr_KR, en_US
           //home: const WebSignUpPage(),
-          home: const WebLoginPage(),
+          home: SessionUser.isLogin ? HomePage() : WebLoginPage(),
           //home: const HomePage(),
           //home: PersonalPage(),
         );

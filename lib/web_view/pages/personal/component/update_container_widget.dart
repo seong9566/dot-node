@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
+import '../../../../models/session_user.dart';
+
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-06-17
@@ -106,7 +108,10 @@ class _UpdateContainerWidget extends ConsumerState<UpdateContainerWidget> {
                   WidgetElement(elementId: widget.model!.widgetElement[1].elementId, elementName: "content", content: _content.text),
                 ];
                 wControl.updateWidget(
-                    widgetId: widget.model!.widgetId, widgetName: "ContainerWidget", userUid: "이현성", widgetElement: containerWidget);
+                    widgetId: widget.model!.widgetId,
+                    widgetName: "ContainerWidget",
+                    userUid: "${SessionUser.user.uid}",
+                    widgetElement: containerWidget);
                 Navigator.pop(context);
               }),
               child: Text("저장"),

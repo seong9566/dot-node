@@ -1,5 +1,5 @@
 import 'package:dot_node/controller/user_controller.dart';
-import 'package:dot_node/provider/google_sign_provider.dart';
+import 'package:dot_node/google/google_sign_provider.dart';
 import 'package:dot_node/web_view/pages/auth/web_sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +18,6 @@ import 'package:get/get.dart';
  * 
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  *              Description
- * TODO : 자동 로그인 구현
  * DB와 통신 후 로그인 성공
  * 
  * 개발시에는 password 유효성 검증 하지 않음.
@@ -53,7 +52,7 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    //ref.read(authService.notifier).autoLogin();
+    //자동 로그인
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
       builder: ((context, child) => Scaffold(

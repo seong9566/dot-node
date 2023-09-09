@@ -2,6 +2,7 @@
 
 import 'package:dot_node/controller/widget_controller.dart';
 import 'package:dot_node/dto/response/widget_get_resp_dto.dart';
+import 'package:dot_node/models/session_user.dart';
 import 'package:dot_node/web_view/pages/personal/component/insert_container_widget.dart';
 import 'package:dot_node/web_view/pages/personal/component/update_container_widget.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +86,7 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    wControl.deleteWidget(widgetId: widget.model!.widgetId, userUid: "이현성");
+                    wControl.deleteWidget(widgetId: widget.model!.widgetId, userUid: "${SessionUser.user.uid}");
                   },
                   child: Text("삭제"),
                 ),

@@ -6,7 +6,7 @@ import 'package:dot_node/dto/request/email_ver_req_dto.dart';
 import 'package:dot_node/dto/request/sms_ver_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/dto/response_util.dart';
-import 'package:dot_node/models/user_token.dart';
+import 'package:dot_node/service/local_service.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart';
 /*
@@ -51,12 +51,12 @@ class UserService {
     String requestBody = jsonEncode(loginReqDto.toJson());
     //2. 통신
     Response response = await httpConnector.post("/auth/login", requestBody);
+    // 토큰 저장
     String? jwtToken = response.headers['access-token'].toString();
+    String? refreshToken = response.headers['refresh-token'].toString();
+    await secureStorage.write(key: "jwtToken", value: jwtToken);
+    await secureStorage.write(key: "refreshToken", value: refreshToken);
     ResponseDto responseDto = toResponseDto(response);
-    if (responseDto.msg == "login success") {
-      UserToken userToken = UserToken(jwtToken, true);
-      responseDto.data = userToken;
-    }
     return responseDto;
   }
 
