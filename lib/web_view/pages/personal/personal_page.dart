@@ -10,7 +10,7 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-07-01
- * Last Modified: 2023-08-21
+ * Last Modified: 2023-09-09
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -55,31 +55,29 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
           return AlertDialog(
             scrollable: true,
             title: const Text('사용할 위젯을 선택하세요.'),
-            content: SingleChildScrollView(
-              child: Column(
-                children: [
-                  DropdownButton(
-                    value: _selectedValue,
-                    items: dropDownButtonItems.map<DropdownMenuItem<String>>((value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedValue = value!;
-                        Logger().d("selected : $_selectedValue");
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: contentWidget,
-                  )
-                ],
-              ),
+            content: Column(
+              children: [
+                DropdownButton(
+                  value: _selectedValue,
+                  items: dropDownButtonItems.map<DropdownMenuItem<String>>((value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedValue = value!;
+                      Logger().d("selected : $_selectedValue");
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: contentWidget,
+                )
+              ],
             ),
           );
         },

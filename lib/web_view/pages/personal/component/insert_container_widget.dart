@@ -9,7 +9,7 @@ import 'package:logger/logger.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-06-17
- * Last Modified: 2023-08-21
+ * Last Modified: 2023-09-09
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -38,21 +38,27 @@ class InsertContainerWidget extends ConsumerStatefulWidget {
 }
 
 class _InsertContainerWidget extends ConsumerState<InsertContainerWidget> {
-  final _title = TextEditingController();
-  final _content = TextEditingController();
   List<Widget> widgetElementList = [];
+  final List<TextEditingController> _titleControllers = [];
+  final List<TextEditingController> _contentControllers = [];
+
+  void addTextInsertForm() {
+    TextEditingController titleController = TextEditingController();
+    TextEditingController contentController = TextEditingController();
+    _titleControllers.add(titleController);
+    _contentControllers.add(contentController);
+    widgetElementList.add(TextInsertForm(title: titleController, content: contentController));
+  }
+
   @override
   void initState() {
-    widgetElementList = [TextInsertForm(title: _title, content: _content)];
+    // 최초의 한개의 InsertForm
+    addTextInsertForm();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    void widgetCreate({required Widget insertForm}) {
-      widgetElementList.add(insertForm);
-    }
-
     final wControl = ref.read(widgetController);
     return SizedBox(
       child: Padding(
@@ -61,7 +67,6 @@ class _InsertContainerWidget extends ConsumerState<InsertContainerWidget> {
           child: Column(
             children: [
               Column(
-                //children: List.generate(widgetElementList.length, (index) => widgetElementList[index]),
                 children: [
                   ListView.builder(
                     shrinkWrap: true,
@@ -72,14 +77,13 @@ class _InsertContainerWidget extends ConsumerState<InsertContainerWidget> {
                   )
                 ],
               ),
-              //TextInsertForm(title: _title, content: _content),
               Row(
                 children: [
                   insertBtn(wControl, context),
                   elementCreateBtn(
                     press: () {
                       setState(() {
-                        widgetCreate(insertForm: TextInsertForm(title: _title, content: _content));
+                        addTextInsertForm();
                         Logger().d("리스트 추가? ${widgetElementList.length}");
                       });
                     },
@@ -103,11 +107,18 @@ class _InsertContainerWidget extends ConsumerState<InsertContainerWidget> {
   TextButton insertBtn(WidgetController wControl, BuildContext context) {
     return TextButton(
       onPressed: (() {
-        List<WidgetElement> containerWidget = [
-          WidgetElement(elementName: "title", content: _title.text),
-          WidgetElement(elementName: "content", content: _content.text),
-        ];
-        wControl.insertWidget(widgetName: "ContainerWidget", userUid: "${SessionUser.user.uid}", widgetElement: containerWidget);
+        List<WidgetElement> containerWidgets = [];
+        for (int i = 0; i < widgetElementList.length; i++) {
+          String title = _titleControllers[i].text;
+          String content = _contentControllers[i].text;
+          containerWidgets.add(WidgetElement(elementName: "title", content: title));
+          containerWidgets.add(WidgetElement(elementName: "content", content: content));
+        }
+        // List<WidgetElement> containerWidget = [
+        //   WidgetElement(elementName: "title", content: _title.text),
+        //   WidgetElement(elementName: "content", content: _content.text),
+        // ];
+        wControl.insertWidget(widgetName: "ContainerWidget", userUid: "${SessionUser.user.uid}", widgetElement: containerWidgets);
         Navigator.pop(context);
       }),
       child: Text("저장"),
