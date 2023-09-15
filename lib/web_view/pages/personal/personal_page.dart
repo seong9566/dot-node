@@ -1,3 +1,5 @@
+// ignore_for_file: slash_for_doc_comments
+
 import 'package:dot_node/web_view/pages/home/model/widget_element_model.dart';
 import 'package:dot_node/web_view/pages/personal/component/insert_container_widget.dart';
 import 'package:dot_node/web_view/pages/personal/model/personal_widget_view_model.dart';
@@ -92,7 +94,6 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
       Logger().d("model이 null입니다.");
       return Center(child: CircularProgressIndicator());
     } else {
-      Logger().d("personal페이지 출력 : ${widgetModel.widgetElementList.length}");
       List<String> dropDownButtonItems = <String>["Container", "Stack", "List"];
       return Scaffold(
         appBar: PersonalAppBar(),
@@ -106,43 +107,54 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
                 },
                 child: Text("위젯 추가하기"),
               ),
-              ReorderableListView.builder(
-                buildDefaultDragHandles: false,
+              ListView.builder(
                 shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                itemCount: widgetModel.widgetElementList.length,
-                itemBuilder: (context, index) {
-                  final data = widgetModel.widgetElementList[index];
-                  if (data.widgetName == "ContainerWidget") {
-                    return ListTile(
-                      key: ValueKey(data), // 각 위젯의 고유한 Key를 사용
-                      title: ContainerWidget(
-                        model: data,
-                      ),
-                      leading: ReorderableDragStartListener(
-                        index: index,
-                        child: Icon(
-                          Icons.drag_handle,
-                          color: Colors.white,
-                        ),
-                      ),
-                      tileColor: firstBackGroundColor,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide.none,
-                      ),
-                    );
-                  }
-                  // "ContainerWidget"가 아닌 경우 빈 위젯을 반환하거나 다른 위젯을 사용
-                  return SizedBox.shrink();
-                },
-                onReorder: (oldIndex, newIndex) {
-                  setState(() {
-                    if (oldIndex < newIndex) {
-                      newIndex--;
-                    }
-                    final item = widgetModel.widgetElementList.removeAt(oldIndex);
-                    widgetModel.widgetElementList.insert(newIndex, item);
-                  });
+                itemCount: widgetModel.widgetElementList.length, //Widget의 갯수만큼
+                itemBuilder: (context, parentIndex) {
+                  Logger().d("Widget의 갯수 : ${widgetModel.widgetElementList.length}");
+                  final parentItem = widgetModel.widgetElementList[parentIndex];
+                  Logger().d("parentItem = ${parentItem.widgetElement.length ~/ 2}"); // 10개
+                  return ReorderableListView.builder(
+                    buildDefaultDragHandles: false,
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    itemCount: parentItem.widgetElement.length ~/ 2, //Element의 갯수만큼
+                    itemBuilder: (context, index) {
+                      Logger().d("Element의 갯수 : ${parentItem.widgetElement.length}");
+                      final data = widgetModel.widgetElementList[index];
+                      if (data.widgetName == "ContainerWidget") {
+                        return ListTile(
+                          key: ValueKey(data), // 각 위젯의 고유한 Key를 사용
+                          title: ContainerWidget(
+                            model: data,
+                          ),
+                          leading: ReorderableDragStartListener(
+                            index: index,
+                            child: Icon(
+                              Icons.drag_handle,
+                              color: Colors.white,
+                            ),
+                          ),
+                          tileColor: firstBackGroundColor,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide.none,
+                          ),
+                        );
+                      }
+                      // "ContainerWidget"가 아닌 경우 빈 위젯을 반환하거나 다른 위젯을 사용
+                      return SizedBox.shrink();
+                    },
+                    onReorder: (oldIndex, newIndex) {
+                      setState(() {
+                        if (oldIndex < newIndex) {
+                          newIndex--;
+                        }
+                        final item = widgetModel.widgetElementList.removeAt(oldIndex);
+                        widgetModel.widgetElementList.insert(newIndex, item);
+                      });
+                    },
+                  );
+                  return null;
                 },
               )
             ],
@@ -235,4 +247,77 @@ class PersonalAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
+}
+
+class DumyWidget {
+/**
+ * {
+                "widgetId": 1,
+                "widgetName": "widget sample",
+                "widgetElement": []
+            },
+            {
+                "widgetId": 2,
+                "widgetName": "ContainerWidget",
+                "widgetElement": [
+                    {
+                        "elementId": 4,
+                        "elementName": "title",
+                        "content": "12",
+                        "imageId": null,
+                        "imageFile": null
+                    },
+                    {
+                        "elementId": 5,
+                        "elementName": "content",
+                        "content": "34",
+                        "imageId": null,
+                        "imageFile": null
+                    }
+                ]
+            }
+ */
+
+  final int widgetId;
+  final String widgetName;
+  final List<DumyElement> widgetElement;
+
+  DumyWidget({
+    required this.widgetId,
+    required this.widgetName,
+    required this.widgetElement,
+  });
+}
+
+class DumyElement {
+  // {
+  //                   {
+  //                       "elementId": 4,
+  //                       "elementName": "title",
+  //                       "content": "12",
+  //                       "imageId": null,
+  //                       "imageFile": null
+  //                   },
+  //                   {
+  //                       "elementId": 5,
+  //                       "elementName": "content",
+  //                       "content": "34",
+  //                       "imageId": null,
+  //                       "imageFile": null
+  //                   }
+  //               ]
+  //           }
+  final int elementId;
+  final String elementName;
+  final String content;
+  final int imageId;
+  final String imageFile;
+
+  DumyElement({
+    required this.elementId,
+    required this.elementName,
+    required this.content,
+    required this.imageId,
+    required this.imageFile,
+  });
 }
