@@ -101,60 +101,135 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  selectedWidget(context, dropDownButtonItems);
-                },
-                child: Text("위젯 추가하기"),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: widgetModel.widgetElementList.length, //Widget의 갯수만큼
-                itemBuilder: (context, parentIndex) {
-                  Logger().d("Widget의 갯수 : ${widgetModel.widgetElementList.length}");
-                  final parentItem = widgetModel.widgetElementList[parentIndex];
-                  Logger().d("parentItem = ${parentItem.widgetElement.length ~/ 2}"); // 10개
-                  return ReorderableListView.builder(
-                    buildDefaultDragHandles: false,
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    itemCount: parentItem.widgetElement.length ~/ 2, //Element의 갯수만큼
-                    itemBuilder: (context, index) {
-                      Logger().d("Element의 갯수 : ${parentItem.widgetElement.length}");
-                      final data = widgetModel.widgetElementList[index];
-                      if (data.widgetName == "ContainerWidget") {
-                        return ListTile(
-                          key: ValueKey(data), // 각 위젯의 고유한 Key를 사용
-                          title: ContainerWidget(
-                            model: data,
-                          ),
-                          leading: ReorderableDragStartListener(
-                            index: index,
-                            child: Icon(
-                              Icons.drag_handle,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      selectedWidget(context, dropDownButtonItems);
+                    },
+                    child: Text("위젯 추가하기"),
+                  ),
+                  SizedBox(width: 14),
+                  //상세보기
+                  ElevatedButton(
+                    onPressed: () {
+                      showGeneralDialog(
+                        barrierDismissible: true,
+                        barrierLabel: "detail modal",
+                        context: context,
+                        pageBuilder: (context, _, __) => Center(
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.8,
+                            margin: const EdgeInsets.symmetric(horizontal: 24),
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                            //color: Colors.amber,
+                            decoration: BoxDecoration(
                               color: Colors.white,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(40),
+                              ),
+                            ),
+                            child: Scaffold(
+                              backgroundColor: Colors.transparent,
+                              body: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      child: Text("위젯 요소 추가하기"),
+                                    ),
+                                    ReorderableListView.builder(
+                                      buildDefaultDragHandles: false,
+                                      shrinkWrap: true,
+                                      physics: ClampingScrollPhysics(),
+                                      itemCount: widgetModel.widgetElementList.length,
+                                      itemBuilder: (context, index) {
+                                        final data = widgetModel.widgetElementList[index]; // 더미데이터에는 5,6번째 데이터가 없음.
+                                        if (data.widgetName == "ContainerWidget") {
+                                          return Card(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(20),
+                                                ),
+                                                side: BorderSide(color: Colors.black)),
+                                            key: ValueKey(data),
+                                            child: ListTile(
+                                              title: ContainerWidget(
+                                                model: data,
+                                              ),
+                                              leading: ReorderableDragStartListener(
+                                                index: index,
+                                                child: Icon(
+                                                  Icons.drag_handle,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        // "ContainerWidget"가 아닌 경우 빈 위젯을 반환하거나 다른 위젯을 사용
+                                        return SizedBox.shrink();
+                                      },
+                                      onReorder: (oldIndex, newIndex) {
+                                        setState(() {
+                                          if (oldIndex < newIndex) {
+                                            newIndex--;
+                                          }
+                                          final item = widgetModel.widgetElementList.removeAt(oldIndex);
+                                          widgetModel.widgetElementList.insert(newIndex, item);
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                          tileColor: firstBackGroundColor,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide.none,
-                          ),
-                        );
-                      }
-                      // "ContainerWidget"가 아닌 경우 빈 위젯을 반환하거나 다른 위젯을 사용
-                      return SizedBox.shrink();
+                        ),
+                      );
                     },
-                    onReorder: (oldIndex, newIndex) {
-                      setState(() {
-                        if (oldIndex < newIndex) {
-                          newIndex--;
-                        }
-                        final item = widgetModel.widgetElementList.removeAt(oldIndex);
-                        widgetModel.widgetElementList.insert(newIndex, item);
-                      });
-                    },
-                  );
-                  return null;
+                    child: Text("상세보기"),
+                  ),
+                ],
+              ),
+              ReorderableListView.builder(
+                buildDefaultDragHandles: false,
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+                itemCount: widgetModel.widgetElementList.length, //Element의 갯수만큼
+                itemBuilder: (context, index) {
+                  final data = widgetModel.widgetElementList[index];
+                  if (data.widgetName == "ContainerWidget") {
+                    return ListTile(
+                      key: ValueKey(data), // 각 위젯의 고유한 Key를 사용
+                      title: ContainerWidget(
+                        model: data,
+                      ),
+                      leading: ReorderableDragStartListener(
+                        index: index,
+                        child: Icon(
+                          Icons.drag_handle,
+                          color: Colors.white,
+                        ),
+                      ),
+                      tileColor: firstBackGroundColor,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide.none,
+                      ),
+                    );
+                  }
+                  // "ContainerWidget"가 아닌 경우 빈 위젯을 반환하거나 다른 위젯을 사용
+                  return SizedBox.shrink();
+                },
+                onReorder: (oldIndex, newIndex) {
+                  setState(() {
+                    if (oldIndex < newIndex) {
+                      newIndex--;
+                    }
+                    final item = widgetModel.widgetElementList.removeAt(oldIndex);
+                    widgetModel.widgetElementList.insert(newIndex, item);
+                  });
                 },
               )
             ],

@@ -7,6 +7,7 @@ import 'package:dot_node/web_view/pages/personal/component/insert_container_widg
 import 'package:dot_node/web_view/pages/personal/component/update_container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -44,9 +45,11 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
     const double fContentSize = 16;
     final double fWidth = MediaQuery.of(context).size.width;
     final wControl = ref.read(widgetController);
+    Logger().d("debug22 ${widget.model!.widgetElement.length}");
+    //Logger().d("debug22 ${widget.model!.widgetElement[1].imageFile}");
     return Container(
       width: fWidth,
-      color: Colors.amber,
+      color: Colors.white70,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -59,6 +62,7 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
             SizedBox(height: 24),
             Divider(thickness: 1, height: 1, color: Colors.black),
             SizedBox(height: 24),
+            if (widget.model!.widgetElement[1].imageFile != null) Image.asset(widget.model!.widgetElement[1].imageFile!),
             Text(
               widget.model!.widgetElement[1].content,
               style: TextStyle(fontSize: fContentSize),

@@ -26,8 +26,8 @@ class ResWidgetElement {
   int? elementId;
   String elementName;
   String content;
-  dynamic imageId;
-  dynamic imageFile;
+  int? imageId;
+  String? imageFile;
 
   ResWidgetElement({
     this.elementId,
@@ -53,3 +53,41 @@ class ResWidgetElement {
         "imageFile": imageFile,
       };
 }
+
+//dumyData
+List<WidgetGetRespDto> dumyData = [
+  WidgetGetRespDto(
+    widgetId: 1,
+    widgetName: "ContainerWidget",
+    widgetElement: [
+      ResWidgetElement(
+        elementId: 1,
+        elementName: "title",
+        content: "Container1 Title",
+      ),
+      ResWidgetElement(
+        elementId: 2,
+        elementName: "content",
+        content: "Container1 content",
+        imageFile: "assets/image1.jpeg",
+      ),
+    ],
+  ),
+  WidgetGetRespDto(
+    widgetId: 2,
+    widgetName: "ContainerWidget",
+    widgetElement: [
+      ResWidgetElement(
+        elementId: 3,
+        elementName: "title",
+        content: "Container2 title(1)",
+      ),
+      ResWidgetElement(
+        elementId: 4,
+        elementName: "content",
+        content: "Container2 content(1)",
+        imageFile: "assets/image2.jpeg",
+      ),
+    ],
+  ),
+];
