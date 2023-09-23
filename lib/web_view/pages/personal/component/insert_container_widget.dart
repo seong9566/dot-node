@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
+import '../../../../constant.dart';
+
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-06-17
@@ -20,12 +22,6 @@ import 'package:logger/logger.dart';
  * 위젯의 요소 추가/제거/수정 해야함.
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
-
-const FontWeight fWeight = FontWeight.bold;
-const double fTitleSize = 24;
-const double fContentSize = 16;
-const double fHeight = 400;
-const double fWidth = 600;
 
 // ignore: must_be_immutable
 class InsertContainerWidget extends ConsumerStatefulWidget {
