@@ -4,14 +4,13 @@ import 'package:dot_node/models/session_user.dart';
 import 'package:dot_node/models/widget_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
 
 import '../../../../constant.dart';
 
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-06-17
- * Last Modified: 2023-09-09
+ * Last Modified: 2023-09-23
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -34,22 +33,24 @@ class InsertContainerWidget extends ConsumerStatefulWidget {
 }
 
 class _InsertContainerWidget extends ConsumerState<InsertContainerWidget> {
-  List<Widget> widgetElementList = [];
-  final List<TextEditingController> _titleControllers = [];
-  final List<TextEditingController> _contentControllers = [];
-
-  void addTextInsertForm() {
-    TextEditingController titleController = TextEditingController();
-    TextEditingController contentController = TextEditingController();
-    _titleControllers.add(titleController);
-    _contentControllers.add(contentController);
-    widgetElementList.add(TextInsertForm(title: titleController, content: contentController));
-  }
+  TextEditingController titleController = TextEditingController();
+  TextEditingController contentController = TextEditingController();
+  // 2023.09.23 주석처리
+  //  List<Widget> widgetElementList = [];
+  // final List<TextEditingController> _titleControllers = [];
+  // final List<TextEditingController> _contentControllers = [];
+  // void addTextInsertForm() {
+  //   TextEditingController titleController = TextEditingController();
+  //   TextEditingController contentController = TextEditingController();
+  //   _titleControllers.add(titleController);
+  //   _contentControllers.add(contentController);
+  //   widgetElementList.add(TextInsertForm(title: titleController, content: contentController));
+  // }
 
   @override
   void initState() {
     // 최초의 한개의 InsertForm
-    addTextInsertForm();
+    // addTextInsertForm();
     super.initState();
   }
 
@@ -63,27 +64,11 @@ class _InsertContainerWidget extends ConsumerState<InsertContainerWidget> {
           child: Column(
             children: [
               Column(
-                children: [
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: widgetElementList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return widgetElementList[index];
-                    },
-                  )
-                ],
+                children: [TextInsertForm(titleController: titleController, contentController: contentController)],
               ),
               Row(
                 children: [
                   insertBtn(wControl, context),
-                  elementCreateBtn(
-                    press: () {
-                      setState(() {
-                        addTextInsertForm();
-                        Logger().d("리스트 추가? ${widgetElementList.length}");
-                      });
-                    },
-                  ),
                 ],
               ),
             ],
@@ -92,29 +77,30 @@ class _InsertContainerWidget extends ConsumerState<InsertContainerWidget> {
       ),
     );
   }
-
-  TextButton elementCreateBtn({required VoidCallback press}) {
-    return TextButton(
-      onPressed: press,
-      child: Text("위젯 요소 추가 버튼"),
-    );
-  }
+  // 2023.09.23 주석처리
+  // TextButton elementCreateBtn({required VoidCallback press}) {
+  //   return TextButton(
+  //     onPressed: press,
+  //     child: Text("위젯 요소 추가 버튼"),
+  //   );
+  // }
 
   TextButton insertBtn(WidgetController wControl, BuildContext context) {
     return TextButton(
       onPressed: (() {
-        List<WidgetElement> containerWidgets = [];
-        for (int i = 0; i < widgetElementList.length; i++) {
-          String title = _titleControllers[i].text;
-          String content = _contentControllers[i].text;
-          containerWidgets.add(WidgetElement(elementName: "title", content: title));
-          containerWidgets.add(WidgetElement(elementName: "content", content: content));
-        }
-        // List<WidgetElement> containerWidget = [
-        //   WidgetElement(elementName: "title", content: _title.text),
-        //   WidgetElement(elementName: "content", content: _content.text),
-        // ];
-        wControl.insertWidget(widgetName: "ContainerWidget", userUid: "${SessionUser.user.uid}", widgetElement: containerWidgets);
+        // 2023.09.23 주석처리
+        //  List<WidgetElement> containerWidgets = [];
+        //  for (int i = 0; i < widgetElementList.length; i++) {
+        //   String title = _titleControllers[i].text;
+        //   String content = _contentControllers[i].text;
+        //   containerWidgets.add(WidgetElement(elementName: "title", content: title));
+        //   containerWidgets.add(WidgetElement(elementName: "content", content: content));
+        // }
+        List<WidgetElement> containerWidget = [
+          WidgetElement(elementName: "title", content: titleController.text),
+          WidgetElement(elementName: "content", content: contentController.text),
+        ];
+        wControl.insertWidget(widgetName: "ContainerWidget", userUid: "${SessionUser.user.uid}", widgetElement: containerWidget);
         Navigator.pop(context);
       }),
       child: Text("저장"),
@@ -123,16 +109,10 @@ class _InsertContainerWidget extends ConsumerState<InsertContainerWidget> {
 }
 
 class TextInsertForm extends StatelessWidget {
-  const TextInsertForm({
-    super.key,
-    required TextEditingController title,
-    required TextEditingController content,
-  })  : _title = title,
-        _content = content;
+  const TextInsertForm({required this.titleController, required this.contentController, super.key});
 
-  final TextEditingController _title;
-  final TextEditingController _content;
-
+  final TextEditingController titleController;
+  final TextEditingController contentController;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -171,7 +151,7 @@ class TextInsertForm extends StatelessWidget {
                       ),
                       hintText: '제목을 입력하세요',
                     ),
-                    controller: _title,
+                    controller: titleController,
                   ),
                   TextFormField(
                     style: TextStyle(fontSize: fContentSize),
@@ -180,7 +160,7 @@ class TextInsertForm extends StatelessWidget {
                       border: InputBorder.none,
                       hintText: '내용을 입력하세요.',
                     ),
-                    controller: _content,
+                    controller: contentController,
                   ),
                 ],
               ),
