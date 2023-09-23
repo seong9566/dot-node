@@ -15,7 +15,7 @@ class WidgetElement {
   int? elementId;
   String elementName;
   String content;
-  dynamic imageFile;
+  String? imageFile;
 
   WidgetElement({
     this.elementId,

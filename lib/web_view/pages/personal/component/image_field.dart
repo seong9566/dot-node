@@ -4,23 +4,24 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageField extends StatefulWidget {
-  const ImageField({
+  ImageField({
+    required this.onImagePathChanged,
     super.key,
   });
-
+  final Function(String) onImagePathChanged;
   @override
   State<ImageField> createState() => _ImageFieldState();
 }
 
 class _ImageFieldState extends State<ImageField> {
   final ImagePicker picker = ImagePicker();
-  String imagePath = '';
-
+  String _imagePath = '';
   Future pickedImage() async {
     final XFile? imageFile = await picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
-      imagePath = imageFile?.path ?? '';
+      _imagePath = imageFile?.path ?? '';
+      widget.onImagePathChanged(_imagePath);
     });
   }
 
@@ -44,7 +45,7 @@ class _ImageFieldState extends State<ImageField> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: imagePath == '' ? const SizedBox() : Image.network(imagePath, fit: BoxFit.cover),
+                child: _imagePath == '' ? const SizedBox() : Image.network(_imagePath, fit: BoxFit.cover),
               ),
             ),
             ElevatedButton(

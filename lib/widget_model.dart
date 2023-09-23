@@ -42,7 +42,7 @@ class ContainerWidget extends ConsumerStatefulWidget {
 class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
   TextEditingController _title = TextEditingController();
   TextEditingController _content = TextEditingController();
-
+  String imagePath = '';
   @override
   void initState() {
     super.initState();
@@ -60,9 +60,10 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
   @override
   Widget build(BuildContext context) {
     final wControl = ref.read(widgetController);
-    Logger().d("debug22 ${widget.model!.widgetElement.length}");
+    Logger().d("debug22 ${widget.model!.widgetElement[1].imageFile}");
     final GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
     List<Widget> formField = [];
+
     return GestureDetector(
       onTap: () {
         showGeneralDialog(
@@ -100,12 +101,20 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
                                   onPressed: () {
                                     setState(() {
                                       if (formField.isEmpty) {
-                                        formField.add(ImageField());
+                                        formField.add(
+                                          ImageField(
+                                            onImagePathChanged: (path) {
+                                              setState(() {
+                                                imagePath = path; // imagePath 업데이트
+                                              });
+                                            },
+                                          ),
+                                        );
                                       } else {
                                         Logger().d("이미지 카드는 한개만 추가가 가능합니다.");
                                       }
                                       return;
-                                    }); // 화면 갱신
+                                    });
                                   },
                                   child: Text("이미지 카드 추가"),
                                 ),
@@ -124,12 +133,9 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
                                   children: [
                                     Row(
                                       children: [
-                                        Flexible(
-                                          flex: 4,
-                                          child: FormBuilder(
-                                            key: fbKey,
-                                            child: formField.isNotEmpty ? Flexible(flex: 4, child: formField[0]) : SizedBox(),
-                                          ),
+                                        FormBuilder(
+                                          key: fbKey,
+                                          child: formField.isNotEmpty ? Flexible(flex: 4, child: formField[0]) : SizedBox(),
                                         ),
                                         formField.isNotEmpty ? SizedBox(width: 8) : SizedBox(),
                                         Flexible(
@@ -184,10 +190,15 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
                               children: [
                                 ElevatedButton(
                                   onPressed: (() {
+                                    Logger().d("imagePath : $imagePath");
+
                                     List<WidgetElement> containerWidget = [
                                       WidgetElement(elementId: widget.model!.widgetElement[0].elementId, elementName: "title", content: _title.text),
                                       WidgetElement(
-                                          elementId: widget.model!.widgetElement[1].elementId, elementName: "content", content: _content.text),
+                                          elementId: widget.model!.widgetElement[1].elementId,
+                                          elementName: "content",
+                                          content: _content.text,
+                                          imageFile: imagePath),
                                     ];
                                     wControl.updateWidget(
                                         widgetId: widget.model!.widgetId,
@@ -235,7 +246,7 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
               SizedBox(height: 24),
               Divider(thickness: 1, height: 1, color: Colors.black),
               SizedBox(height: 24),
-              if (widget.model!.widgetElement[1].imageFile != null) Image.asset(widget.model!.widgetElement[1].imageFile!),
+              if (widget.model!.widgetElement[1].imageFile != null) Image.network(widget.model!.widgetElement[1].imageFile!),
               Text(
                 widget.model!.widgetElement[1].content,
                 style: TextStyle(fontSize: fContentSize),
