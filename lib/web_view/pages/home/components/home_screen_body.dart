@@ -1,4 +1,4 @@
-import 'package:dot_node/web_view/pages/home/components/custom_app_bar.dart';
+import 'package:dot_node/web_view/pages/home/components/animated_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreenBody extends StatelessWidget {
@@ -11,7 +11,7 @@ class HomeScreenBody extends StatelessWidget {
       child: Column(
         children: [
           // home/components/custom_app_bar
-          CustomAppBar(),
+          MarQueeAppBar(),
         ],
       ),
     );
