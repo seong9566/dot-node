@@ -1,9 +1,6 @@
-import 'package:dot_node/web_view/pages/personal/personal_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import '../../components/custom_app_bar.dart';
+import 'components/home_screen_body.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -41,67 +38,27 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //final wControl = ref.read(widgetController);
-    //final uModel = ref.watch(userWidgetViewModel.notifier);
-    //WidgetElementModel? widgetModel = ref.watch(userWidgetViewModel);
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    // if (widgetModel == null) {
-    //   return Center(child: CircularProgressIndicator());
-    // }
     return Scaffold(
-      appBar: CustomAppBar(scaffoldKey: scaffoldKey),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Divider(
-              height: 2,
-              color: Colors.grey.shade400,
-            ),
-            SizedBox(height: 100.h),
-            ElevatedButton(
-              onPressed: () {
-                Get.to(PersonalPage());
-              },
-              child: Text("개인페이지"),
-            ),
-          ],
-        ),
-      ),
+      //appBar: CustomAppBar(scaffoldKey: scaffoldKey),
+      // body: SingleChildScrollView(
+      //   child: Column(
+      //     children: [
+      //       Divider(
+      //         height: 2,
+      //         color: Colors.grey.shade400,
+      //       ),
+      //       SizedBox(height: 100.h),
+      //       ElevatedButton(
+      //         onPressed: () {
+      //           Get.to(PersonalPage());
+      //         },
+      //         child: Text("개인페이지"),
+      //       ),
+      //     ],
+      //   ),
+      // ),
+      body: HomeScreenBody(),
     );
-    // return Scaffold(
-    //   body: Padding(
-    //     padding: const EdgeInsets.all(30.0),
-    //     child: ListView.builder(
-    //       itemCount: widgetLists!.length + 1,
-    //       itemBuilder: (context, index) {
-    //         if (index == widgetLists!.length) {
-    //           return Column(
-    //             children: [
-    //               ElevatedButton(
-    //                 onPressed: () {
-    //                   wControl.getWidget(userName: "youngmin");
-    //                 },
-    //                 child: Text("Get요청"),
-    //               ),
-    //               SizedBox(height: 20),
-    //               InsertWidget(
-    //                 widgetList: widgetLists,
-    //                 wControl: wControl,
-    //                 onWidgetAdd: () {
-    //                   setState(() {});
-    //                 },
-    //               ),
-    //             ],
-    //           );
-    //         } else {
-    //           return Padding(
-    //             padding: const EdgeInsets.symmetric(vertical: 20),
-    //             child: widgetLists![index],
-    //           );
-    //         }
-    //       },
-    //     ),
-    //   ),
-    // );
   }
 }
