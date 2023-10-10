@@ -1,5 +1,7 @@
+// ignore_for_file: slash_for_doc_comments
+
 import 'package:dot_node/web_view/pages/home/model/widget_element_model.dart';
-import 'package:dot_node/web_view/pages/personal/component/insert_container_widget.dart';
+import 'package:dot_node/web_view/pages/personal/component/custom_insert_form_modal.dart';
 import 'package:dot_node/web_view/pages/personal/model/personal_widget_view_model.dart';
 import 'package:dot_node/widget_model.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +9,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 
+import '../../../controller/widget_controller.dart';
+import 'component/personal_app_bar.dart';
+
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-07-01
- * Last Modified: 2023-08-21
+ * Last Modified: 2023-09-09
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -31,81 +36,95 @@ class PersonalPage extends ConsumerStatefulWidget {
 }
 
 class _PersonalPageState extends ConsumerState<PersonalPage> {
-  late String _selectedValue;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedValue = 'Container';
-  }
-
-  void selectedWidget(BuildContext context, List<String> dropDownButtonItems) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-          Widget contentWidget;
-          if (_selectedValue == "Container") {
-            contentWidget = InsertContainerWidget();
-          } else if (_selectedValue == "Stack") {
-            contentWidget = StackWidget();
-          } else {
-            contentWidget = ListWidget();
-          }
-          return AlertDialog(
-            title: const Text('사용할 위젯을 선택하세요.'),
-            content: Column(
-              children: [
-                DropdownButton(
-                  value: _selectedValue,
-                  items: dropDownButtonItems.map<DropdownMenuItem<String>>((value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedValue = value!;
-                      Logger().d("selected : $_selectedValue");
-                    });
-                  },
-                ),
-                contentWidget,
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
+//2023.09.23 주석처리 : 전부다 Modal창으로 변환
+// late String _selectedValue;
+//   @override
+//   void initState() {
+//     super.initState();
+//     _selectedValue = 'Container';
+//   }
+  // void selectedWidget(
+  //   BuildContext context,
+  //   List<String> dropDownButtonItems,
+  //   WidgetController wControl,
+  // ) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) => StatefulBuilder(
+  //       builder: (BuildContext context, StateSetter setState) {
+  //         Widget contentWidget;
+  //         if (_selectedValue == "Container") {
+  //           //contentWidget = customInsertFormModal(context: context, wControl: wControl);
+  //         } else if (_selectedValue == "Stack") {
+  //           contentWidget = StackWidget();
+  //         } else {
+  //           contentWidget = ListWidget();
+  //         }
+  //         return AlertDialog(
+  //           scrollable: true,
+  //           title: const Text('사용할 위젯을 선택하세요.'),
+  //           content: Column(
+  //             children: [
+  //               DropdownButton(
+  //                 value: _selectedValue,
+  //                 items: dropDownButtonItems.map<DropdownMenuItem<String>>((value) {
+  //                   return DropdownMenuItem<String>(
+  //                     value: value,
+  //                     child: Text(value),
+  //                   );
+  //                 }).toList(),
+  //                 onChanged: (value) {
+  //                   setState(() {
+  //                     _selectedValue = value!;
+  //                     Logger().d("selected : $_selectedValue");
+  //                   });
+  //                 },
+  //               ),
+  //               SizedBox(
+  //                 height: MediaQuery.of(context).size.height,
+  //                 width: MediaQuery.of(context).size.width,
+  //                 // child: contentWidget,
+  //               )
+  //             ],
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     WidgetElementModel? widgetModel = ref.watch(personalWidgetViewModel);
+    WidgetController wController = ref.read(widgetController);
     if (widgetModel == null) {
       Logger().d("model이 null입니다.");
       return Center(child: CircularProgressIndicator());
     } else {
-      Logger().d("personal페이지 출력 : ${widgetModel.widgetElementList.length}");
-      List<String> dropDownButtonItems = <String>["Container", "Stack", "List"];
+      //  List<String> dropDownButtonItems = <String>["Container", "Stack", "List"];
       return Scaffold(
         appBar: PersonalAppBar(),
         backgroundColor: firstBackGroundColor,
         body: SingleChildScrollView(
           child: Column(
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  selectedWidget(context, dropDownButtonItems);
-                },
-                child: Text("위젯 추가하기"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      //selectedWidget(context, dropDownButtonItems, wController);
+                      customInsertFormModal(context: context, wControl: wController);
+                    },
+                    child: Text("Container 위젯 추가하기"),
+                  ),
+                ],
               ),
               ReorderableListView.builder(
                 buildDefaultDragHandles: false,
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
-                itemCount: widgetModel.widgetElementList.length,
+                itemCount: widgetModel.widgetElementList.length, //Element의 갯수만큼
                 itemBuilder: (context, index) {
                   final data = widgetModel.widgetElementList[index];
                   if (data.widgetName == "ContainerWidget") {
@@ -145,89 +164,5 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
         ),
       );
     }
-  }
-}
-
-class PersonalAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const PersonalAppBar({Key? key}) : super(key: key);
-  @override
-  Size get preferredSize => Size.fromHeight(60);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0).w,
-      child: SizedBox(
-        width: double.infinity,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: 70.w,
-              height: 70.h,
-              child: InkWell(
-                child: Image.asset(
-                  "assets/metalogo.png",
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                'MAIN',
-                style: appBarText,
-              ),
-            ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                'PROFILE',
-                style: appBarText,
-              ),
-            ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                'WORKS',
-                style: appBarText,
-              ),
-            ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                'CONTACT',
-                style: appBarText,
-              ),
-            ),
-            SizedBox(width: 1200.w),
-            Stack(
-              alignment: Alignment.centerRight,
-              children: [
-                Positioned(
-                  child: Transform.scale(
-                    scale: 1.0,
-                    child: Transform.translate(
-                      offset: Offset(0, 0),
-                      child: Icon(
-                        Icons.apple_rounded,
-                        size: 50,
-                        color: Color.fromRGBO(110, 110, 110, 110),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  child: Text(
-                    "INDUSTRIAL DESIGNER",
-                    style: textStyle,
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
   }
 }

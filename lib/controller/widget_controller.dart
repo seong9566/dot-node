@@ -38,6 +38,7 @@ class WidgetController {
 
   Future<void> insertWidget({required String widgetName, required String userUid, required List<WidgetElement> widgetElement}) async {
     WidgetInsertReqDto widgetInsertReqDto = WidgetInsertReqDto(widgetName: widgetName, userUid: userUid, widgetElement: widgetElement);
+    Logger().d("debug 인설트 ${widgetInsertReqDto.widgetElement[1].imageFile}");
     try {
       String? jwtToken = SessionUser.jwtToken;
       ResponseDto responseDto = await widgetService.fetchInsertWidget(widgetInsertReqDto: widgetInsertReqDto, jwtToken: jwtToken);

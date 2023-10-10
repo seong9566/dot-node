@@ -3,10 +3,11 @@
 import 'package:dot_node/controller/widget_controller.dart';
 import 'package:dot_node/dto/response/widget_get_resp_dto.dart';
 import 'package:dot_node/models/session_user.dart';
-import 'package:dot_node/web_view/pages/personal/component/insert_container_widget.dart';
-import 'package:dot_node/web_view/pages/personal/component/update_container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'constant.dart';
+import 'web_view/pages/personal/component/custom_detail_form_modal.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -36,63 +37,65 @@ class ContainerWidget extends ConsumerStatefulWidget {
 }
 
 class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
+  List<Widget> formField = [];
+  final oldTitle = TextEditingController();
+  final oldContent = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    oldTitle.text = widget.model!.widgetElement[0].content;
+    oldContent.text = widget.model!.widgetElement[1].content;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    oldTitle.dispose();
+    oldContent.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // 모든 위젯의 변수들은 전역적으로 관리
-    const FontWeight fWeight = FontWeight.bold;
-    const double fTitleSize = 24;
-    const double fContentSize = 16;
-    final double fWidth = MediaQuery.of(context).size.width;
     final wControl = ref.read(widgetController);
-    return Container(
-      width: fWidth,
-      color: Colors.amber,
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.model!.widgetElement[0].content,
-              style: TextStyle(fontSize: fTitleSize, fontWeight: fWeight),
-            ),
-            SizedBox(height: 24),
-            Divider(thickness: 1, height: 1, color: Colors.black),
-            SizedBox(height: 24),
-            Text(
-              widget.model!.widgetElement[1].content,
-              style: TextStyle(fontSize: fContentSize),
-            ),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => StatefulBuilder(
-                        builder: (BuildContext context, StateSetter setState) {
-                          return AlertDialog(
-                            title: Text("위젯 내용 수정"),
-                            content: UpdateContainerWidget(model: widget.model),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                  child: Text("수정"),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    wControl.deleteWidget(widgetId: widget.model!.widgetId, userUid: "${SessionUser.user.uid}");
-                  },
-                  child: Text("삭제"),
-                ),
-              ],
-            ),
-          ],
+    return GestureDetector(
+      onTap: () {
+        customDetailFormModal(context: context, formField: formField, wControl: wControl, model: widget.model, title: oldTitle, content: oldContent);
+      },
+      child: Container(
+        width: fWidth,
+        color: Colors.white70,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.model!.widgetElement[0].content,
+                style: TextStyle(fontSize: fTitleSize, fontWeight: fWeight),
+              ),
+              SizedBox(height: 24),
+              Divider(thickness: 1, height: 1, color: Colors.black),
+              SizedBox(height: 24),
+              if (widget.model!.widgetElement[1].imageFile != null) Image.network(widget.model!.widgetElement[1].imageFile!),
+              Text(
+                widget.model!.widgetElement[1].content,
+                style: TextStyle(fontSize: fContentSize),
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      wControl.deleteWidget(widgetId: widget.model!.widgetId, userUid: "${SessionUser.user.uid}");
+                    },
+                    child: Text("삭제"),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
