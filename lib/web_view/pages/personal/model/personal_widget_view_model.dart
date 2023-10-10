@@ -34,6 +34,7 @@ class PersonalWidgetViewModel extends StateNotifier<WidgetElementModel?> {
       Logger().d("userUid = $userUid");
       ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userUid, jwtToken: SessionUser.jwtToken);
       state = WidgetElementModel(responseDto.data);
+      // Logger().d("asdasd   ${state!.widgetElementList[4].widgetElement[1].imageFile}");
     } catch (e) {
       Logger().d("Error : $e , name : userWidgetViewModel, method : notifyViewModel");
     }

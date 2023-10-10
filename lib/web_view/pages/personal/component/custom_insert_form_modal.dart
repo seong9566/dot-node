@@ -4,18 +4,25 @@ import 'package:logger/logger.dart';
 
 import '../../../../constant.dart';
 import '../../../../controller/widget_controller.dart';
-import '../../../../dto/response/widget_get_resp_dto.dart';
 import '../../../../models/session_user.dart';
 import '../../../../models/widget_element.dart';
 import 'image_field.dart';
 
-Future<Object?> customDialog(BuildContext context, List<Widget> formField, GlobalKey<FormBuilderState> fbKey, WidgetController wControl,
-    WidgetGetRespDto? model, TextEditingController title, content) {
+Future<Object?> customInsertFormModal({
+  required BuildContext context,
+  required WidgetController wControl,
+}) {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController contentController = TextEditingController();
+
+  //image 변수들
   String imagePath = '';
+  final GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
+  List<Widget> formField = [];
 
   return showGeneralDialog(
     barrierDismissible: true,
-    barrierLabel: "detail modal",
+    barrierLabel: "insert Widget modal",
     context: context,
     pageBuilder: (context, _, __) {
       // StatefulBuilder를 사용한 이유 : dialog 객체 자체의 state를 가지기 위함과, 사용하지 않았을 시 image 카드 추가 버튼 클릭 시 setState는 부모 위젯에서 실행됌,
@@ -53,6 +60,7 @@ Future<Object?> customDialog(BuildContext context, List<Widget> formField, Globa
                                       onImagePathChanged: (path) {
                                         setState(() {
                                           imagePath = path; // imagePath 업데이트
+                                          Logger().d("debug 456 $imagePath");
                                         });
                                       },
                                     ),
@@ -111,7 +119,7 @@ Future<Object?> customDialog(BuildContext context, List<Widget> formField, Globa
                                               ),
                                               hintText: '제목을 입력하세요',
                                             ),
-                                            controller: title,
+                                            controller: titleController,
                                           ),
                                           TextFormField(
                                             style: TextStyle(fontSize: fContentSize),
@@ -120,7 +128,7 @@ Future<Object?> customDialog(BuildContext context, List<Widget> formField, Globa
                                               border: InputBorder.none,
                                               hintText: '내용을 입력하세요.',
                                             ),
-                                            controller: content,
+                                            controller: contentController,
                                           ),
                                         ],
                                       ),
@@ -137,30 +145,17 @@ Future<Object?> customDialog(BuildContext context, List<Widget> formField, Globa
                         children: [
                           ElevatedButton(
                             onPressed: (() {
-                              Logger().d("imagePath : $imagePath");
+                              Logger().d("debug 123 imagePath : $imagePath");
 
                               List<WidgetElement> containerWidget = [
-                                WidgetElement(elementId: model!.widgetElement[0].elementId, elementName: "title", content: title.text),
-                                WidgetElement(
-                                    elementId: model.widgetElement[1].elementId, elementName: "content", content: content.text, imageFile: imagePath),
+                                WidgetElement(elementName: "title", content: titleController.text),
+                                WidgetElement(elementName: "content", content: contentController.text, imageFile: imagePath),
                               ];
-                              wControl.updateWidget(
-                                  widgetId: model.widgetId,
-                                  widgetName: "ContainerWidget",
-                                  userUid: "${SessionUser.user.uid}",
-                                  widgetElement: containerWidget);
+                              wControl.insertWidget(
+                                  widgetName: "ContainerWidget", userUid: "${SessionUser.user.uid}", widgetElement: containerWidget);
                               Navigator.pop(context);
                             }),
                             child: Text("저장"),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              wControl.deleteWidget(widgetId: model!.widgetId, userUid: "${SessionUser.user.uid}");
-                            },
-                            child: Text("삭제"),
                           ),
                         ],
                       ),

@@ -4,11 +4,10 @@ import 'package:dot_node/controller/widget_controller.dart';
 import 'package:dot_node/dto/response/widget_get_resp_dto.dart';
 import 'package:dot_node/models/session_user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'constant.dart';
-import 'web_view/pages/personal/component/detail_widget_modal.dart';
+import 'web_view/pages/personal/component/custom_detail_form_modal.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -38,7 +37,6 @@ class ContainerWidget extends ConsumerStatefulWidget {
 }
 
 class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
-  final GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
   List<Widget> formField = [];
   final oldTitle = TextEditingController();
   final oldContent = TextEditingController();
@@ -61,7 +59,7 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
     final wControl = ref.read(widgetController);
     return GestureDetector(
       onTap: () {
-        customDialog(context, formField, fbKey, wControl, widget.model, oldTitle, oldContent);
+        customDetailFormModal(context: context, formField: formField, wControl: wControl, model: widget.model, title: oldTitle, content: oldContent);
       },
       child: Container(
         width: fWidth,
