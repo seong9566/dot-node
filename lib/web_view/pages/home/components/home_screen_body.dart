@@ -1,5 +1,6 @@
-import 'package:dot_node/web_view/pages/home/components/animated_app_bar.dart';
 import 'package:flutter/material.dart';
+
+import 'animated_app_bar.dart';
 
 class HomeScreenBody extends StatelessWidget {
   const HomeScreenBody({super.key});

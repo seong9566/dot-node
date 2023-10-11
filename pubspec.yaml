@@ -54,6 +54,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+  fonts:
+  - family: Akira
+    fonts:
+      - asset: assets/fonts/akira_expanded/Akira_Expanded.otf
 
 platforms:
   web:

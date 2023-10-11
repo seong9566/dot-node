@@ -1,6 +1,7 @@
-import 'package:dot_node/web_view/pages/home/components/app_bar_model.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+
+import 'app_bar_model.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -18,19 +19,21 @@ import 'package:logger/logger.dart';
 class MarQueeAppBar extends StatefulWidget {
   const MarQueeAppBar({
     super.key,
-    this.moveDuration = const Duration(milliseconds: 100),
   });
-  final Duration moveDuration;
-
   @override
   State<MarQueeAppBar> createState() => _MarQueeAppBarState();
 }
 
 class _MarQueeAppBarState extends State<MarQueeAppBar> {
   late ScrollController _scrollController;
+  double _position = 0.0;
+  Duration animationDuration = Duration(milliseconds: 100);
 
   Future<bool> _scroll() async {
-    Logger().d("scroll");
+    double moveDistance = 10.0;
+    _position -= moveDistance;
+
+    await _scrollController.animateTo(_position, duration: animationDuration, curve: Curves.linear);
     return true;
   }
 
@@ -38,7 +41,7 @@ class _MarQueeAppBarState extends State<MarQueeAppBar> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       Logger().d("콜백 함수 실행");
       Future.doWhile(_scroll);
     });
@@ -52,20 +55,21 @@ class _MarQueeAppBarState extends State<MarQueeAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    //얘가 item을 받아야함.
     return Container(
       width: MediaQuery.sizeOf(context).width,
       height: 32,
       color: Colors.grey.shade800,
       //row 아래 ListView의 Axis.horizontal가 중첩되기 때문에 사용금지.
       child: ListView.builder(
-        controller: _scrollController,
+        //controller: _scrollController,
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         itemCount: appBarTextList.length,
         itemBuilder: (context, index) => AppBarText(
-          dotChain: appBarTextList[index].dotChain,
-          str: appBarTextList[index].str,
+          dotChain: appBarTextList[index % appBarTextList.length].dotChain,
+          str: appBarTextList[index % appBarTextList.length].str,
         ),
       ),
     );
@@ -96,6 +100,7 @@ class _AppBarTextState extends State<AppBarText> {
             child: Text(
               widget.str,
               style: TextStyle(
+                fontFamily: "Akira",
                 color: Colors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -103,7 +108,7 @@ class _AppBarTextState extends State<AppBarText> {
             ),
           ),
           Container(
-            width: 120,
+            width: 150,
             padding: EdgeInsets.symmetric(horizontal: 14),
             margin: EdgeInsets.only(right: 20),
             decoration: BoxDecoration(
@@ -115,6 +120,7 @@ class _AppBarTextState extends State<AppBarText> {
               child: Text(
                 widget.dotChain,
                 style: TextStyle(
+                  fontFamily: "Akira",
                   color: Colors.grey.shade800,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
