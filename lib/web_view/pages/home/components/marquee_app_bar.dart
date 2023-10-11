@@ -62,7 +62,7 @@ class _MarQueeAppBarState extends State<MarQueeAppBar> {
       color: Colors.grey.shade800,
       //row 아래 ListView의 Axis.horizontal가 중첩되기 때문에 사용금지.
       child: ListView.builder(
-        //controller: _scrollController,
+        controller: _scrollController,
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),

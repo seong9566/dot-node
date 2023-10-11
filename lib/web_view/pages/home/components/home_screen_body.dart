@@ -36,6 +36,8 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
           MarQueeAppBar(),
           SizedBox(height: 100),
           HomeBanner(),
+          SizedBox(height: 100),
+          HomeBanner(),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'components/custom_bottom_nav.dart';
 import 'components/home_screen_body.dart';
 
 /*
@@ -32,27 +33,12 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-      //appBar: CustomAppBar(scaffoldKey: scaffoldKey),
-      // body: SingleChildScrollView(
-      //   child: Column(
-      //     children: [
-      //       Divider(
-      //         height: 2,
-      //         color: Colors.grey.shade400,
-      //       ),
-      //       SizedBox(height: 100.h),
-      //       ElevatedButton(
-      //         onPressed: () {
-      //           Get.to(PersonalPage());
-      //         },
-      //         child: Text("개인페이지"),
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      body: HomeScreenBody(),
+      extendBody: true,
+      body: SingleChildScrollView(
+        child: HomeScreenBody(),
+      ),
+      bottomNavigationBar: CustomBottomNav(),
     );
   }
 }

@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
  *              Description
  * HomeBanner Content
  * 
+ * 만약 모두 이동 애니메이션이 필요해진다면 , border,width등에 if문이 필요해진다.  
+ * -> 시간 소요가 너무 많이 될 것 같으니 보류, 디자인 변경이 가능한지 물어보기.
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
