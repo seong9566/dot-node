@@ -20,13 +20,13 @@ class BannerContent extends StatefulWidget {
     required this.width,
     required this.height,
     required this.color,
-    required this.onTap,
+    this.onPanUpdate,
     super.key,
   });
   final double width, height;
   final Color color;
   final String? content;
-  final VoidCallback onTap;
+  final GestureDragUpdateCallback? onPanUpdate;
 
   @override
   State<BannerContent> createState() => _BannerContentState();
@@ -36,7 +36,7 @@ class _BannerContentState extends State<BannerContent> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onPanUpdate: widget.onPanUpdate,
       child: Container(
         width: widget.width,
         height: widget.height,

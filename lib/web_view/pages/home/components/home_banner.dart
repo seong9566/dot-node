@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 
 import 'banner_content.dart';
 
@@ -35,12 +34,7 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
           width: 1266,
           height: 453,
           color: Colors.grey.shade200,
-          onTap: () {
-            setState(() {
-              Logger().d("index : $currentPage");
-              currentPage = 3;
-            });
-          },
+          //currentPage = 3;
         ),
         // 2번 배너
         Positioned(
@@ -50,12 +44,7 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
             width: 1121,
             height: 453,
             color: Colors.grey.shade300,
-            onTap: () {
-              setState(() {
-                Logger().d("index : $currentPage");
-                currentPage = 2;
-              });
-            },
+            //currentPage = 2;
           ),
         ),
         // 3번 배너
@@ -66,12 +55,7 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
             width: 1121,
             height: 453,
             color: Colors.grey.shade400,
-            onTap: () {
-              setState(() {
-                Logger().d("index : $currentPage");
-                currentPage = 1;
-              });
-            },
+            //currentPage = 2;
           ),
         ),
         // 4번 배너
@@ -132,18 +116,6 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
                   : SizedBox(),
             ),
           ),
-          // child: BannerContent(
-          //   width: 1121,
-          //   height: 453,
-          //   color: Colors.grey.shade500,
-          //   "MAIN BANNER IMAGE",
-          //   onTap: () {
-          //     setState(() {
-          //       currentPage = 0;
-          //       Logger().d("index : $currentPage");
-          //     });
-          //   },
-          // ),
         ),
         Positioned(
           bottom: 40,
