@@ -25,12 +25,6 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
     super.initState();
   }
 
-  void _handleDragStart() {
-    setState(() {
-      isDragged = true;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -84,29 +78,37 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
         Positioned(
           left: 30,
           child: GestureDetector(
-            onTap: () {
-              // setState(() {
-              //   Logger().d("index : $currentPage");
-              //   currentPage = 1;
-              //   if (currentPage == 1) {
-              //     _animationController.forward();
-              //   } else {
-              //     _animationController.reverse();
-              //   }
-              // });
-              setState(() {
-                currentPage = 0;
-              });
+            onPanUpdate: (details) {
+              // 드래그 중인 좌표 변경을 감지
+              final dx = details.delta.dx;
+
+              if (currentPage == 0) {
+                // 현재 0번 배너이 표시 중일 때 드래그 처리
+                if (dx < 0) {
+                  // 왼쪽으로 드래그하면 배너를 축소
+                  setState(() {
+                    currentPage = 1;
+                  });
+                }
+              } else {
+                // 다른 배너가 표시 중일 때 복귀
+                if (dx > 0) {
+                  // 오른쪽으로 드래그하면 0번 배너로 복귀
+                  setState(() {
+                    currentPage = 0;
+                  });
+                }
+              }
             },
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 300),
-              width: currentPage == 0 ? 1121 : 40,
+              duration: Duration(milliseconds: 200),
+              width: currentPage == 0 ? 1121 : 60,
               height: 453,
               decoration: BoxDecoration(
                 color: Colors.grey.shade500,
                 borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(240),
-                  bottomRight: Radius.circular(240),
+                  topRight: Radius.circular(currentPage == 0 ? 240 : 20),
+                  bottomRight: Radius.circular(currentPage == 0 ? 240 : 20),
                   topLeft: Radius.circular(20),
                   bottomLeft: Radius.circular(20),
                 ),
