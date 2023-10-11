@@ -30,12 +30,6 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   List<Widget>? widgetLists = [];
 
-  final FontWeight fWeight = FontWeight.bold;
-  final double fTitleSize = 24;
-  final double fContentSize = 16;
-  final double fHeight = 400;
-  final double fWidth = 600;
-
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
