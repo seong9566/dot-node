@@ -1,7 +1,24 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 
 import 'banner_content.dart';
+
+/*
+ * Project Name:  [DOTnode]
+ * Created Date: 2023-10-09
+ * Last Modified: 2023-10-11
+ * Author: Hyeonseong
+ * Modified By: Hyeonseong
+ * copyright @ 2023 TeamDOT
+ * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+ *              Description
+ * Banner 위젯 주의사항
+ * Stack위젯 사용의 특징을 주의해야함
+ * 제일 위에 보이는 Banner가 User에겐 1번 Banner 이지만, Stack위젯 기준으로 4번(가장 위에 쌓여있음) Banner임 헷갈림 주의하기!
+ * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+ */
 
 class HomeBanner extends StatefulWidget {
   const HomeBanner({super.key});
@@ -11,139 +28,132 @@ class HomeBanner extends StatefulWidget {
 }
 
 class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateMixin {
+  double totalBannerWidth = 920.w;
+  double totalBannerHeight = 360.h;
   int currentPage = 0;
-  //bool isSlide = false;
-  late AnimationController _animationController;
-  bool isDragged = false;
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    super.initState();
-  }
 
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
+  // late AnimationController _animationController;
+  // bool isDragged = false;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _animationController = AnimationController(
+  //     vsync: this,
+  //     duration: const Duration(milliseconds: 400),
+  //   );
+  //   super.initState();
+  // }
+
+  // @override
+  // void dispose() {
+  //   _animationController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // 1번 배너
-        BannerContent(
-          "Banner 4",
-          width: 1266.w,
-          height: 453.h,
-          color: Colors.grey.shade200,
-          //currentPage = 3;
-        ),
-        // 2번 배너
-        Positioned(
-          right: 30,
-          child: BannerContent(
-            "Banner 3",
-            width: 1121.w,
-            height: 453.h,
-            color: Colors.grey.shade300,
-            //currentPage = 2;
+        IconButton(
+          onPressed: () {
+            if (currentPage > 0) {
+              // 현재 페이지가 0보다 크다면 --
+              // 현재 페이지가 0과 같다면 3으로 돌아감.
+              currentPage--;
+            } else {
+              currentPage = 3;
+            }
+          },
+          icon: Icon(
+            CupertinoIcons.back,
+            color: Colors.black,
           ),
         ),
-        // 3번 배너
-        Positioned(
-          right: 80,
-          child: BannerContent(
-            "Banner 2",
-            width: 1121.w,
-            height: 453.h,
-            color: Colors.grey.shade400,
-            //currentPage = 2;
-          ),
-        ),
-        // 4번 배너
-        Positioned(
-          left: 30,
-          child: GestureDetector(
-            onPanUpdate: (details) {
-              // 드래그 중인 좌표 변경을 감지
-              final dx = details.delta.dx;
-
-              if (currentPage == 0) {
-                // 현재 0번 배너이 표시 중일 때 드래그 처리
-                if (dx < 0) {
-                  // 왼쪽으로 드래그하면 배너를 축소
-                  setState(() {
-                    currentPage = 1;
-                  });
-                }
-              } else {
-                // 다른 배너가 표시 중일 때 복귀
-                if (dx > 0) {
-                  // 오른쪽으로 드래그하면 0번 배너로 복귀
-                  setState(() {
-                    currentPage = 0;
-                  });
-                }
-              }
-            },
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 200),
-              width: currentPage == 0.w ? 1121.w : 60.w,
-              height: 453.h,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade500,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(currentPage == 0 ? 240 : 20),
-                  bottomRight: Radius.circular(currentPage == 0 ? 240 : 20),
-                  topLeft: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
+        SizedBox(
+          width: totalBannerWidth,
+          height: totalBannerHeight,
+          child: Stack(
+            children: [
+              Positioned(
+                left: 24,
+                child: BannerContent(
+                  "Banner 4",
+                  color: Colors.grey.shade200,
+                  onTap: () {
+                    setState(() {});
+                  },
                 ),
               ),
-              child: currentPage == 0
-                  ? Padding(
-                      padding: EdgeInsets.only(left: 60),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "MAIN BANNER IMAGE",
-                          style: TextStyle(
-                            fontFamily: "Akira",
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22.sp,
-                            color: Colors.white,
-                          ),
-                        ),
+              // 2번 배너
+              Positioned(
+                left: 16,
+                child: BannerContent(
+                  "Banner 3",
+                  color: Colors.grey.shade300,
+                  onTap: () {},
+                ),
+              ),
+              // 3번 배너
+              Positioned(
+                left: 8,
+                child: BannerContent(
+                  "Banner 2",
+                  color: Colors.grey.shade400,
+                  onTap: () {},
+                ),
+              ),
+              // 4번 배너
+              Positioned(
+                left: 0,
+                child: BannerContent(
+                  color: Colors.grey.shade500,
+                  "Banner1",
+                  onTap: () {},
+                ),
+              ),
+              Positioned(
+                bottom: 40,
+                right: 0,
+                left: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    //itemCount : 4
+                    4,
+                    (index) => AnimatedContainer(
+                      duration: Duration(microseconds: 300),
+                      margin: const EdgeInsets.only(right: 5),
+                      height: 8.h,
+                      width: currentPage == index ? 20.w : 8.w,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                    )
-                  : SizedBox(),
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 40,
-          right: 0,
-          left: 0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              //itemCount : 4
-              4,
-              (index) => AnimatedContainer(
-                duration: Duration(microseconds: 300),
-                margin: const EdgeInsets.only(right: 5),
-                height: 8.h,
-                width: currentPage == index ? 20.w : 8.w,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            setState(() {
+              if (currentPage < 3) {
+                // 현재 페이지가 3보다 작다면 ++
+                // 현재 페이지가 3과 같다면 0으로 돌아감.
+                currentPage++;
+                Logger().d("currentPage = $currentPage");
+              } else {
+                currentPage = 0;
+                Logger().d("currentPage = $currentPage");
+              }
+            });
+          },
+          icon: Icon(
+            CupertinoIcons.forward,
+            color: Colors.black,
           ),
         ),
       ],

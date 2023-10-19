@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -19,29 +20,28 @@ import 'package:flutter/material.dart';
 class BannerContent extends StatefulWidget {
   BannerContent(
     this.content, {
-    required this.width,
-    required this.height,
     required this.color,
-    this.onPanUpdate,
+    this.onTap,
     super.key,
   });
-  final double width, height;
   final Color color;
   final String? content;
-  final GestureDragUpdateCallback? onPanUpdate;
+  final VoidCallback? onTap;
 
   @override
   State<BannerContent> createState() => _BannerContentState();
 }
 
 class _BannerContentState extends State<BannerContent> {
+  double bannerWidget = 880.0.w;
+  double bannerHeight = 360.0.h;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onPanUpdate: widget.onPanUpdate,
+      onTap: widget.onTap,
       child: Container(
-        width: widget.width,
-        height: widget.height,
+        width: bannerWidget,
+        height: bannerHeight,
         decoration: BoxDecoration(
           color: widget.color,
           borderRadius: BorderRadius.only(
@@ -62,7 +62,7 @@ class _BannerContentState extends State<BannerContent> {
                     style: TextStyle(
                       fontFamily: "Akira",
                       fontWeight: FontWeight.bold,
-                      fontSize: 22,
+                      fontSize: 22.sp,
                       color: Colors.white,
                     ),
                   ),
