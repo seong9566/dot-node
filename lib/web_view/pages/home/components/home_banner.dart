@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logger/logger.dart';
 
-import 'banner_content.dart';
+import 'animated_banner_content.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -27,91 +26,85 @@ class HomeBanner extends StatefulWidget {
   State<HomeBanner> createState() => _HomeBannerState();
 }
 
-class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateMixin {
+class _HomeBannerState extends State<HomeBanner> {
   double totalBannerWidth = 920.w;
   double totalBannerHeight = 360.h;
   int currentPage = 0;
-
-  // late AnimationController _animationController;
-  // bool isDragged = false;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _animationController = AnimationController(
-  //     vsync: this,
-  //     duration: const Duration(milliseconds: 400),
-  //   );
-  //   super.initState();
-  // }
-
-  // @override
-  // void dispose() {
-  //   _animationController.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        IconButton(
-          onPressed: () {
-            if (currentPage > 0) {
-              // 현재 페이지가 0보다 크다면 --
-              // 현재 페이지가 0과 같다면 3으로 돌아감.
-              currentPage--;
-            } else {
-              currentPage = 3;
-            }
-          },
-          icon: Icon(
-            CupertinoIcons.back,
-            color: Colors.black,
-          ),
-        ),
+        BannerSideBtn(
+            icon: Icon(
+              CupertinoIcons.back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              setState(() {
+                if (currentPage > 0) {
+                  currentPage--;
+                } else {
+                  currentPage = 3;
+                }
+              });
+            }),
         SizedBox(
           width: totalBannerWidth,
           height: totalBannerHeight,
           child: Stack(
             children: [
+              // 4번 배너
               Positioned(
                 left: 24,
-                child: BannerContent(
+                child: AnimatedBannerContent(
                   "Banner 4",
-                  color: Colors.grey.shade200,
-                  onTap: () {
-                    setState(() {});
-                  },
-                ),
-              ),
-              // 2번 배너
-              Positioned(
-                left: 16,
-                child: BannerContent(
-                  "Banner 3",
-                  color: Colors.grey.shade300,
                   onTap: () {},
+                  currentPage: currentPage,
+                  color: Colors.grey.shade200,
+                  width: 880.w,
+                  isPageZero: true,
                 ),
               ),
               // 3번 배너
               Positioned(
+                left: 16,
+                child: AnimatedBannerContent(
+                  "Banner 3",
+                  onTap: () {},
+                  currentPage: currentPage,
+                  color: Colors.grey.shade300,
+                  width: currentPage == 1 || currentPage == 0 || currentPage == 2 ? 880.w : 0.w,
+                  isPageZero: currentPage == 1 || currentPage == 0 || currentPage == 2 ? true : false,
+                ),
+              ),
+              // 2번 배너
+              Positioned(
                 left: 8,
-                child: BannerContent(
+                child: AnimatedBannerContent(
                   "Banner 2",
+                  currentPage: currentPage,
                   color: Colors.grey.shade400,
                   onTap: () {},
+                  width: currentPage == 1 || currentPage == 0 ? 880.w : 0.w,
+                  isPageZero: currentPage == 1 || currentPage == 0 ? true : false,
                 ),
               ),
-              // 4번 배너
+              // 1번 배너
               Positioned(
                 left: 0,
-                child: BannerContent(
+                child: AnimatedBannerContent(
+                  "Banner 1",
+                  currentPage: currentPage,
                   color: Colors.grey.shade500,
-                  "Banner1",
                   onTap: () {},
+                  width: currentPage == 0 ? 880.w : 0.w,
+                  isPageZero: currentPage == 0 ? true : false,
                 ),
               ),
+
+              // dotButton
               Positioned(
                 bottom: 40,
                 right: 0,
@@ -119,17 +112,10 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
-                    //itemCount : 4
                     4,
-                    (index) => AnimatedContainer(
-                      duration: Duration(microseconds: 300),
-                      margin: const EdgeInsets.only(right: 5),
-                      height: 8.h,
-                      width: currentPage == index ? 20.w : 8.w,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
+                    (index) => AnimatedDot(
+                      currentPage: currentPage,
+                      index: index,
                     ),
                   ),
                 ),
@@ -137,26 +123,66 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
             ],
           ),
         ),
-        IconButton(
-          onPressed: () {
-            setState(() {
-              if (currentPage < 3) {
-                // 현재 페이지가 3보다 작다면 ++
-                // 현재 페이지가 3과 같다면 0으로 돌아감.
-                currentPage++;
-                Logger().d("currentPage = $currentPage");
-              } else {
-                currentPage = 0;
-                Logger().d("currentPage = $currentPage");
-              }
-            });
-          },
-          icon: Icon(
-            CupertinoIcons.forward,
-            color: Colors.black,
-          ),
-        ),
+        BannerSideBtn(
+            icon: Icon(
+              CupertinoIcons.forward,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              setState(
+                () {
+                  if (currentPage < 3) {
+                    currentPage++;
+                  } else {
+                    currentPage = 0;
+                  }
+                },
+              );
+            })
       ],
+    );
+  }
+}
+
+class AnimatedDot extends StatelessWidget {
+  const AnimatedDot({
+    super.key,
+    required this.currentPage,
+    required this.index,
+  });
+
+  final int currentPage;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 100),
+      margin: const EdgeInsets.only(right: 8),
+      height: 8.h,
+      width: currentPage == index ? 20.w : 8.w,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(4),
+      ),
+    );
+  }
+}
+
+class BannerSideBtn extends StatelessWidget {
+  const BannerSideBtn({
+    required this.onPressed,
+    required this.icon,
+    super.key,
+  });
+
+  final VoidCallback onPressed;
+  final Icon icon;
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: icon,
     );
   }
 }

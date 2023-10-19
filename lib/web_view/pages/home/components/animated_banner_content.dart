@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-10-11
- * Last Modified: 2023-10-11
+ * Last Modified: 2023-10-19
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -17,33 +17,34 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
-class BannerContent extends StatefulWidget {
-  BannerContent(
+class AnimatedBannerContent extends StatelessWidget {
+  const AnimatedBannerContent(
     this.content, {
-    required this.color,
-    this.onTap,
     super.key,
+    required this.currentPage,
+    required this.color,
+    required this.onTap,
+    required this.width,
+    required this.isPageZero,
   });
+
+  final int currentPage;
   final Color color;
   final String? content;
-  final VoidCallback? onTap;
+  final VoidCallback onTap;
+  final double width;
+  final bool isPageZero;
 
-  @override
-  State<BannerContent> createState() => _BannerContentState();
-}
-
-class _BannerContentState extends State<BannerContent> {
-  double bannerWidget = 880.0.w;
-  double bannerHeight = 360.0.h;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
-      child: Container(
-        width: bannerWidget,
-        height: bannerHeight,
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 100),
+        width: width,
+        height: 360.h,
         decoration: BoxDecoration(
-          color: widget.color,
+          color: color,
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(240),
             bottomRight: Radius.circular(240),
@@ -51,13 +52,13 @@ class _BannerContentState extends State<BannerContent> {
             bottomLeft: Radius.circular(20),
           ),
         ),
-        child: widget.content!.isNotEmpty
+        child: isPageZero
             ? Padding(
                 padding: EdgeInsets.only(left: 60),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    widget.content!,
+                    content!,
                     //"MAIN BANNER IMAGE",
                     style: TextStyle(
                       fontFamily: "Akira",
