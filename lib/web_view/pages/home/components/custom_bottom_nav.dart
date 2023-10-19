@@ -1,5 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+/*
+ * Project Name:  [DOTnode]
+ * Created Date: 2023-10-09
+ * Last Modified: 2023-10-11
+ * Author: Hyeonseong
+ * Modified By: Hyeonseong
+ * copyright @ 2023 TeamDOT
+ * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+ *              Description
+ * 고정된 Bottom_nav_bar 
+ * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+ */
 class CustomBottomNav extends StatelessWidget {
   const CustomBottomNav({
     super.key,
@@ -30,35 +43,35 @@ class CustomBottomNav extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: "Akira",
-                    fontSize: 16,
+                    fontSize: 16.sp,
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 10.w),
                 SizedBox(
-                  height: 8,
+                  height: 8.h,
                   child: VerticalDivider(color: Colors.white),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 10.w),
                 Text(
                   "WORK",
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: "Akira",
-                    fontSize: 16,
+                    fontSize: 16.sp,
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 10.w),
                 SizedBox(
-                  height: 8,
+                  height: 8.h,
                   child: VerticalDivider(color: Colors.white),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 10.w),
                 Text(
                   "JOB",
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: "Akira",
-                    fontSize: 16,
+                    fontSize: 16.sp,
                   ),
                 ),
               ],
@@ -67,8 +80,8 @@ class CustomBottomNav extends StatelessWidget {
           Container(
             margin: EdgeInsets.zero,
             padding: EdgeInsets.zero,
-            width: 30,
-            height: 8,
+            width: 30.w,
+            height: 8.h,
             color: Colors.grey.shade800,
           ),
           Container(
@@ -85,7 +98,7 @@ class CustomBottomNav extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontFamily: "Akira",
-                fontSize: 16,
+                fontSize: 16.sp,
               ),
             ),
           ),

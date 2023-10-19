@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 
 import 'app_bar_model.dart';
@@ -58,7 +59,7 @@ class _MarQueeAppBarState extends State<MarQueeAppBar> {
     //얘가 item을 받아야함.
     return Container(
       width: MediaQuery.sizeOf(context).width,
-      height: 32,
+      height: 32.h,
       color: Colors.grey.shade800,
       //row 아래 ListView의 Axis.horizontal가 중첩되기 때문에 사용금지.
       child: ListView.builder(
@@ -102,13 +103,13 @@ class _AppBarTextState extends State<AppBarText> {
               style: TextStyle(
                 fontFamily: "Akira",
                 color: Colors.white,
-                fontSize: 16,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
           Container(
-            width: 150,
+            width: 180.w,
             padding: EdgeInsets.symmetric(horizontal: 14),
             margin: EdgeInsets.only(right: 20),
             decoration: BoxDecoration(
@@ -122,7 +123,7 @@ class _AppBarTextState extends State<AppBarText> {
                 style: TextStyle(
                   fontFamily: "Akira",
                   color: Colors.grey.shade800,
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),

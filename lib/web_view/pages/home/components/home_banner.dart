@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'banner_content.dart';
 
@@ -37,8 +38,8 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
         // 1번 배너
         BannerContent(
           "Banner 4",
-          width: 1266,
-          height: 453,
+          width: 1266.w,
+          height: 453.h,
           color: Colors.grey.shade200,
           //currentPage = 3;
         ),
@@ -47,8 +48,8 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
           right: 30,
           child: BannerContent(
             "Banner 3",
-            width: 1121,
-            height: 453,
+            width: 1121.w,
+            height: 453.h,
             color: Colors.grey.shade300,
             //currentPage = 2;
           ),
@@ -58,8 +59,8 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
           right: 80,
           child: BannerContent(
             "Banner 2",
-            width: 1121,
-            height: 453,
+            width: 1121.w,
+            height: 453.h,
             color: Colors.grey.shade400,
             //currentPage = 2;
           ),
@@ -92,8 +93,8 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
             },
             child: AnimatedContainer(
               duration: Duration(milliseconds: 200),
-              width: currentPage == 0 ? 1121 : 60,
-              height: 453,
+              width: currentPage == 0.w ? 1121.w : 60.w,
+              height: 453.h,
               decoration: BoxDecoration(
                 color: Colors.grey.shade500,
                 borderRadius: BorderRadius.only(
@@ -113,7 +114,7 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
                           style: TextStyle(
                             fontFamily: "Akira",
                             fontWeight: FontWeight.bold,
-                            fontSize: 22,
+                            fontSize: 22.sp,
                             color: Colors.white,
                           ),
                         ),
@@ -135,8 +136,8 @@ class _HomeBannerState extends State<HomeBanner> with SingleTickerProviderStateM
               (index) => AnimatedContainer(
                 duration: Duration(microseconds: 300),
                 margin: const EdgeInsets.only(right: 5),
-                height: 8,
-                width: currentPage == index ? 20 : 8,
+                height: 8.h,
+                width: currentPage == index ? 20.w : 8.w,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(4),
