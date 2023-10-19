@@ -39,6 +39,8 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
           HomeBanner(),
           SizedBox(height: 100.h),
           HomeBanner(),
+          SizedBox(height: 100.h),
+          HomeBanner(),
         ],
       ),
     );
