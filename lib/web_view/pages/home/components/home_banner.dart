@@ -152,7 +152,7 @@ class _HomeBannerState extends State<HomeBanner> {
                 onTap: () {},
                 currentPage: currentPage,
                 color: Colors.grey.shade500,
-                width: currentPage == 0 || currentPage == 1 || currentPage == 2 || currentPage == 3 ? totalBannerWidth - 8 : 0.w,
+                width: currentPage == 0 || currentPage == 1 || currentPage == 2 || currentPage == 3 ? totalBannerWidth - 8.w : 0.w,
                 isPageZero: currentPage == 0 || currentPage == 1 || currentPage == 2 || currentPage == 3 ? true : false,
               ),
               // 3번 배너
@@ -161,7 +161,7 @@ class _HomeBannerState extends State<HomeBanner> {
                 onTap: () {},
                 currentPage: currentPage,
                 color: Colors.grey.shade600,
-                width: currentPage == 0 || currentPage == 1 || currentPage == 2 ? totalBannerWidth - 16 : 0.w,
+                width: currentPage == 0 || currentPage == 1 || currentPage == 2 ? totalBannerWidth - 16.w : 0.w,
                 isPageZero: currentPage == 0 || currentPage == 1 || currentPage == 2 ? true : false,
               ),
               // 2번 배너
@@ -170,7 +170,7 @@ class _HomeBannerState extends State<HomeBanner> {
                 currentPage: currentPage,
                 color: Colors.grey.shade700,
                 onTap: () {},
-                width: currentPage == 0 || currentPage == 1 ? totalBannerWidth - 24 : 0.w,
+                width: currentPage == 0 || currentPage == 1 ? totalBannerWidth - 24.w : 0.w,
                 isPageZero: currentPage == 0 || currentPage == 1 ? true : false,
               ),
               // 1번 배너
@@ -179,15 +179,15 @@ class _HomeBannerState extends State<HomeBanner> {
                 currentPage: currentPage,
                 color: Colors.grey.shade800,
                 onTap: () {},
-                width: currentPage == 0 ? totalBannerWidth - 32 : 0.w,
+                width: currentPage == 0 ? totalBannerWidth - 32.w : 0.w,
                 isPageZero: currentPage == 0 ? true : false,
               ),
 
               // dotButton
               Positioned(
-                bottom: 40,
-                right: 0,
-                left: 0,
+                bottom: 40.h,
+                right: 0.w,
+                left: 0.w,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
