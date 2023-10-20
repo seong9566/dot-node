@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 
-import 'app_bar_model.dart';
+import '../../../../models/app_bar_model.dart';
 
 /*
  * Project Name:  [DOTnode]

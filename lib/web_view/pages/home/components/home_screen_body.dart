@@ -1,4 +1,6 @@
 import 'package:dot_node/web_view/pages/home/components/home_banner.dart';
+import 'package:dot_node/web_view/pages/home/components/custom_search_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,6 +29,20 @@ class HomeScreenBody extends StatefulWidget {
 }
 
 class _HomeScreenBodyState extends State<HomeScreenBody> {
+  final List<Icon> btnItems = [
+    Icon(Icons.recent_actors, size: 30.sp),
+    Icon(Icons.account_circle_outlined, size: 30.sp),
+    Icon(CupertinoIcons.group_solid, size: 30.sp),
+  ];
+
+  Icon? selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedValue = btnItems[0];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,11 +51,9 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
         children: [
           // home/components/custom_app_bar
           MarQueeAppBar(),
-          SizedBox(height: 100.h),
-          HomeBanner(),
-          SizedBox(height: 100.h),
-          HomeBanner(),
-          SizedBox(height: 100.h),
+          SizedBox(height: 84.h),
+          CustomSearchBar(),
+          SizedBox(height: 46.h),
           HomeBanner(),
         ],
       ),
