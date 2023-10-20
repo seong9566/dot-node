@@ -6,8 +6,8 @@ import 'package:dot_node/models/session_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'constant.dart';
-import 'web_view/pages/personal/component/custom_detail_form_modal.dart';
+import '../constant.dart';
+import '../web_view/pages/personal/component/custom_detail_form_modal.dart';
 
 /*
  * Project Name:  [DOTnode]

@@ -1,9 +1,7 @@
-import 'package:dot_node/web_view/pages/personal/personal_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import '../../components/custom_app_bar.dart';
+import 'components/custom_bottom_nav.dart';
+import 'components/home_screen_body.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -33,75 +31,14 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   List<Widget>? widgetLists = [];
 
-  final FontWeight fWeight = FontWeight.bold;
-  final double fTitleSize = 24;
-  final double fContentSize = 16;
-  final double fHeight = 400;
-  final double fWidth = 600;
-
   @override
   Widget build(BuildContext context) {
-    //final wControl = ref.read(widgetController);
-    //final uModel = ref.watch(userWidgetViewModel.notifier);
-    //WidgetElementModel? widgetModel = ref.watch(userWidgetViewModel);
-    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    // if (widgetModel == null) {
-    //   return Center(child: CircularProgressIndicator());
-    // }
     return Scaffold(
-      appBar: CustomAppBar(scaffoldKey: scaffoldKey),
+      extendBody: true,
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Divider(
-              height: 2,
-              color: Colors.grey.shade400,
-            ),
-            SizedBox(height: 100.h),
-            ElevatedButton(
-              onPressed: () {
-                Get.to(PersonalPage());
-              },
-              child: Text("개인페이지"),
-            ),
-          ],
-        ),
+        child: HomeScreenBody(),
       ),
+      bottomNavigationBar: CustomBottomNav(),
     );
-    // return Scaffold(
-    //   body: Padding(
-    //     padding: const EdgeInsets.all(30.0),
-    //     child: ListView.builder(
-    //       itemCount: widgetLists!.length + 1,
-    //       itemBuilder: (context, index) {
-    //         if (index == widgetLists!.length) {
-    //           return Column(
-    //             children: [
-    //               ElevatedButton(
-    //                 onPressed: () {
-    //                   wControl.getWidget(userName: "youngmin");
-    //                 },
-    //                 child: Text("Get요청"),
-    //               ),
-    //               SizedBox(height: 20),
-    //               InsertWidget(
-    //                 widgetList: widgetLists,
-    //                 wControl: wControl,
-    //                 onWidgetAdd: () {
-    //                   setState(() {});
-    //                 },
-    //               ),
-    //             ],
-    //           );
-    //         } else {
-    //           return Padding(
-    //             padding: const EdgeInsets.symmetric(vertical: 20),
-    //             child: widgetLists![index],
-    //           );
-    //         }
-    //       },
-    //     ),
-    //   ),
-    // );
   }
 }

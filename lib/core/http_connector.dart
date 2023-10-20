@@ -27,17 +27,13 @@ final httpConnector = Provider<HttpConnector>((ref) {
   return HttpConnector();
 });
 
-//Token값은 임시로 설정
-String testJwtToken =
-    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhdXRoIiwicm9sZSI6IlVTRVIiLCJleHAiOjE2ODgxOTc0NzgsInVzZXJVaWQiOiJ5b3VuZ21pbiJ9.5fHtDx3fNw8YpScqx_EasX0c4pWdy53_sDXJ3VQJlrY";
-
 class HttpConnector {
   //header의 content 타입
   Map<String, String> headers = {"Content-Type": "application/json;charset=utf-8"};
   static const host = "http://localhost:8001";
 
   //핫스팟 사용시 임시 host
-  //static const host = "http://172.20.10.2:8001";
+  //static const host = "http://172.20.10.9:8001";
 
   static final HttpConnector _instance = HttpConnector._single();
   HttpConnector._single();
