@@ -39,25 +39,26 @@ class _HomeBannerState extends State<HomeBanner> {
   );
   List<Map<String, String>> bannerData = [
     {
-      "text": "Banner1",
+      "text": "Banner 1",
     },
     {
-      "text": "Banner2",
+      "text": "Banner 2",
     },
     {
-      "text": "Banner3",
+      "text": "Banner 3",
     },
     {
-      "text": "Banner4",
+      "text": "Banner 4",
     },
     {
-      "text": "Banner5",
+      "text": "Banner 5",
     },
   ];
   @override
   void initState() {
     super.initState();
 
+    // 자동 스크롤
     Timer.periodic(Duration(seconds: 5), (Timer timer) {
       if (currentPage < 4) {
         currentPage++;
@@ -159,6 +160,7 @@ class _HomeBannerState extends State<HomeBanner> {
   }
 }
 
+// Banner Dot
 class AnimatedDot extends StatelessWidget {
   const AnimatedDot({
     super.key,
@@ -184,6 +186,7 @@ class AnimatedDot extends StatelessWidget {
   }
 }
 
+// Banner Side Btn
 class BannerSideBtn extends StatelessWidget {
   const BannerSideBtn({
     required this.onPressed,
