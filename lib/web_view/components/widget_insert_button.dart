@@ -1,5 +1,5 @@
 import 'package:dot_node/controller/widget_controller.dart';
-import 'package:dot_node/widget_model.dart';
+import 'package:dot_node/models/widget_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';

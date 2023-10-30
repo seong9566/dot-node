@@ -13,22 +13,29 @@ dependencies:
   flutter:
     sdk: flutter
   get:
+
+  # custom drop down btn
+  dropdown_button2: ^2.3.9
+
   validators:
   flutter_screenutil:
+
   # riverpod
   flutter_riverpod: ^2.3.6
   
   flutter_secure_storage:
   logger:
-  #image picker 
+  # image picker 
   image_picker:
   dotted_border: ^2.0.0+3
- #form_builder - 동적으로 form 추가 및 관리 
+
+  #form_builder - 동적으로 form 추가 및 관리 
   flutter_form_builder: ^9.1.1
 
   # google auth,icon
   google_sign_in: ^6.1.4
-  font_awesome_flutter: ^10.5.0
+  font_awesome_flutter: ^10.5.0 
+  
   #firebase, google auth 
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.1
@@ -54,6 +61,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+  fonts:
+  - family: Akira
+    fonts:
+      - asset: assets/fonts/akira_expanded/Akira_Expanded.otf
 
 platforms:
   web:

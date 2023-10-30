@@ -3,7 +3,7 @@ import 'package:dot_node/service/local_service.dart';
 import 'package:dot_node/view/pages/auth/login_page.dart';
 import 'package:dot_node/core/util/locale_string.dart';
 import 'package:dot_node/web_view/pages/auth/web_login_page.dart';
-import 'package:dot_node/web_view/pages/personal/personal_page.dart';
+import 'package:dot_node/web_view/pages/home/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +68,7 @@ class MyWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(1920, 1080),
+      designSize: const Size(1024, 740),
       builder: (context, child) {
         return GetMaterialApp(
           navigatorKey: navigatorKey,
@@ -76,7 +76,7 @@ class MyWeb extends StatelessWidget {
           translations: LocaleString(),
           locale: const Locale('kr_KR'), // kr_KR, en_US
           //home: const WebSignUpPage(),
-          home: SessionUser.isLogin ? PersonalPage() : WebLoginPage(),
+          home: SessionUser.isLogin ? HomePage() : WebLoginPage(),
           //home: const HomePage(),
           //home: PersonalPage(),
         );

@@ -3,7 +3,7 @@
 import 'package:dot_node/web_view/pages/home/model/widget_element_model.dart';
 import 'package:dot_node/web_view/pages/personal/component/custom_insert_form_modal.dart';
 import 'package:dot_node/web_view/pages/personal/model/personal_widget_view_model.dart';
-import 'package:dot_node/widget_model.dart';
+import 'package:dot_node/models/widget_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
