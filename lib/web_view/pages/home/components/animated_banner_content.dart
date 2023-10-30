@@ -1,3 +1,4 @@
+import 'package:dot_node/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,23 +18,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
-class AnimatedBannerContent extends StatelessWidget {
-  const AnimatedBannerContent(
-    this.content, {
+class BannerContent extends StatelessWidget {
+  const BannerContent({
     super.key,
+    required this.content,
     required this.currentPage,
-    required this.color,
     required this.onTap,
-    required this.width,
-    required this.isPageZero,
   });
 
   final int currentPage;
-  final Color color;
   final String? content;
   final VoidCallback onTap;
-  final double width;
-  final bool isPageZero;
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +36,10 @@ class AnimatedBannerContent extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: Duration(milliseconds: 100),
-        width: width,
+        width: totalBannerHeight,
         height: 360.h,
         decoration: BoxDecoration(
-          color: color,
+          color: Colors.grey.shade800,
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(240),
             bottomRight: Radius.circular(240),
@@ -52,24 +47,21 @@ class AnimatedBannerContent extends StatelessWidget {
             bottomLeft: Radius.circular(20),
           ),
         ),
-        child: isPageZero
-            ? Padding(
-                padding: EdgeInsets.only(left: 60),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    content!,
-                    //"MAIN BANNER IMAGE",
-                    style: TextStyle(
-                      fontFamily: "Akira",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22.sp,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              )
-            : SizedBox(),
+        child: Padding(
+          padding: EdgeInsets.only(left: 60),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              content!,
+              style: TextStyle(
+                fontFamily: "Akira",
+                fontWeight: FontWeight.bold,
+                fontSize: 22.sp,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

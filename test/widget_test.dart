@@ -1,13 +1,24 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
+import 'package:dot_node/web_view/pages/home/components/home_banner.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:dot_node/main.dart';
+/*
+ * Project Name:  [DOTnode]
+ * Created Date: 2023-10-30 
+ * Last Modified: 2023-10-30
+ * Author: Hyeonseong
+ * Modified By: Hyeonseong
+ * copyright @ 2023 TeamDOT
+ * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+ *              Description
+ * 배포 전 꼭 TDD 실행으로 옮기기
+ * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+ */
 
-void main() {}
+void main() {
+  double totalBannerWidth = 920.w;
+  double totalBannerHeight = 360.h;
+  testWidgets("pageView 테스트", (WidgetTester widgetTester) async {
+    widgetTester.pumpWidget(HomeBanner());
+  });
+}

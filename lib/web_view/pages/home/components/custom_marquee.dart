@@ -1,51 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logger/logger.dart';
-
-import '../../../../models/app_bar_model.dart';
 
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-10-10
- * Last Modified: 2023-10-10
+ * Last Modified: 2023-10-28
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  *              Description
- * 
+ *  Marquee App Bar 
+ *  Text위젯도 함께 가지고 있음.
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
-class MarQueeAppBar extends StatefulWidget {
-  const MarQueeAppBar({
-    super.key,
-  });
+class CustomMarquee extends StatefulWidget {
+  final List<Widget> items;
+  final Duration moveDuration;
+
+  const CustomMarquee({super.key, required this.items, this.moveDuration = const Duration(milliseconds: 100)});
+
   @override
-  State<MarQueeAppBar> createState() => _MarQueeAppBarState();
+  _CustomMarqueeState createState() => _CustomMarqueeState();
 }
 
-class _MarQueeAppBarState extends State<MarQueeAppBar> {
+class _CustomMarqueeState extends State<CustomMarquee> {
   late ScrollController _scrollController;
   double _position = 0.0;
-  Duration animationDuration = Duration(milliseconds: 100);
-
-  Future<bool> _scroll() async {
-    double moveDistance = 10.0;
-    _position -= moveDistance;
-
-    await _scrollController.animateTo(_position, duration: animationDuration, curve: Curves.linear);
-    return true;
-  }
 
   @override
   void initState() {
-    super.initState();
     _scrollController = ScrollController();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      Logger().d("콜백 함수 실행");
       Future.doWhile(_scroll);
     });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 40.w,
+      color: Colors.grey.shade800,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Center(
+            child: widget.items[index % widget.items.length],
+          );
+        },
+        scrollDirection: Axis.horizontal,
+        controller: _scrollController,
+        physics: const NeverScrollableScrollPhysics(),
+      ),
+    );
   }
 
   @override
@@ -54,31 +64,20 @@ class _MarQueeAppBarState extends State<MarQueeAppBar> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    //얘가 item을 받아야함.
-    return Container(
-      width: MediaQuery.sizeOf(context).width,
-      height: 32.h,
-      color: Colors.grey.shade800,
-      //row 아래 ListView의 Axis.horizontal가 중첩되기 때문에 사용금지.
-      child: ListView.builder(
-        controller: _scrollController,
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: appBarTextList.length,
-        itemBuilder: (context, index) => AppBarText(
-          dotChain: appBarTextList[index % appBarTextList.length].dotChain,
-          str: appBarTextList[index % appBarTextList.length].str,
-        ),
-      ),
-    );
+  Future<bool> _scroll() async {
+    double moveDistance = 10;
+
+    _position += moveDistance;
+
+    _scrollController.animateTo(_position, duration: widget.moveDuration, curve: Curves.linear);
+
+    await Future.delayed(widget.moveDuration);
+    return true;
   }
 }
 
-class AppBarText extends StatefulWidget {
-  AppBarText({
+class MarqueeTest extends StatefulWidget {
+  MarqueeTest({
     required this.dotChain,
     required this.str,
     super.key,
@@ -86,14 +85,14 @@ class AppBarText extends StatefulWidget {
   final String dotChain;
   final String str;
   @override
-  State<AppBarText> createState() => _AppBarTextState();
+  State<MarqueeTest> createState() => _MarqueeTestState();
 }
 
-class _AppBarTextState extends State<AppBarText> {
+class _MarqueeTestState extends State<MarqueeTest> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
+      padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
           Container(
@@ -114,7 +113,7 @@ class _AppBarTextState extends State<AppBarText> {
             margin: EdgeInsets.only(right: 20),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(24),
             ),
             child: Align(
               alignment: Alignment.center,

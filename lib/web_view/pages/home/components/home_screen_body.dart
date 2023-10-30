@@ -1,10 +1,11 @@
-import 'package:dot_node/web_view/pages/home/components/home_banner.dart';
+import 'package:dot_node/models/app_bar_model.dart';
 import 'package:dot_node/web_view/pages/home/components/custom_search_bar.dart';
+import 'package:dot_node/web_view/pages/home/components/custom_marquee.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'marquee_app_bar.dart';
+import 'home_banner.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -50,7 +51,11 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
       child: Column(
         children: [
           // home/components/custom_app_bar
-          MarQueeAppBar(),
+          CustomMarquee(
+            items: [
+              MarqueeTest(dotChain: appBarTextList[0].dotChain, str: appBarTextList[0].str),
+            ],
+          ),
           SizedBox(height: 84.h),
           CustomSearchBar(),
           SizedBox(height: 46.h),
