@@ -13,3 +13,5 @@ double totalBannerHeight = 360.h;
 double dWidth = MediaQuery.of(dContext!).size.width;
 
 const Color searchBarColor = Color(0xffAA80CC);
+final firstBackGroundColor = Colors.grey.shade800;
+final secondBackGroundColor = Colors.grey.shade900;
