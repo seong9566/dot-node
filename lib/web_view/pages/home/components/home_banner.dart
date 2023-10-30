@@ -1,13 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
 
+import '../../../../constant.dart';
 import 'animated_banner_content.dart';
 
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-10-09
- * Last Modified: 2023-10-28
+ * Last Modified: 2023-10-30
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -17,12 +21,7 @@ import 'animated_banner_content.dart';
  * Stack위젯 사용의 특징을 주의해야함
  * 제일 위에 보이는 Banner가 User에겐 1번 Banner 이지만, Stack위젯 기준으로 4번(가장 위에 쌓여있음) Banner임 헷갈림 주의하기!
  * 
- * 10.19일 
- * <이슈 사항> - 회의 때 말하기
- * Banner를 Position으로 위치 선정 시 1번 -> 2번 배너로 넘어갈 때 SizedBox크기를 0 으로 주니 왼쪽 빈 공간이 자꾸 늘어나는것 처럼 보임
- * <해결 방안>
- * - Position으로 사용하지 않고 오른쪽 8px씩 보이는 부분 없이 전부다 겹쳐 버리게
- * 
+ * 10.30 - Banner 위젯 Animated -> PageView.builder로 수정 
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
@@ -34,9 +33,45 @@ class HomeBanner extends StatefulWidget {
 }
 
 class _HomeBannerState extends State<HomeBanner> {
-  double totalBannerWidth = 920.w;
-  double totalBannerHeight = 360.h;
   int currentPage = 0;
+  final PageController _pageController = PageController(
+    initialPage: 0,
+  );
+  List<Map<String, String>> bannerData = [
+    {
+      "text": "Banner1",
+    },
+    {
+      "text": "Banner2",
+    },
+    {
+      "text": "Banner3",
+    },
+    {
+      "text": "Banner4",
+    },
+    {
+      "text": "Banner5",
+    },
+  ];
+  @override
+  void initState() {
+    super.initState();
+
+    Timer.periodic(Duration(seconds: 5), (Timer timer) {
+      if (currentPage < 4) {
+        currentPage++;
+      } else {
+        currentPage = 0;
+      }
+
+      _pageController.animateToPage(
+        currentPage,
+        duration: Duration(milliseconds: 350),
+        curve: Curves.easeIn,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,62 +87,34 @@ class _HomeBannerState extends State<HomeBanner> {
               setState(() {
                 if (currentPage > 0) {
                   currentPage--;
+                  _pageController.jumpToPage(currentPage);
                 } else {
-                  currentPage = 4;
+                  currentPage = bannerData.length - 1;
+                  _pageController.jumpToPage(currentPage);
                 }
               });
             }),
-
-        // Position을 지우고 Container의 width로만 정의 한 Banner
         SizedBox(
           width: totalBannerWidth, // 920
           height: totalBannerHeight,
           child: Stack(
             children: [
-              // 5번 배너
-              AnimatedBannerContent(
-                "Banner 5",
-                onTap: () {},
-                currentPage: currentPage,
-                color: Colors.grey.shade400,
-                width: totalBannerWidth,
-                isPageZero: true,
-              ),
-              // 4번 배너
-              AnimatedBannerContent(
-                "Banner 4",
-                onTap: () {},
-                currentPage: currentPage,
-                color: Colors.grey.shade500,
-                width: currentPage == 0 || currentPage == 1 || currentPage == 2 || currentPage == 3 ? totalBannerWidth : 0.w,
-                isPageZero: currentPage == 0 || currentPage == 1 || currentPage == 2 || currentPage == 3 ? true : false,
-              ),
-              // 3번 배너
-              AnimatedBannerContent(
-                "Banner 3",
-                onTap: () {},
-                currentPage: currentPage,
-                color: Colors.grey.shade600,
-                width: currentPage == 0 || currentPage == 1 || currentPage == 2 ? totalBannerWidth : 0.w,
-                isPageZero: currentPage == 0 || currentPage == 1 || currentPage == 2 ? true : false,
-              ),
-              // 2번 배너
-              AnimatedBannerContent(
-                "Banner 2",
-                currentPage: currentPage,
-                color: Colors.grey.shade700,
-                onTap: () {},
-                width: currentPage == 0 || currentPage == 1 ? totalBannerWidth : 0.w,
-                isPageZero: currentPage == 0 || currentPage == 1 ? true : false,
-              ),
-              // 1번 배너
-              AnimatedBannerContent(
-                "Banner 1",
-                currentPage: currentPage,
-                color: Colors.grey.shade800,
-                onTap: () {},
-                width: currentPage == 0 ? totalBannerWidth : 0.w,
-                isPageZero: currentPage == 0 ? true : false,
+              PageView.builder(
+                pageSnapping: true,
+                itemCount: bannerData.length,
+                onPageChanged: (value) => setState(() {
+                  currentPage = value;
+                }),
+                itemBuilder: (context, index) {
+                  return BannerContent(
+                    content: "${bannerData[index]['text']}",
+                    currentPage: currentPage,
+                    onTap: () {
+                      Logger().d("Banner ${index + 1} 눌려짐");
+                    },
+                  );
+                },
+                controller: _pageController,
               ),
 
               // dotButton
@@ -139,8 +146,10 @@ class _HomeBannerState extends State<HomeBanner> {
                 () {
                   if (currentPage < 4) {
                     currentPage++;
+                    _pageController.jumpToPage(currentPage);
                   } else {
                     currentPage = 0;
+                    _pageController.jumpToPage(currentPage);
                   }
                 },
               );

@@ -5,9 +5,11 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
+import 'package:dot_node/web_view/pages/home/components/home_banner.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:dot_node/main.dart';
-
-void main() {}
+void main() {
+  testWidgets("pageView 테스트", (WidgetTester widgetTester) async {
+    widgetTester.pumpWidget(HomeBanner());
+  });
+}
