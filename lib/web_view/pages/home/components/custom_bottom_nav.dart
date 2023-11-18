@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-10-09
- * Last Modified: 2023-10-20
+ * Last Modified: 2023-11-18
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -147,7 +147,7 @@ class NavIconArea extends StatelessWidget {
                         child: Text(
                           "3",
                           style: TextStyle(
-                            fontSize: 10.sp,
+                            fontSize: 8.sp,
                             height: 1.h,
                             color: Colors.white,
                             fontWeight: FontWeight.w600,

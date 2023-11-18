@@ -41,7 +41,8 @@ dependencies:
   firebase_auth: ^4.7.1
   firebase_auth_platform_interface: ^6.16.0
 
- 
+  #video play
+  video_player: ^2.8.1
  
 
 

@@ -41,7 +41,7 @@ Future<Object?> customDetailFormModal(
             child: Scaffold(
               backgroundColor: Colors.transparent,
               body: Container(
-                width: dWidth,
+                width: mdWidth,
                 color: Colors.white70,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
