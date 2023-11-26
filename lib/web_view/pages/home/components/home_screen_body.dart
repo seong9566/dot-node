@@ -1,5 +1,5 @@
 import 'package:dot_node/models/app_bar_model.dart';
-import 'package:dot_node/template/peaches.dart';
+import 'package:dot_node/template/peaches/peaches.dart';
 import 'package:dot_node/web_view/pages/home/components/custom_search_bar.dart';
 import 'package:dot_node/web_view/pages/home/components/custom_marquee.dart';
 import 'package:flutter/cupertino.dart';
