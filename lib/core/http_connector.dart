@@ -30,7 +30,11 @@ final httpConnector = Provider<HttpConnector>((ref) {
 class HttpConnector {
   //header의 content 타입
   Map<String, String> headers = {"Content-Type": "application/json;charset=utf-8"};
-  static const host = "http://localhost:8001";
+
+  //static const host = "http://localhost:8001";
+
+  // ec2 host
+  String host = "http://ec2-52-79-35-219.ap-northeast-2.compute.amazonaws.com:8001";
 
   //핫스팟 사용시 임시 host
   //static const host = "http://172.20.10.9:8001";
