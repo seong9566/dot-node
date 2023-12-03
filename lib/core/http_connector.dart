@@ -5,7 +5,7 @@ import 'package:http/http.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-05-19 
- * Last Modified: 2023-06-17
+ * Last Modified: 2023-12-03
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -14,11 +14,7 @@ import 'package:http/http.dart';
  * 서버와 통신을 위한 Connect
  * Get, Delete, Post,Put 요청
  * 
- * 서버 주소 : 8001 사용중
- * 
  * 주의사항 
- * 1. 아직 웹이라 토큰 값 해결 못함.
- * 2. JwtToken 보낼때 키 값 : Access-Token
  * 3. Bearer는 서버에서 직접 벗김. 내가 굳이 다시 가공할 필요 x
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
