@@ -19,7 +19,7 @@ class LocaleString extends Translations {
   Map<String, Map<String, String>> get keys => {
         //US
         'en_US': {
-          'id': 'ID',
+          'userUid': 'ID',
           'password': 'Password',
           'name': 'Name',
           'phoneNumber': 'PhoneNumber',
@@ -32,7 +32,7 @@ class LocaleString extends Translations {
           'getStarted': 'Get Started',
           'verify': 'Verify',
           // hime Text
-          'hint_id': 'Please enter your ID',
+          'hint_userUid': 'Please enter your ID',
           'hint_password': 'Please enter your Password',
           'hint_name': 'Please enter your Name',
           'hint_phoneNumber': 'Please enter your PhoneNumber',
@@ -42,7 +42,7 @@ class LocaleString extends Translations {
         },
         //KR
         'kr_KR': {
-          'id': '아이디',
+          'userUid': '아이디',
           'password': '비밀번호',
           'name': '이름',
           'phoneNumber': '휴대폰 번호',
@@ -55,7 +55,7 @@ class LocaleString extends Translations {
           'getStarted': '시작',
           'verify': '인증',
           // hime Text
-          'hint_id': '아이디를 입력해주세요',
+          'hint_userUid': '아이디를 입력해주세요',
           'hint_password': '비밀번호를 입력해주세요',
           'hint_name': '이름을 입력해주세요',
           'hint_phoneNumber': '휴대폰번호를 입력해주세요',

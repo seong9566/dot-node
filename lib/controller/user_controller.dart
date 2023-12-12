@@ -101,8 +101,8 @@ class UserController {
     }
   }
 
-  Future<void> userNameCheck({required String username}) async {
-    ResponseDto responseDto = await userService.fetchUsernameCheck(username);
+  Future<void> userUidCheck({required String userUid}) async {
+    ResponseDto responseDto = await userService.fetchUsernameCheck(userUid);
     if (responseDto.code == "OK") {
       //result값 추출
       dynamic result = responseDto.data['result'];
@@ -157,7 +157,10 @@ class UserController {
       if (responseDto.code == 'OK' && responseDto.data != null) {
         ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "메일을 확인해 주세요."));
       } else {
-        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "메일이 중복되었습니다."));
+        print("responseDto.msg ${responseDto.msg}");
+        print("responseDto.msg ${responseDto.data}");
+        print("responseDto.msg ${responseDto.code}");
+        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "${responseDto.msg}"));
       }
     } catch (e) {
       Logger().d("$e, name : userController, method : emailVerification");

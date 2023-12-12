@@ -84,57 +84,29 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
 
   //변수
   late Timer _debounceTimer;
-  late dynamic _isUsernameValid = 'true';
-  late bool _isCheckUsername = false;
 
   // size 변수화
   static double dSizedBoxh = 28.h;
-  static double dSizedBoxw = 20.w;
   static double dWidth = 1024.w;
   static double dPadding = 30;
 
 // controller
-  final _username = TextEditingController();
-  final _email = TextEditingController();
-  final _password = TextEditingController();
+  final userUid = TextEditingController();
+  final userEmail = TextEditingController();
+  final userPassword = TextEditingController();
+  final userTel = TextEditingController();
   final _password_check = TextEditingController();
-  final _phoneNumber = TextEditingController();
-
-// 이름 중복 체크
-  void validateUsername(String userName, SignUpModel model) {
-    if (_debounceTimer.isActive) {
-      _debounceTimer.cancel();
-    }
-    _debounceTimer = Timer(const Duration(seconds: 1), () async {
-      if (userName.isNotEmpty) {
-        setState(() {
-          _isCheckUsername = true;
-        });
-
-        await Future.delayed(const Duration(seconds: 1));
-        Logger().d("데이터 확인 : ${model.result}");
-        setState(() {
-          _isUsernameValid = model.result;
-          _isCheckUsername = false;
-        });
-      }
-      setState(() {
-        _isCheckUsername = true;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _debounceTimer.cancel();
-    _username.dispose();
-    super.dispose();
-  }
 
   @override
   void initState() {
     super.initState();
     _debounceTimer = Timer(const Duration(seconds: 3), () {});
+  }
+
+  @override
+  void dispose() {
+    _debounceTimer.cancel();
+    super.dispose();
   }
 
   @override
@@ -159,18 +131,18 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                     children: [
                       TextFormField(
                         decoration: InputDecoration(
-                          labelText: 'name'.tr,
-                          hintText: 'hint_name'.tr,
+                          labelText: 'userUid'.tr,
+                          hintText: 'hint_userUid'.tr,
                         ),
                         //validator: validateUsername,
-                        controller: _username,
+                        controller: userUid,
                       ),
                       Positioned(
                         bottom: 5,
                         right: 5,
                         child: TextButton(
                           onPressed: () {
-                            uControl.userNameCheck(username: _username.text.trim());
+                            uControl.userUidCheck(userUid: userUid.text.trim());
                           },
                           child: Text(
                             '중복 확인',
@@ -188,14 +160,14 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                           hintText: 'hint_email'.tr,
                         ),
                         validator: validateEmail,
-                        controller: _email,
+                        controller: userEmail,
                       ),
                       Positioned(
                         bottom: 5,
                         right: 5,
                         child: TextButton(
                           onPressed: () {
-                            uControl.emailVerification(uid: _username.text.trim(), to: _email.text.trim());
+                            uControl.emailVerification(uid: userEmail.text.trim(), to: userEmail.text.trim());
                           },
                           child: Text(
                             'verify'.tr,
@@ -218,14 +190,14 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                           labelText: 'phoneNumber'.tr,
                           hintText: 'hint_phoneNumber'.tr,
                         ),
-                        controller: _phoneNumber,
+                        controller: userTel,
                       ),
                       Positioned(
                         bottom: 5,
                         right: 5,
                         child: TextButton(
                           onPressed: () {
-                            uControl.smsVerification(uid: _username.text.trim(), to: _phoneNumber.text.trim());
+                            uControl.smsVerification(uid: userUid.text.trim(), to: userTel.text.trim());
                           },
                           child: Text(
                             'verify'.tr,
@@ -241,7 +213,7 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                       labelText: 'password'.tr,
                       hintText: 'hint_password'.tr,
                     ),
-                    controller: _password,
+                    controller: userPassword,
                   ),
                   SizedBox(height: dSizedBoxh),
                   TextFormField(
@@ -259,10 +231,10 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           uControl.sign(
-                            userUid: _username.text.trim(),
-                            userEmail: _email.text.trim(),
-                            userPassword: _password.text.trim(),
-                            userTel: _phoneNumber.text.trim(),
+                            userUid: userUid.text.trim(),
+                            userEmail: userEmail.text.trim(),
+                            userPassword: userPassword.text.trim(),
+                            userTel: userTel.text.trim(),
                           );
                         }
                       },
