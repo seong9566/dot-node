@@ -101,8 +101,8 @@ class UserController {
     }
   }
 
-  Future<void> userNameCheck({required String username}) async {
-    ResponseDto responseDto = await userService.fetchUsernameCheck(username);
+  Future<void> userNameCheck({required String userUid}) async {
+    ResponseDto responseDto = await userService.fetchUsernameCheck(userUid);
     if (responseDto.code == "OK") {
       //result값 추출
       dynamic result = responseDto.data['result'];
