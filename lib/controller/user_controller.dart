@@ -84,8 +84,9 @@ class UserController {
       if (responseDto.msg == "login success") {
         //TODO: response에 uid,email가 있을때 주석 풀기.
         //String uid = responseDto.data;
-        User user = User(uid: "이현성", userEmail: userEmail);
-        LocalService().fetchSessionUser(user: user);
+        //User user = User(uid: "${responseDto.data[userUid]}", userEmail: userEmail);
+        //LocalService().fetchSessionUser(user: user);
+        Logger().d("login Dto : ${responseDto.data}");
         ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "환영합니다!"));
         Get.to(() => HomePage());
       } else {
@@ -157,7 +158,9 @@ class UserController {
       if (responseDto.code == 'OK' && responseDto.data != null) {
         ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "메일을 확인해 주세요."));
       } else {
-        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "메일이 중복되었습니다."));
+        Logger().d("email :${responseDto.data}");
+        Logger().d("email :${responseDto.msg}");
+        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "에러가 발생했습니다."));
       }
     } catch (e) {
       Logger().d("$e, name : userController, method : emailVerification");

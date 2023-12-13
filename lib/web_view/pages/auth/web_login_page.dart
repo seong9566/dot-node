@@ -33,27 +33,14 @@ class WebLoginPage extends ConsumerStatefulWidget {
 }
 
 class _WebLoginPageState extends ConsumerState<WebLoginPage> {
-  final _id = TextEditingController();
-  final _password = TextEditingController();
+  final userEmail = TextEditingController();
+  final userPassword = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   loginForm();
-    // });
   }
-
-  // void loginForm() {
-  //   showDialog(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (BuildContext context) {
-  //       return LoginFormDialog();
-  //     },
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -63,78 +50,86 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/rocket.gif'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Center(
-            child: Container(
-              padding: EdgeInsets.all(10),
-              width: 520.w,
-              height: 460.h,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _textFormField(uControl, googleProvider),
-                  SizedBox(height: dSizedBoxh),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _loginBtn(
-                        text: "Login",
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            uControl.login(
-                              userEmail: _id.text.trim(),
-                              userPassword: _password.text.trim(),
-                            );
-                          }
-                        },
-                        boxDecoration: BoxDecoration(
-                          color: mainColor,
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(24),
-                            bottomRight: Radius.circular(24),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 4),
-                      _dot(),
-                      SizedBox(width: 4),
-                      _dot(),
-                      SizedBox(width: 4),
-                      _loginBtn(
-                        text: "회원가입",
-                        onTap: () {
-                          Get.offAll(const WebSignUpPage());
-                        },
-                        boxDecoration: BoxDecoration(
-                          color: mainColor,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(24),
-                            bottomLeft: Radius.circular(24),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: dSizedBoxh),
-                  _googleLoginBtn(googleProvider),
-                  SizedBox(height: dSizedBoxh),
-                  _forgotBtn(),
-                ],
-              ),
-            ),
-          )
+          backGroundImg(),
+          inputFormField(uControl, googleProvider),
         ],
+      ),
+    );
+  }
+
+  Widget inputFormField(UserController uControl, GoogleSignProvider googleProvider) {
+    return Center(
+      child: Container(
+        padding: EdgeInsets.all(10),
+        width: 520.w,
+        height: 460.h,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _textFormField(uControl, googleProvider),
+            SizedBox(height: dSizedBoxh),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _loginBtn(
+                  text: "Login",
+                  onTap: () {
+                    if (_formKey.currentState!.validate()) {
+                      uControl.login(
+                        userEmail: userEmail.text.trim(),
+                        userPassword: userPassword.text.trim(),
+                      );
+                    }
+                  },
+                  boxDecoration: BoxDecoration(
+                    color: mainColor,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(24),
+                      bottomRight: Radius.circular(24),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 4),
+                _dot(),
+                SizedBox(width: 4),
+                _dot(),
+                SizedBox(width: 4),
+                _loginBtn(
+                  text: "회원가입",
+                  onTap: () {
+                    Get.offAll(const WebSignUpPage());
+                  },
+                  boxDecoration: BoxDecoration(
+                    color: mainColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      bottomLeft: Radius.circular(24),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: dSizedBoxh),
+            _googleLoginBtn(googleProvider),
+            SizedBox(height: dSizedBoxh),
+            _forgotBtn(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget backGroundImg() {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/rocket.gif'),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -202,7 +197,7 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                   ),
                 ),
                 //validator: validateId, TODO: 생성 필요
-                controller: _id,
+                controller: userEmail,
               ),
               SizedBox(height: dSizedBoxh),
               TextFormField(
@@ -220,7 +215,7 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                   ),
                 ),
                 //validator: validatePassword, // 테스트 시에는 사용 안함
-                controller: _password,
+                controller: userPassword,
               ),
             ]),
           ),

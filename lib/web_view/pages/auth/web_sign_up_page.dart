@@ -28,69 +28,15 @@ import 'package:logger/logger.dart';
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
-class WebSignUpPage extends StatefulWidget {
+class WebSignUpPage extends ConsumerStatefulWidget {
   const WebSignUpPage({super.key});
 
   @override
   _WebSignUpPageState createState() => _WebSignUpPageState();
 }
 
-class _WebSignUpPageState extends State<WebSignUpPage> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      signUpForm();
-    });
-  }
-
-  void signUpForm() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return const SignUpFormDialog();
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(1920, 1080),
-      builder: ((context, child) => Scaffold(
-            body: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/rocket.gif'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          )),
-    );
-  }
-}
-
-class SignUpFormDialog extends ConsumerStatefulWidget {
-  const SignUpFormDialog({super.key});
-
-  @override
-  _SignUpFormDialogState createState() => _SignUpFormDialogState();
-}
-
-class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
+class _WebSignUpPageState extends ConsumerState<WebSignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  //변수
-  late Timer _debounceTimer;
-
-  // size 변수화
-  static double dSizedBoxh = 28.h;
-  static double dSizedBoxw = 20.w;
-  static double dWidth = 1024.w;
-  static double dPadding = 30;
-
 // controller
   final userUid = TextEditingController();
   final userEmail = TextEditingController();
@@ -99,154 +45,154 @@ class _SignUpFormDialogState extends ConsumerState<SignUpFormDialog> {
   final userTel = TextEditingController();
 
   @override
-  void dispose() {
-    _debounceTimer.cancel();
-    userUid.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _debounceTimer = Timer(const Duration(seconds: 3), () {});
-  }
-
-  @override
   Widget build(BuildContext context) {
     final uControl = ref.read(userController);
-    return ScreenUtilInit(
-      designSize: const Size(1920, 1080),
-      builder: (context, child) => Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: SizedBox(
-          width: dWidth,
-          child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: EdgeInsets.all(dPadding),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+    return Scaffold(
+      body: Stack(
+        children: [
+          backgroundImg(),
+          inputField(uControl),
+        ],
+      ),
+    );
+  }
+
+  Widget inputField(UserController uControl) {
+    return Center(
+        child: Container(
+      width: 520.w,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Form(
+        key: _formKey,
+        child: Padding(
+          padding: EdgeInsets.all(30),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Stack(
                 children: [
-                  Stack(
-                    children: [
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'id'.tr,
-                          hintText: 'hint_id'.tr,
-                        ),
-                        //validator: validateUsername,
-                        controller: userUid,
-                      ),
-                      Positioned(
-                        bottom: 5,
-                        right: 5,
-                        child: TextButton(
-                          onPressed: () {
-                            uControl.userNameCheck(userUid: userUid.text.trim());
-                          },
-                          child: Text(
-                            '중복 확인',
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: dSizedBoxh),
-                  Stack(
-                    children: [
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'email'.tr,
-                          hintText: 'hint_email'.tr,
-                        ),
-                        validator: validateEmail,
-                        controller: userEmail,
-                      ),
-                      Positioned(
-                        bottom: 5,
-                        right: 5,
-                        child: TextButton(
-                          onPressed: () {
-                            uControl.emailVerification(uid: userUid.text.trim(), to: userEmail.text.trim());
-                          },
-                          child: Text(
-                            'verify'.tr,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: dSizedBoxh),
-                  Stack(
-                    children: [
-                      TextFormField(
-                        // 서버에 전달 값이 "-"가 빠져있으므로 현재 사용 x, 추후 포맷팅 필요시 사용하기
-                        // inputFormatters: [
-                        //   FilteringTextInputFormatter.digitsOnly, // 숫자만 사용
-                        //   PhoneNumberFormatter(),
-                        //   LengthLimitingTextInputFormatter(13)
-                        // ],
-                        decoration: InputDecoration(
-                          labelText: 'phoneNumber'.tr,
-                          hintText: 'hint_phoneNumber'.tr,
-                        ),
-                        controller: userTel,
-                      ),
-                      Positioned(
-                        bottom: 5,
-                        right: 5,
-                        child: TextButton(
-                          onPressed: () {
-                            uControl.smsVerification(uid: userUid.text.trim(), to: userTel.text.trim());
-                          },
-                          child: Text(
-                            'verify'.tr,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: dSizedBoxh),
                   TextFormField(
-                    obscureText: true,
                     decoration: InputDecoration(
-                      labelText: 'password'.tr,
-                      hintText: 'hint_password'.tr,
+                      labelText: 'id'.tr,
+                      hintText: 'hint_id'.tr,
                     ),
-                    controller: userPassword,
+                    //validator: validateUsername,
+                    controller: userUid,
                   ),
-                  SizedBox(height: dSizedBoxh),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'password_check'.tr,
-                      hintText: 'hint_password_check'.tr,
-                    ),
-                    controller: userPasswordConfirm,
-                  ),
-                  SizedBox(height: dSizedBoxh),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
+                  Positioned(
+                    bottom: 5,
+                    right: 5,
+                    child: TextButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          uControl.sign(
-                            userUid: userUid.text.trim(),
-                            userEmail: userEmail.text.trim(),
-                            userPassword: userPassword.text.trim(),
-                            userTel: userTel.text.trim(),
-                          );
-                        }
+                        uControl.userNameCheck(userUid: userUid.text.trim());
                       },
-                      child: const Text("Get Started"),
+                      child: Text(
+                        '중복 확인',
+                      ),
                     ),
                   ),
                 ],
               ),
-            ),
+              SizedBox(height: 28.h),
+              Stack(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'email'.tr,
+                      hintText: 'hint_email'.tr,
+                    ),
+                    validator: validateEmail,
+                    controller: userEmail,
+                  ),
+                  Positioned(
+                    bottom: 5,
+                    right: 5,
+                    child: TextButton(
+                      onPressed: () {
+                        uControl.emailVerification(uid: userUid.text.trim(), to: userEmail.text.trim());
+                      },
+                      child: Text(
+                        'verify'.tr,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 28.h),
+              Stack(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'phoneNumber'.tr,
+                      hintText: 'hint_phoneNumber'.tr,
+                    ),
+                    controller: userTel,
+                  ),
+                  Positioned(
+                    bottom: 5,
+                    right: 5,
+                    child: TextButton(
+                      onPressed: () {
+                        uControl.smsVerification(uid: userUid.text.trim(), to: userTel.text.trim());
+                      },
+                      child: Text(
+                        'verify'.tr,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 28.h),
+              TextFormField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'password'.tr,
+                  hintText: 'hint_password'.tr,
+                ),
+                controller: userPassword,
+              ),
+              SizedBox(height: 28.h),
+              TextFormField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'password_check'.tr,
+                  hintText: 'hint_password_check'.tr,
+                ),
+                controller: userPasswordConfirm,
+              ),
+              SizedBox(height: 28.h),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      uControl.sign(
+                        userUid: userUid.text.trim(),
+                        userEmail: userEmail.text.trim(),
+                        userPassword: userPassword.text.trim(),
+                        userTel: userTel.text.trim(),
+                      );
+                    }
+                  },
+                  child: const Text("Get Started"),
+                ),
+              ),
+            ],
           ),
+        ),
+      ),
+    ));
+  }
+
+  Widget backgroundImg() {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/rocket.gif'),
+          fit: BoxFit.cover,
         ),
       ),
     );
