@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dot_node/core/http_connector.dart';
+import 'package:dot_node/core/network/http_connector.dart';
 import 'package:dot_node/dto/request/auth_req_dto.dart';
 import 'package:dot_node/dto/request/email_ver_req_dto.dart';
 import 'package:dot_node/dto/request/sms_ver_req_dto.dart';
@@ -12,7 +12,7 @@ import 'package:http/http.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-05-19
- * Last Modified: 2023-07-01
+ * Last Modified: 2023-01-14
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -21,7 +21,8 @@ import 'package:http/http.dart';
  * Service는 서버와 API통신, Parsing을 담당.
  * UserService도 싱글톤을 관리
  * HttpConnector 객체를 생성해 요청
- * 
+ *
+ * 2024.01.14 - URL 클래스로 분리
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
@@ -69,13 +70,15 @@ class UserService {
 //{{api-url}}/auth/sms-naver
   Future<ResponseDto> fetchSmsVerification(SmsVerReqDto smsVerReqDto) async {
     String requestBody = jsonEncode(smsVerReqDto.toJson());
-    Response response = await httpConnector.post("/auth/sms-naver", requestBody);
+    Response response =
+        await httpConnector.post("/auth/sms-naver", requestBody);
     ResponseDto responseDto = toResponseDto(response);
     return responseDto;
   }
 
 //{{api-url}}/auth/email
-  Future<ResponseDto> fetchEmailVerification(EmailVerReqDto emailVerReqDto) async {
+  Future<ResponseDto> fetchEmailVerification(
+      EmailVerReqDto emailVerReqDto) async {
     String requestBody = jsonEncode(emailVerReqDto.toJson());
     Response response = await httpConnector.post("/auth/email", requestBody);
     ResponseDto responseDto = toResponseDto(response);
@@ -83,9 +86,11 @@ class UserService {
   }
 
 //{{api-url}}/auth/check-key
-  Future<ResponseDto> fetchSmsVerCheck(SmsVerCheckReqDto smsVerCheckReqDto) async {
+  Future<ResponseDto> fetchSmsVerCheck(
+      SmsVerCheckReqDto smsVerCheckReqDto) async {
     String requestBody = jsonEncode(smsVerCheckReqDto.toJson());
-    Response response = await httpConnector.post('/auth/check-key', requestBody);
+    Response response =
+        await httpConnector.post('/auth/check-key', requestBody);
     ResponseDto responseDto = toResponseDto(response);
     return responseDto;
   }

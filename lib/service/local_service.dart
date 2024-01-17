@@ -1,7 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart';
-import '../core/http_connector.dart';
+import '../core/network/http_connector.dart';
 import '../dto/response_dto.dart';
 import '../dto/response_util.dart';
 import '../models/session_user.dart';
@@ -12,14 +12,15 @@ const secureStorage = FlutterSecureStorage();
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-09-01
- * Last Modified: 2023-09-01
+ * Last Modified: 2024-01-14
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  *              Description
  * 자동 로그인 관련 LocalService
- * 
+ *
+ * URL 분리
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
@@ -39,13 +40,16 @@ class LocalService {
     Logger().d(" Storage Token 확인 $refreshToken");
     if (refreshToken != null && refreshToken.isNotEmpty) {
       try {
-        Response response = await HttpConnector().getInitToken("/auth/refresh-token", refreshToken);
+        Response response = await HttpConnector()
+            .getInitToken("/auth/refresh-token", refreshToken);
         //Access Token저장
         String? jwtToken = response.headers['access-token'].toString();
         ResponseDto responseDto = toResponseDto(response);
         if (responseDto.msg == "login success") {
           String uid = responseDto.data;
-          User user = User(uid: uid, userEmail: "dlgustjd9566@gmail.com"); // TODO: userEmail도 추가 하기
+          User user = User(
+              uid: uid,
+              userEmail: "dlgustjd9566@gmail.com"); // TODO: userEmail도 추가 하기
           SessionUser.successAuthentication(user, jwtToken, refreshToken);
         }
       } catch (e) {
