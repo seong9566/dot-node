@@ -1,9 +1,12 @@
+import 'package:dot_node/core/route_page.dart';
 import 'package:dot_node/models/session_user.dart';
 import 'package:dot_node/service/local_service.dart';
 import 'package:dot_node/view/pages/auth/login_page.dart';
 import 'package:dot_node/core/util/locale_string.dart';
 import 'package:dot_node/web_view/pages/auth/web_login_page.dart';
 import 'package:dot_node/web_view/pages/home/home_page.dart';
+import 'package:dot_node/web_view/pages/personal/personal_view.dart';
+import 'package:dot_node/web_view/pages/personal/widget_update_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +17,7 @@ import 'package:get/get.dart';
 /*
  * Project Name:  [DOTnode]
  * Created Date: 2023-04-29 
- * Last Modified: 2023-07-01
+ * Last Modified: 2024-01-17
  * Author: Hyeonseong
  * Modified By: Hyeonseong
  * copyright @ 2023 TeamDOT
@@ -76,9 +79,17 @@ class MyWeb extends StatelessWidget {
           translations: LocaleString(),
           locale: const Locale('kr_KR'), // kr_KR, en_US
           //home: const WebSignUpPage(),
-          home: SessionUser.isLogin ? HomePage() : WebLoginPage(),
-          //home: const HomePage(),
+          home: SessionUser.isLogin ? PersonalView() : WebLoginPage(),
+          // home: PersonalView(),
           //home: PersonalPage(),
+          initialRoute:
+              SessionUser.isLogin ? RoutePage.personal : RoutePage.login,
+          routes: {
+            RoutePage.login: (_) => const WebLoginPage(),
+            RoutePage.home: (_) => const HomePage(),
+            RoutePage.personal: (_) => const PersonalView(),
+            RoutePage.widgetUpdate: (_) => const WidgetUpdateView(),
+          },
         );
       },
     );

@@ -1,9 +1,8 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../constant.dart';
+import '../constant.dart';
 
 class CustomSearchBar extends StatefulWidget {
   CustomSearchBar({super.key});
@@ -29,48 +28,12 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      margin: EdgeInsets.only(top: 20),
       width: 700.w,
       height: 68.h,
       child: TextFormField(
         decoration: InputDecoration(
-          prefixIcon: Padding(
-            padding: EdgeInsets.only(left: 24.w),
-            child: SizedBox(
-              width: 64.w,
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton2<Icon>(
-                  isExpanded: true,
-                  items: btnItems
-                      .map((Icon item) => DropdownMenuItem<Icon>(
-                            value: item,
-                            child: item,
-                          ))
-                      .toList(),
-                  value: selectedValue,
-                  onChanged: (Icon? value) {
-                    setState(() {
-                      selectedValue = value;
-                    });
-                  },
-                  buttonStyleData: ButtonStyleData(
-                    width: 88.w,
-                  ),
-                  menuItemStyleData: MenuItemStyleData(
-                    padding: EdgeInsets.symmetric(horizontal: 18.w),
-                    height: 50.h,
-                  ),
-                  dropdownStyleData: DropdownStyleData(
-                    offset: Offset(-10, 0),
-                    width: 68.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
           suffixIcon: Padding(
             padding: EdgeInsets.only(right: 24.w),
             child: Icon(

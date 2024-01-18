@@ -1,4 +1,4 @@
-import 'package:dot_node/web_view/pages/personal/personal_page.dart';
+import 'package:dot_node/web_view/pages/personal/personal_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -86,7 +86,7 @@ class NavIconArea extends StatelessWidget {
               child: Container(
                 // 전체 NavContent의 길이 - NavContent 길이
                 // 476 - 340 = 136
-                width: 136.w,
+                width: 135.w,
                 height: 12.h,
                 color: Color(0xffD9D9D9),
               ),
@@ -99,7 +99,7 @@ class NavIconArea extends StatelessWidget {
             child: Align(
               child: InkWell(
                 onTap: () {
-                  Get.to(PersonalPage());
+                  Get.to(PersonalView());
                 },
                 child: Container(
                   width: 52.w,
@@ -116,7 +116,7 @@ class NavIconArea extends StatelessWidget {
           Positioned(
             // 20(Position) + 52(Container) + 20 = 92
             // 88인 이유, 원래의 너비는 소수점 2자리 까지임, 전부 반올림을 해서 + - 오차 생김
-            left: 88.w,
+            left: 85.w,
             top: 0.h,
             bottom: 0.h,
             child: Align(
@@ -189,11 +189,11 @@ class NavTextArea extends StatelessWidget {
         children: [
           SizedBox(width: 14.w),
           Text(
-            "DOT",
+            "SERVICE",
             style: TextStyle(
               color: Colors.white,
               //  fontFamily: "Akira",
-              fontSize: 20.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -204,11 +204,11 @@ class NavTextArea extends StatelessWidget {
           ),
           SizedBox(width: 14.w),
           Text(
-            "WORK",
+            "MANUAL",
             style: TextStyle(
               color: Colors.white,
               // fontFamily: "Akira",
-              fontSize: 20.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -218,16 +218,15 @@ class NavTextArea extends StatelessWidget {
             child: VerticalDivider(color: Colors.white, thickness: 2),
           ),
           SizedBox(width: 14.w),
-          SizedBox(width: 34.w), //Text 대체 SizedBox
-          // Text(
-          //   "JOB",
-          //   style: TextStyle(
-          //     color: Colors.white,
-          //     // fontFamily: "Akira",
-          //     fontSize: 20.sp,
-          //     fontWeight: FontWeight.bold,
-          //   ),
-          // ),
+          Text(
+            "NEWS",
+            style: TextStyle(
+              color: Colors.white,
+              // fontFamily: "Akira",
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:dot_node/core/util/custom_snack_bar.dart';
+import 'package:dot_node/widget/custom_snack_bar.dart';
 import 'package:dot_node/main.dart';
 import 'package:dot_node/web_view/pages/home/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,9 +27,9 @@ final googleSignProvider = Provider<GoogleSignProvider>((ref) {
 });
 
 class GoogleSignProvider {
-  final Ref _ref;
+  final Ref ref;
   final dContext = navigatorKey.currentContext;
-  GoogleSignProvider(this._ref);
+  GoogleSignProvider(this.ref);
 
   final googleSignIn = GoogleSignIn();
 
@@ -50,15 +50,18 @@ class GoogleSignProvider {
       }
 
       // Firebase Authentication에 사용자 정보 추가
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final googleAuthCredential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      final userCredential = await FirebaseAuth.instance.signInWithCredential(googleAuthCredential);
+      final userCredential = await FirebaseAuth.instance
+          .signInWithCredential(googleAuthCredential);
       _user = userCredential.user;
       Logger().d("로그 확인 : $_user");
-      ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "${_user!.displayName}님 환영합니다!"));
+      ScaffoldMessenger.of(dContext!)
+          .showSnackBar(CustomSnackBar(msg: "${_user!.displayName}님 환영합니다!"));
       Get.to(() => HomePage());
     } catch (error) {
       Logger().d('Google 로그인 에러: $error');

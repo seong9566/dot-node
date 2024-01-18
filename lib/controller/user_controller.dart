@@ -1,10 +1,9 @@
-import 'package:dot_node/core/util/custom_snack_bar.dart';
+import 'package:dot_node/widget/custom_snack_bar.dart';
 import 'package:dot_node/dto/request/auth_req_dto.dart';
 import 'package:dot_node/dto/request/email_ver_req_dto.dart';
 import 'package:dot_node/dto/request/sms_ver_req_dto.dart';
 import 'package:dot_node/dto/response_dto.dart';
 import 'package:dot_node/main.dart';
-import 'package:dot_node/service/local_service.dart';
 import 'package:dot_node/service/user_service.dart';
 import 'package:dot_node/web_view/components/custom_alert_dialog.dart';
 import 'package:dot_node/web_view/pages/auth/components/verfication_modal.dart';
@@ -15,8 +14,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'dart:async';
-
-import '../models/user.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -40,9 +37,9 @@ final userController = Provider<UserController>((ref) {
 class UserController {
   final dContext = navigatorKey.currentContext;
   final UserService userService = UserService();
-  final Ref _ref;
+  final Ref ref;
 
-  UserController(this._ref);
+  UserController(this.ref);
 
   bool _isUsernameValid = false;
 
@@ -52,14 +49,24 @@ class UserController {
     _isUsernameValid = value;
   }
 
-  Future<void> sign({required String userUid, required String userEmail, required String userPassword, required String userTel}) async {
+  Future<void> sign(
+      {required String userUid,
+      required String userEmail,
+      required String userPassword,
+      required String userTel}) async {
     // 1. Dto
-    final signReqDto = SignReqDto(userUid: userUid, userEmail: userEmail, userPassword: userPassword, userTel: userTel, userRole: "USER");
+    final signReqDto = SignReqDto(
+        userUid: userUid,
+        userEmail: userEmail,
+        userPassword: userPassword,
+        userTel: userTel,
+        userRole: "USER");
     // 2. Service 요청
     try {
       ResponseDto responseDto = await userService.fetchSign(signReqDto);
       if (responseDto.code == "CREATED") {
-        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "회원가입 성공"));
+        ScaffoldMessenger.of(dContext!)
+            .showSnackBar(CustomSnackBar(msg: "회원가입 성공"));
         Get.to(() => WebLoginPage());
       } else {
         showDialog(
@@ -74,8 +81,10 @@ class UserController {
   }
 
 //로그인
-  Future<void> login({required String userEmail, required String userPassword}) async {
-    final loginReqDto = LoginReqDto(userEmail: userEmail, userPassword: userPassword);
+  Future<void> login(
+      {required String userEmail, required String userPassword}) async {
+    final loginReqDto =
+        LoginReqDto(userEmail: userEmail, userPassword: userPassword);
 
     try {
       final responseDto = await userService.fetchLogin(loginReqDto);
@@ -87,13 +96,15 @@ class UserController {
         //User user = User(uid: "${responseDto.data[userUid]}", userEmail: userEmail);
         //LocalService().fetchSessionUser(user: user);
         Logger().d("login Dto : ${responseDto.data}");
-        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "환영합니다!"));
+        ScaffoldMessenger.of(dContext!)
+            .showSnackBar(CustomSnackBar(msg: "환영합니다!"));
         Get.to(() => HomePage());
       } else {
         // 로그인 실패 시 경고창 표시
         showDialog(
           context: dContext!,
-          builder: (context) => CustomAlertDialog(msg: '로그인 실패, 아이디와 패스워드를 확인해 주세요.'.tr),
+          builder: (context) =>
+              CustomAlertDialog(msg: '로그인 실패, 아이디와 패스워드를 확인해 주세요.'.tr),
         );
       }
     } catch (e) {
@@ -108,19 +119,25 @@ class UserController {
       //result값 추출
       dynamic result = responseDto.data['result'];
       if (result == true) {
-        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "사용 가능한 이름 입니다."));
+        ScaffoldMessenger.of(dContext!)
+            .showSnackBar(CustomSnackBar(msg: "사용 가능한 이름 입니다."));
       } else if (result == false) {
-        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "이미 사용중인 이름입니다."));
+        ScaffoldMessenger.of(dContext!)
+            .showSnackBar(CustomSnackBar(msg: "이미 사용중인 이름입니다."));
       }
     } else {
-      ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "잘못된 요청 입니다."));
+      ScaffoldMessenger.of(dContext!)
+          .showSnackBar(CustomSnackBar(msg: "잘못된 요청 입니다."));
     }
   }
 
-  Future<void> smsVerification({required String uid, required String to}) async {
-    SmsVerReqDto smsVerReqDto = SmsVerReqDto(uid: uid, to: to, content: "sms 테스트");
+  Future<void> smsVerification(
+      {required String uid, required String to}) async {
+    SmsVerReqDto smsVerReqDto =
+        SmsVerReqDto(uid: uid, to: to, content: "sms 테스트");
     try {
-      ResponseDto responseDto = await userService.fetchSmsVerification(smsVerReqDto);
+      ResponseDto responseDto =
+          await userService.fetchSmsVerification(smsVerReqDto);
       if (responseDto.code == "OK") {
         return showDialog(
             context: dContext!,
@@ -129,21 +146,27 @@ class UserController {
                   from: to,
                 )));
       } else if (uid.isEmpty) {
-        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "이름을 확인해주세요."));
+        ScaffoldMessenger.of(dContext!)
+            .showSnackBar(CustomSnackBar(msg: "이름을 확인해주세요."));
       } else {
-        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "중복된 전화번호 입니다."));
+        ScaffoldMessenger.of(dContext!)
+            .showSnackBar(CustomSnackBar(msg: "중복된 전화번호 입니다."));
       }
     } catch (e) {
       Logger().d("$e, name : userController, method : smsVerification");
     }
   }
 
-  Future<void> smsVerCheck({required String uid, required String from, required String key}) async {
-    SmsVerCheckReqDto smsVerCheckReqDto = SmsVerCheckReqDto(uid: uid, from: from, key: key);
-    ResponseDto responseDto = await userService.fetchSmsVerCheck(smsVerCheckReqDto);
+  Future<void> smsVerCheck(
+      {required String uid, required String from, required String key}) async {
+    SmsVerCheckReqDto smsVerCheckReqDto =
+        SmsVerCheckReqDto(uid: uid, from: from, key: key);
+    ResponseDto responseDto =
+        await userService.fetchSmsVerCheck(smsVerCheckReqDto);
 
     if (responseDto.code == 'OK') {
-      ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "인증 성공"));
+      ScaffoldMessenger.of(dContext!)
+          .showSnackBar(CustomSnackBar(msg: "인증 성공"));
 
       Get.back();
     } else {
@@ -151,16 +174,21 @@ class UserController {
     }
   }
 
-  Future<void> emailVerification({required String uid, required String to}) async {
-    EmailVerReqDto emailVerReqDto = EmailVerReqDto(uid: uid, to: to, title: "email 테스트");
+  Future<void> emailVerification(
+      {required String uid, required String to}) async {
+    EmailVerReqDto emailVerReqDto =
+        EmailVerReqDto(uid: uid, to: to, title: "email 테스트");
     try {
-      ResponseDto responseDto = await userService.fetchEmailVerification(emailVerReqDto);
+      ResponseDto responseDto =
+          await userService.fetchEmailVerification(emailVerReqDto);
       if (responseDto.code == 'OK' && responseDto.data != null) {
-        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "메일을 확인해 주세요."));
+        ScaffoldMessenger.of(dContext!)
+            .showSnackBar(CustomSnackBar(msg: "메일을 확인해 주세요."));
       } else {
         Logger().d("email :${responseDto.data}");
         Logger().d("email :${responseDto.msg}");
-        ScaffoldMessenger.of(dContext!).showSnackBar(CustomSnackBar(msg: "에러가 발생했습니다."));
+        ScaffoldMessenger.of(dContext!)
+            .showSnackBar(CustomSnackBar(msg: "에러가 발생했습니다."));
       }
     } catch (e) {
       Logger().d("$e, name : userController, method : emailVerification");

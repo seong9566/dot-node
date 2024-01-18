@@ -1,3 +1,4 @@
+import 'package:dot_node/core/ui/color_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,7 +20,10 @@ class CustomMarquee extends StatefulWidget {
   final List<Widget> items;
   final Duration moveDuration;
 
-  const CustomMarquee({super.key, required this.items, this.moveDuration = const Duration(milliseconds: 100)});
+  const CustomMarquee(
+      {super.key,
+      required this.items,
+      this.moveDuration = const Duration(milliseconds: 100)});
 
   @override
   _CustomMarqueeState createState() => _CustomMarqueeState();
@@ -43,7 +47,7 @@ class _CustomMarqueeState extends State<CustomMarquee> {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 40.w,
-      color: Colors.grey.shade800,
+      color: DotColor.dotPrimary,
       child: ListView.builder(
         shrinkWrap: true,
         itemBuilder: (context, index) {
@@ -69,7 +73,8 @@ class _CustomMarqueeState extends State<CustomMarquee> {
 
     _position += moveDistance;
 
-    _scrollController.animateTo(_position, duration: widget.moveDuration, curve: Curves.linear);
+    _scrollController.animateTo(_position,
+        duration: widget.moveDuration, curve: Curves.linear);
 
     await Future.delayed(widget.moveDuration);
     return true;
