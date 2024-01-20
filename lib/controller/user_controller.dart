@@ -7,7 +7,7 @@ import 'package:dot_node/main.dart';
 import 'package:dot_node/service/user_service.dart';
 import 'package:dot_node/web_view/components/custom_alert_dialog.dart';
 import 'package:dot_node/web_view/pages/auth/components/verfication_modal.dart';
-import 'package:dot_node/web_view/pages/auth/web_login_page.dart';
+import 'package:dot_node/web_view/pages/login/web_login_view.dart';
 import 'package:dot_node/web_view/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,7 +67,7 @@ class UserController {
       if (responseDto.code == "CREATED") {
         ScaffoldMessenger.of(dContext!)
             .showSnackBar(CustomSnackBar(msg: "회원가입 성공"));
-        Get.to(() => WebLoginPage());
+        Get.to(() => WebLoginView());
       } else {
         showDialog(
           context: dContext!,
@@ -81,37 +81,37 @@ class UserController {
   }
 
 //로그인
-  Future<void> login(
-      {required String userEmail, required String userPassword}) async {
-    final loginReqDto =
-        LoginReqDto(userEmail: userEmail, userPassword: userPassword);
-
-    try {
-      final responseDto = await userService.fetchLogin(loginReqDto);
-
-      // 로그인 성공 시
-      if (responseDto.msg == "login success") {
-        //TODO: response에 uid,email가 있을때 주석 풀기.
-        //String uid = responseDto.data;
-        //User user = User(uid: "${responseDto.data[userUid]}", userEmail: userEmail);
-        //LocalService().fetchSessionUser(user: user);
-        Logger().d("login Dto : ${responseDto.data}");
-        ScaffoldMessenger.of(dContext!)
-            .showSnackBar(CustomSnackBar(msg: "환영합니다!"));
-        Get.to(() => HomePage());
-      } else {
-        // 로그인 실패 시 경고창 표시
-        showDialog(
-          context: dContext!,
-          builder: (context) =>
-              CustomAlertDialog(msg: '로그인 실패, 아이디와 패스워드를 확인해 주세요.'.tr),
-        );
-      }
-    } catch (e) {
-      // 예외 발생 시 로그 출력
-      Logger().d("$e, name : userController, method : login");
-    }
-  }
+//   Future<void> login(
+//       {required String userEmail, required String userPassword}) async {
+//     final loginReqDto =
+//         LoginModel(userEmail: userEmail, userPassword: userPassword);
+//
+//     try {
+//       final responseDto = await userService.fetchLogin(loginReqDto);
+//
+//       // 로그인 성공 시
+//       if (responseDto.msg == "login success") {
+//         //TODO: response에 uid,email가 있을때 주석 풀기.
+//         //String uid = responseDto.data;
+//         //User user = User(uid: "${responseDto.data[userUid]}", userEmail: userEmail);
+//         //LocalService().fetchSessionUser(user: user);
+//         Logger().d("login Dto : ${responseDto.data}");
+//         ScaffoldMessenger.of(dContext!)
+//             .showSnackBar(CustomSnackBar(msg: "환영합니다!"));
+//         Get.to(() => HomePage());
+//       } else {
+//         // 로그인 실패 시 경고창 표시
+//         showDialog(
+//           context: dContext!,
+//           builder: (context) =>
+//               CustomAlertDialog(msg: '로그인 실패, 아이디와 패스워드를 확인해 주세요.'.tr),
+//         );
+//       }
+//     } catch (e) {
+//       // 예외 발생 시 로그 출력
+//       Logger().d("$e, name : userController, method : login");
+//     }
+//   }
 
   Future<void> userNameCheck({required String userUid}) async {
     ResponseDto responseDto = await userService.fetchUsernameCheck(userUid);

@@ -6,6 +6,7 @@ class ImgRes {
   ImgRes._internal();
 
   static const profilePath = "assets/profile.png";
+  static const backgroundImgPath = "assets/login_background.gif";
 
   static Map<String, String> pill = {
     ImgStatus.def: profilePath,

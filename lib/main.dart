@@ -1,9 +1,8 @@
 import 'package:dot_node/core/route_page.dart';
 import 'package:dot_node/models/session_user.dart';
 import 'package:dot_node/service/local_service.dart';
-import 'package:dot_node/view/pages/auth/login_page.dart';
 import 'package:dot_node/core/util/locale_string.dart';
-import 'package:dot_node/web_view/pages/auth/web_login_page.dart';
+import 'package:dot_node/web_view/pages/login/web_login_view.dart';
 import 'package:dot_node/web_view/pages/home/home_page.dart';
 import 'package:dot_node/web_view/pages/personal/personal_view.dart';
 import 'package:dot_node/web_view/pages/personal/widget_update_view.dart';
@@ -44,23 +43,6 @@ Future<void> main() async {
   );
   if (kIsWeb) {
     runApp(const ProviderScope(child: MyWeb()));
-  } else {
-    runApp(const ProviderScope(child: MyApp()));
-  }
-}
-
-//앱
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      translations: LocaleString(),
-      locale: const Locale('kr_KR'), // kr_KR, en_US
-      home: const LoginPage(),
-    );
   }
 }
 
@@ -79,13 +61,13 @@ class MyWeb extends StatelessWidget {
           translations: LocaleString(),
           locale: const Locale('kr_KR'), // kr_KR, en_US
           //home: const WebSignUpPage(),
-          home: SessionUser.isLogin ? PersonalView() : WebLoginPage(),
+          home: SessionUser.isLogin ? PersonalView() : WebLoginView(),
           // home: PersonalView(),
           //home: PersonalPage(),
           initialRoute:
               SessionUser.isLogin ? RoutePage.personal : RoutePage.login,
           routes: {
-            RoutePage.login: (_) => const WebLoginPage(),
+            RoutePage.login: (_) => const WebLoginView(),
             RoutePage.home: (_) => const HomePage(),
             RoutePage.personal: (_) => const PersonalView(),
             RoutePage.widgetUpdate: (_) => const WidgetUpdateView(),

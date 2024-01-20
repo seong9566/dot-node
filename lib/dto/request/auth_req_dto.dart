@@ -46,32 +46,3 @@ class SignReqDto {
     };
   }
 }
-
-class LoginReqDto {
-  final String userEmail;
-  final String userPassword;
-
-  LoginReqDto({
-    required this.userEmail,
-    required this.userPassword,
-  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      "userEmail": userEmail,
-      "userPassword": userPassword,
-    };
-  }
-}
-
-// class UserNameCheckReqDto {
-//   final String username;
-
-//   UserNameCheckReqDto({required this.username});
-
-//   Map<String, dynamic> toJson() {
-//     return {
-//       "username": username,
-//     };
-//   }
-// }

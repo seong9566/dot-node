@@ -1,5 +1,5 @@
 class Urls {
-  static const String host = "https://node.o-r.kr:443"; // AWS
+  static const String baseUrl = "https://node.o-r.kr:443"; // AWS
 
   /// POST - 회원가입
   static const String join = "/auth/join";

@@ -47,19 +47,16 @@ class UserService {
   }
 
   // 로그인
-  Future<ResponseDto> fetchLogin(LoginReqDto loginReqDto) async {
-    //1. json 변환
-    String requestBody = jsonEncode(loginReqDto.toJson());
-    //2. 통신
-    Response response = await httpConnector.post("/auth/login", requestBody);
-    // 토큰 저장
-    String? jwtToken = response.headers['access-token'].toString();
-    String? refreshToken = response.headers['refresh-token'].toString();
-    await secureStorage.write(key: "jwtToken", value: jwtToken);
-    await secureStorage.write(key: "refreshToken", value: refreshToken);
-    ResponseDto responseDto = toResponseDto(response);
-    return responseDto;
-  }
+  // Future<ResponseDto> fetchLogin(LoginModel loginReqDto) async {
+  //   //1. json 변환
+  //   String requestBody = jsonEncode(loginReqDto.toJson());
+  //   //2. 통신
+  //   Response response = await httpConnector.post("/auth/login", requestBody);
+  //   // 토큰 저장
+  //
+  //   ResponseDto responseDto = toResponseDto(response);
+  //   return responseDto;
+  // }
 
   // 중복체크
   Future<ResponseDto> fetchUsernameCheck(String username) async {

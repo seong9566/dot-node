@@ -55,7 +55,7 @@ class _PersonalViewState extends State<PersonalView> {
             ],
           ),
           Container(
-            height: 266,
+            height: 266.h,
             decoration: BoxDecoration(
               color: DotColor.dotGray,
             ),
@@ -192,13 +192,13 @@ class _PersonalBottomNavState extends State<PersonalBottomNav> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 60,
-        height: 60,
+        width: 50.w,
+        height: 50.h,
         decoration: BoxDecoration(
           color: DotColor.dotGray,
-          borderRadius: BorderRadius.all(Radius.circular(60)),
+          borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
-        child: Icon(icon, size: 28),
+        child: Icon(icon, size: 28.sp),
       ),
     );
   }
@@ -207,8 +207,8 @@ class _PersonalBottomNavState extends State<PersonalBottomNav> {
     return [
       Container(
         margin: EdgeInsets.symmetric(horizontal: 2),
-        width: 5,
-        height: 5,
+        width: 5.w,
+        height: 5.h,
         decoration: BoxDecoration(
           color: DotColor.dotGray,
           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -216,8 +216,8 @@ class _PersonalBottomNavState extends State<PersonalBottomNav> {
       ),
       Container(
         margin: EdgeInsets.symmetric(horizontal: 2),
-        width: 5,
-        height: 5,
+        width: 5.w,
+        height: 5.h,
         decoration: BoxDecoration(
           color: DotColor.dotGray,
           borderRadius: BorderRadius.all(Radius.circular(20)),

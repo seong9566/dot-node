@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 
-abstract class DioBaseAPI {
+abstract class DioBaseApi {
   late final Dio _dio;
 
-  DioBaseAPI(this._dio);
+  DioBaseApi(this._dio);
 
   /// 헤더 토큰 업데이트
   void updateHeaderToken(String userToken) {
