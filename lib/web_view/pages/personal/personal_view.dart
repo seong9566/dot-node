@@ -4,6 +4,7 @@ import 'package:dot_node/core/ui/img_res.dart';
 import 'package:dot_node/models/app_bar_model.dart';
 import 'package:dot_node/widget/custom_marquee.dart';
 import 'package:dot_node/widget/custom_search_bar.dart';
+import 'package:dot_node/widget/dot_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -201,28 +202,5 @@ class _PersonalBottomNavState extends State<PersonalBottomNav> {
         child: Icon(icon, size: 28.sp),
       ),
     );
-  }
-
-  List<Container> bottomDot() {
-    return [
-      Container(
-        margin: EdgeInsets.symmetric(horizontal: 2),
-        width: 5.w,
-        height: 5.h,
-        decoration: BoxDecoration(
-          color: DotColor.dotGray,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.symmetric(horizontal: 2),
-        width: 5.w,
-        height: 5.h,
-        decoration: BoxDecoration(
-          color: DotColor.dotGray,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ),
-      ),
-    ];
   }
 }

@@ -28,6 +28,7 @@ class RoutePage {
   }
 
   static const login = '/login';
+  static const sign = '/sign';
   static const home = '/home';
   static const personal = '/personal';
   static const widgetUpdate = '/widgetUpdate';

@@ -27,4 +27,18 @@ class DotController {
     return await _dotApi.login(
         userEmail: userEmail, userPassword: userPassword);
   }
+
+  Future<bool> idCheck({required String userUid}) async {
+    return await _dotApi.idCheck(uid: userUid);
+  }
+
+  Future<void> emailCheck(
+      {required String userUid, required String userEmail}) async {
+    return await _dotApi.emailCheck(uid: userUid, to: userEmail);
+  }
+
+  Future<void> telCheck(
+      {required String userUid, required String userTel}) async {
+    return await _dotApi.telCheck(uid: userUid, to: userTel);
+  }
 }

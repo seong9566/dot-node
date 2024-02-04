@@ -7,7 +7,7 @@ import 'package:dot_node/main.dart';
 import 'package:dot_node/service/user_service.dart';
 import 'package:dot_node/web_view/components/custom_alert_dialog.dart';
 import 'package:dot_node/web_view/pages/auth/components/verfication_modal.dart';
-import 'package:dot_node/web_view/pages/login/web_login_view.dart';
+import 'package:dot_node/web_view/pages/login/login_view.dart';
 import 'package:dot_node/web_view/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,7 +67,7 @@ class UserController {
       if (responseDto.code == "CREATED") {
         ScaffoldMessenger.of(dContext!)
             .showSnackBar(CustomSnackBar(msg: "회원가입 성공"));
-        Get.to(() => WebLoginView());
+        Get.to(() => LoginView());
       } else {
         showDialog(
           context: dContext!,
@@ -113,23 +113,23 @@ class UserController {
 //     }
 //   }
 
-  Future<void> userNameCheck({required String userUid}) async {
-    ResponseDto responseDto = await userService.fetchUsernameCheck(userUid);
-    if (responseDto.code == "OK") {
-      //result값 추출
-      dynamic result = responseDto.data['result'];
-      if (result == true) {
-        ScaffoldMessenger.of(dContext!)
-            .showSnackBar(CustomSnackBar(msg: "사용 가능한 이름 입니다."));
-      } else if (result == false) {
-        ScaffoldMessenger.of(dContext!)
-            .showSnackBar(CustomSnackBar(msg: "이미 사용중인 이름입니다."));
-      }
-    } else {
-      ScaffoldMessenger.of(dContext!)
-          .showSnackBar(CustomSnackBar(msg: "잘못된 요청 입니다."));
-    }
-  }
+  // Future<void> userNameCheck({required String userUid}) async {
+  //   ResponseDto responseDto = await userService.fetchUsernameCheck(userUid);
+  //   if (responseDto.code == "OK") {
+  //     //result값 추출
+  //     dynamic result = responseDto.data['result'];
+  //     if (result == true) {
+  //       ScaffoldMessenger.of(dContext!)
+  //           .showSnackBar(CustomSnackBar(msg: "사용 가능한 이름 입니다."));
+  //     } else if (result == false) {
+  //       ScaffoldMessenger.of(dContext!)
+  //           .showSnackBar(CustomSnackBar(msg: "이미 사용중인 이름입니다."));
+  //     }
+  //   } else {
+  //     ScaffoldMessenger.of(dContext!)
+  //         .showSnackBar(CustomSnackBar(msg: "잘못된 요청 입니다."));
+  //   }
+  // }
 
   Future<void> smsVerification(
       {required String uid, required String to}) async {

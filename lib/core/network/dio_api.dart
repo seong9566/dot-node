@@ -12,11 +12,15 @@ abstract class DioBaseApi {
   }
 
   ///dio get
-  Future<Response?> dioGet(String url, {Map<String, dynamic>? query}) async {
+  Future<Response?> dioGet(String url,
+      {String? urlQuery, Map<String, dynamic>? query}) async {
     try {
       Logger().d("dioGet url : $url, query : $query");
       Response response;
       if (query == null) {
+        String parsedUrl = "$url$urlQuery";
+        response = await _dio.get(parsedUrl);
+      } else if (urlQuery == null) {
         response = await _dio.get(url);
       } else {
         response = await _dio.get(url, queryParameters: query);
@@ -39,7 +43,6 @@ abstract class DioBaseApi {
     try {
       Logger().d("dioPost url : $url, data : $data");
       Response response = await _dio.post(url, data: data);
-
       return response;
     } on DioException catch (e) {
       throw {

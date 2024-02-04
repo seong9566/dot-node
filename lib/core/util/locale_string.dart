@@ -32,12 +32,12 @@ class LocaleString extends Translations {
           'getStarted': 'Get Started',
           'verify': 'Verify',
           // hime Text
-          'hint_id': 'Please enter your ID',
-          'hint_password': 'Please enter your Password',
+          'hint_id': 'ID',
+          'hint_password': 'Password',
           'hint_name': 'Please enter your Name',
-          'hint_phoneNumber': 'Please enter your PhoneNumber',
-          'hint_email': 'Please enter your Email',
-          'hint_password_check': 'Please re-enter your password',
+          'hint_phoneNumber': 'Phone',
+          'hint_email': 'E-mail',
+          'hint_password_check': 'Password',
           'hint_verificationNumber': 'Please enter your verificationNumber'
         },
         //KR
@@ -55,12 +55,12 @@ class LocaleString extends Translations {
           'getStarted': '시작',
           'verify': '인증',
           // hime Text
-          'hint_id': '아이디를 입력해주세요',
-          'hint_password': '비밀번호를 입력해주세요',
+          'hint_id': 'ID',
+          'hint_password': 'Password',
           'hint_name': '이름을 입력해주세요',
-          'hint_phoneNumber': '휴대폰번호를 입력해주세요',
-          'hint_email': '이메일을 입력해주세요',
-          'hint_password_check': '비밀번호를 한번 더 입력해 주세요',
+          'hint_phoneNumber': 'Phone',
+          'hint_email': 'E-mail',
+          'hint_password_check': 'Password',
           'hint_verificationNumber': '인증번호를 입력해 주세요.'
         },
       };

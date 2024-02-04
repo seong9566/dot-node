@@ -37,9 +37,17 @@ class _CustomMarqueeState extends State<CustomMarquee> {
   void initState() {
     _scrollController = ScrollController();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      Future.doWhile(_scroll);
+      if (_scrollController.hasClients) {
+        Future.doWhile(_scroll);
+      }
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,19 +70,14 @@ class _CustomMarqueeState extends State<CustomMarquee> {
     );
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
   Future<bool> _scroll() async {
     double moveDistance = 10;
 
     _position += moveDistance;
-
-    _scrollController.animateTo(_position,
-        duration: widget.moveDuration, curve: Curves.linear);
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(_position,
+          duration: widget.moveDuration, curve: Curves.linear);
+    }
 
     await Future.delayed(widget.moveDuration);
     return true;

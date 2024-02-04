@@ -29,8 +29,6 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
-  List<Widget>? widgetLists = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

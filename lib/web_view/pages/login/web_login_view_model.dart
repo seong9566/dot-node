@@ -1,4 +1,4 @@
-import 'package:dot_node/controller/ihp_controller.dart';
+import 'package:dot_node/controller/dot_controller.dart';
 import 'package:dot_node/core/route_page.dart';
 import 'package:dot_node/main.dart';
 import 'package:dot_node/service/local_service.dart';
