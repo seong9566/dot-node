@@ -1,24 +1,27 @@
 import 'package:dot_node/core/ui/color_asset.dart';
 import 'package:dot_node/core/ui/img_res.dart';
 import 'package:dot_node/models/app_bar_model.dart';
+import 'package:dot_node/web_view/pages/personal/widget/template_items.dart';
+import 'package:dot_node/web_view/pages/personal/widget/widget_items.dart';
+import 'package:dot_node/web_view/pages/personal/page_controller.dart';
 import 'package:dot_node/widget/custom_marquee.dart';
 import 'package:dot_node/widget/custom_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class WidgetUpdateView extends StatefulWidget {
+class WidgetUpdateView extends ConsumerStatefulWidget {
   const WidgetUpdateView({super.key});
 
   @override
-  State<WidgetUpdateView> createState() => _WidgetUpdateViewState();
+  WidgetUpdateViewState createState() => WidgetUpdateViewState();
 }
 
-class _WidgetUpdateViewState extends State<WidgetUpdateView>
+class WidgetUpdateViewState extends ConsumerState
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   bool isWidget = true;
   bool isTemplates = false;
-
   @override
   void initState() {
     super.initState();
@@ -37,30 +40,41 @@ class _WidgetUpdateViewState extends State<WidgetUpdateView>
 
   @override
   Widget build(BuildContext context) {
+    final animationPageController = ref.watch(animationPageProvider);
     return Scaffold(
         body: Column(
       children: [
-        CustomMarquee(
-          items: [
-            MarqueeTest(
-                dotChain: appBarTextList[0].dotChain,
-                str: appBarTextList[0].str),
+        Column(
+          children: [
+            customAppBar(),
+            personalHeader(),
+            widthDivider(),
+            selectWidgetAndTemplates(animationPageController),
           ],
         ),
-        personalHeader(),
-        widthDivider(),
-        selectWidgetAndTemplates(),
+        _body(animationPageController),
       ],
     ));
   }
 
-  Widget selectWidgetAndTemplates() {
+  Widget customAppBar() {
+    return CustomMarquee(
+      items: [
+        MarqueeTest(
+            dotChain: appBarTextList[0].dotChain, str: appBarTextList[0].str),
+      ],
+    );
+  }
+
+  Widget selectWidgetAndTemplates(
+      AnimationPageController animationPageController) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         GestureDetector(
           onTap: () {
             setState(() {
+              animationPageController.back();
               isWidget = true;
               isTemplates = false;
             });
@@ -89,6 +103,8 @@ class _WidgetUpdateViewState extends State<WidgetUpdateView>
         GestureDetector(
           onTap: () {
             setState(() {
+              animationPageController.next();
+
               isWidget = false;
               isTemplates = true;
             });
@@ -170,6 +186,34 @@ class _WidgetUpdateViewState extends State<WidgetUpdateView>
         ],
       ),
     );
+  }
+
+  Widget _body(AnimationPageController animationPageController) {
+    return Expanded(
+      child: Stack(
+        children: [
+          AnimatedPositioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: animationPageController.top,
+            duration: animationPageController.animationDuration,
+            child: AnimatedOpacity(
+              opacity: animationPageController.opacity,
+              duration: animationPageController.animationDuration,
+              child: pages()[animationPageController.pageNum],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> pages() {
+    return [
+      WidgetItems(),
+      TemplateItems(),
+    ];
   }
 
   List<Container> bottomDot() {

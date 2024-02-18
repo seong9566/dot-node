@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+/// 새로 리뉴얼 한 Personal
 class PersonalView extends StatefulWidget {
   const PersonalView({super.key});
 

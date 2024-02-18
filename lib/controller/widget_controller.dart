@@ -6,7 +6,7 @@ import 'package:dot_node/models/session_user.dart';
 import 'package:dot_node/models/widget_element.dart';
 
 import 'package:dot_node/service/widget_service.dart';
-import 'package:dot_node/web_view/pages/personal/model/personal_widget_view_model.dart';
+import 'package:dot_node/web_view/pages/personal/personal_widget_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
@@ -36,12 +36,17 @@ class WidgetController {
   final Ref ref;
   WidgetController(this.ref);
 
-  Future<void> insertWidget({required String widgetName, required String userUid, required List<WidgetElement> widgetElement}) async {
-    WidgetInsertReqDto widgetInsertReqDto = WidgetInsertReqDto(widgetName: widgetName, userUid: userUid, widgetElement: widgetElement);
+  Future<void> insertWidget(
+      {required String widgetName,
+      required String userUid,
+      required List<WidgetElement> widgetElement}) async {
+    WidgetInsertReqDto widgetInsertReqDto = WidgetInsertReqDto(
+        widgetName: widgetName, userUid: userUid, widgetElement: widgetElement);
     Logger().d("debug 인설트 ${widgetInsertReqDto.widgetElement[1].imageFile}");
     try {
       String? jwtToken = SessionUser.jwtToken;
-      ResponseDto responseDto = await widgetService.fetchInsertWidget(widgetInsertReqDto: widgetInsertReqDto, jwtToken: jwtToken);
+      ResponseDto responseDto = await widgetService.fetchInsertWidget(
+          widgetInsertReqDto: widgetInsertReqDto, jwtToken: jwtToken);
       Logger().d("responseDto.code : ${responseDto.code}");
       Logger().d("responseDto.data: ${responseDto.data}");
       Logger().d("responseDto.msg : ${responseDto.msg}");
@@ -58,7 +63,8 @@ class WidgetController {
 
   Future<void> getWidget({required String userName}) async {
     // TODO: 나중에는 user의 권한(Token,ID?) 받아서 해야함.
-    ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userName);
+    ResponseDto responseDto =
+        await widgetService.fetchGetWidget(userName: userName);
     Logger().d("responseDto.code : ${responseDto.code}");
     Logger().d("responseDto.data: ${responseDto.data}");
     Logger().d("responseDto.msg : ${responseDto.msg}");
@@ -66,11 +72,18 @@ class WidgetController {
   }
 
   Future<void> updateWidget(
-      {required String widgetName, required int widgetId, required String userUid, required List<WidgetElement> widgetElement}) async {
-    WidgetUpdateReqDto widgetUpdateReqDto = WidgetUpdateReqDto(widgetId: widgetId, widgetName: widgetName, widgetElement: widgetElement);
+      {required String widgetName,
+      required int widgetId,
+      required String userUid,
+      required List<WidgetElement> widgetElement}) async {
+    WidgetUpdateReqDto widgetUpdateReqDto = WidgetUpdateReqDto(
+        widgetId: widgetId,
+        widgetName: widgetName,
+        widgetElement: widgetElement);
     try {
       String? jwtToken = SessionUser.jwtToken;
-      ResponseDto responseDto = await widgetService.fetchUpdateWidget(widgetUpdateReqDto: widgetUpdateReqDto, jwtToken: jwtToken);
+      ResponseDto responseDto = await widgetService.fetchUpdateWidget(
+          widgetUpdateReqDto: widgetUpdateReqDto, jwtToken: jwtToken);
       Logger().d("responseDto.data: ${responseDto.data}");
       Logger().d("responseDto.msg : ${responseDto.msg}");
       // update이후 상태 업데이트.
@@ -80,16 +93,19 @@ class WidgetController {
     }
   }
 
-  Future<void> deleteWidget({required int widgetId, required String userUid}) async {
+  Future<void> deleteWidget(
+      {required int widgetId, required String userUid}) async {
     Logger().d("widgetId출력 : $widgetId");
     if (userUid != "이현성") {
       Logger().d("잘못된 접근 입니다.");
     }
     try {
       String? jwtToken = SessionUser.jwtToken;
-      WidgetDeleteReqDto widgetDeleteReqDto = WidgetDeleteReqDto(widgetId: widgetId);
+      WidgetDeleteReqDto widgetDeleteReqDto =
+          WidgetDeleteReqDto(widgetId: widgetId);
 
-      ResponseDto responseDto = await widgetService.fetchDeleteWidget(widgetDeleteReqDto: widgetDeleteReqDto, jwtToken: jwtToken);
+      ResponseDto responseDto = await widgetService.fetchDeleteWidget(
+          widgetDeleteReqDto: widgetDeleteReqDto, jwtToken: jwtToken);
       ref.read(personalWidgetViewModel.notifier).notifyViewModel();
       Logger().d("responseDto.data: ${responseDto.data}");
       Logger().d("responseDto.msg : ${responseDto.msg}");

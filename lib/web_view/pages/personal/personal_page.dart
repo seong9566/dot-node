@@ -2,7 +2,7 @@
 
 import 'package:dot_node/web_view/pages/home/model/widget_element_model.dart';
 import 'package:dot_node/web_view/pages/personal/component/custom_insert_form_modal.dart';
-import 'package:dot_node/web_view/pages/personal/model/personal_widget_view_model.dart';
+import 'package:dot_node/web_view/pages/personal/personal_widget_view_model.dart';
 import 'package:dot_node/models/widget_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -114,7 +114,8 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
                   ElevatedButton(
                     onPressed: () {
                       //selectedWidget(context, dropDownButtonItems, wController);
-                      customInsertFormModal(context: context, wControl: wController);
+                      customInsertFormModal(
+                          context: context, wControl: wController);
                     },
                     child: Text("Container 위젯 추가하기"),
                   ),
@@ -154,7 +155,8 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
                     if (oldIndex < newIndex) {
                       newIndex--;
                     }
-                    final item = widgetModel.widgetElementList.removeAt(oldIndex);
+                    final item =
+                        widgetModel.widgetElementList.removeAt(oldIndex);
                     widgetModel.widgetElementList.insert(newIndex, item);
                   });
                 },

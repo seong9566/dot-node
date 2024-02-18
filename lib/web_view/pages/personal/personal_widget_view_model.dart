@@ -14,11 +14,12 @@ import 'package:logger/logger.dart';
  * copyright @ 2023 TeamDOT
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  *              Description
- * User가 사용중인 Widget의 리스트 ViewModel
+ * User가 사용중인 Widget 리스트 ViewModel
  * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
  */
 
-final personalWidgetViewModel = StateNotifierProvider<PersonalWidgetViewModel, WidgetElementModel?>((ref) {
+final personalWidgetViewModel =
+    StateNotifierProvider<PersonalWidgetViewModel, WidgetElementModel?>((ref) {
   return PersonalWidgetViewModel(null, ref)..notifyViewModel();
 });
 
@@ -32,11 +33,13 @@ class PersonalWidgetViewModel extends StateNotifier<WidgetElementModel?> {
       Logger().d("실행?${SessionUser.user.uid}");
       String userUid = SessionUser.user.uid ?? "이현성"; // 임시 userUid
       Logger().d("userUid = $userUid");
-      ResponseDto responseDto = await widgetService.fetchGetWidget(userName: userUid, jwtToken: SessionUser.jwtToken);
+      ResponseDto responseDto = await widgetService.fetchGetWidget(
+          userName: userUid, jwtToken: SessionUser.jwtToken);
       state = WidgetElementModel(responseDto.data);
       // Logger().d("asdasd   ${state!.widgetElementList[4].widgetElement[1].imageFile}");
     } catch (e) {
-      Logger().d("Error : $e , name : userWidgetViewModel, method : notifyViewModel");
+      Logger().d(
+          "Error : $e , name : userWidgetViewModel, method : notifyViewModel");
     }
   }
 }
