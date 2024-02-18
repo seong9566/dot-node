@@ -13,11 +13,15 @@ class AnimationPageController {
   Duration animationDuration = const Duration(milliseconds: 200);
 
   Future<void> next() async {
-    await startAnimation(true);
+    if(pageNum == 0){
+      await startAnimation(true);
+    }
   }
 
   Future<void> back() async {
-    await startAnimation(false);
+    if(pageNum == 1){
+      await startAnimation(false);
+    }
   }
 
   Future<void> startAnimation(bool plus) async {

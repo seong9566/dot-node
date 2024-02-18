@@ -1,8 +1,7 @@
 import 'package:dot_node/core/ui/color_asset.dart';
 import 'package:dot_node/core/ui/img_res.dart';
 import 'package:dot_node/models/app_bar_model.dart';
-import 'package:dot_node/web_view/pages/personal/widget/template_items.dart';
-import 'package:dot_node/web_view/pages/personal/widget/widget_items.dart';
+import 'package:dot_node/web_view/pages/personal/personal_view.dart';
 import 'package:dot_node/web_view/pages/personal/page_controller.dart';
 import 'package:dot_node/widget/custom_marquee.dart';
 import 'package:dot_node/widget/custom_search_bar.dart';
@@ -22,6 +21,7 @@ class WidgetUpdateViewState extends ConsumerState
   late TabController tabController;
   bool isWidget = true;
   bool isTemplates = false;
+
   @override
   void initState() {
     super.initState();
@@ -41,20 +41,94 @@ class WidgetUpdateViewState extends ConsumerState
   @override
   Widget build(BuildContext context) {
     final animationPageController = ref.watch(animationPageProvider);
+
+    List<Widget> listItem = [
+      widgetItem(),
+      widgetItem(),
+      widgetItem(),
+      widgetItem(),
+      widgetItem(),
+      widgetItem(),
+    ];
     return Scaffold(
-        body: Column(
-      children: [
-        Column(
-          children: [
-            customAppBar(),
-            personalHeader(),
-            widthDivider(),
-            selectWidgetAndTemplates(animationPageController),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  customAppBar(),
+                  personalHeader(),
+                  widthDivider(),
+                  selectWidgetAndTemplates(animationPageController),
+                ],
+              ),
+              // Expanded(child: _body(animationPageController)),
+              categoryText(context),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3, // 가로에 표시할 아이템 수
+                    childAspectRatio: 1,
+                    mainAxisSpacing: 10, //수평 Padding
+                    crossAxisSpacing: 10, //수직 Padding
+                  ),
+                  itemCount: listItem.length,
+                  itemBuilder: (context, index) {
+                    return listItem[index];
+                  },
+                ),
+              )
+            ],
+          ),
         ),
-        _body(animationPageController),
+        bottomNavigationBar: PersonalBottomNav());
+  }
+
+  Widget categoryText(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SizedBox.shrink(),
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 24),
+          width: MediaQuery.sizeOf(context).width * 0.2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Banner",
+                style: TextStyle(
+                  color: DotColor.dotPrimary,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                "Layout",
+                style: TextStyle(
+                  color: DotColor.dotBlack,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                "List",
+                style: TextStyle(
+                  color: DotColor.dotBlack,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox.shrink(),
       ],
-    ));
+    );
   }
 
   Widget customAppBar() {
@@ -104,7 +178,6 @@ class WidgetUpdateViewState extends ConsumerState
           onTap: () {
             setState(() {
               animationPageController.next();
-
               isWidget = false;
               isTemplates = true;
             });
@@ -188,33 +261,65 @@ class WidgetUpdateViewState extends ConsumerState
     );
   }
 
-  Widget _body(AnimationPageController animationPageController) {
-    return Expanded(
-      child: Stack(
-        children: [
-          AnimatedPositioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            top: animationPageController.top,
-            duration: animationPageController.animationDuration,
-            child: AnimatedOpacity(
-              opacity: animationPageController.opacity,
-              duration: animationPageController.animationDuration,
-              child: pages()[animationPageController.pageNum],
+  Widget widgetItem() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        /// image
+        Container(
+          width: 280,
+          height: 200,
+          color: DotColor.dotGray,
+        ),
+        SizedBox(height: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Widget 1",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-          ),
-        ],
-      ),
+            SizedBox(height: 8),
+            Text(
+              "Explanation Explanation Explanation Explanation",
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                color: DotColor.dotBlack,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
-  List<Widget> pages() {
-    return [
-      WidgetItems(),
-      TemplateItems(),
-    ];
-  }
+  // Widget _body(AnimationPageController animationPageController) {
+  //   return Stack(
+  //     children: [
+  //       AnimatedPositioned(
+  //         left: 0,
+  //         right: 0,
+  //         bottom: 0,
+  //         top: animationPageController.top,
+  //         duration: animationPageController.animationDuration,
+  //         child: AnimatedOpacity(
+  //           opacity: animationPageController.opacity,
+  //           duration: animationPageController.animationDuration,
+  //           child: pages()[animationPageController.pageNum],
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
+  // List<Widget> pages() {
+  //   return [
+  //     WidgetItems(),
+  //     TemplateItems(),
+  //   ];
+  // }
 
   List<Container> bottomDot() {
     return [

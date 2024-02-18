@@ -62,8 +62,8 @@ class MyWeb extends StatelessWidget {
           translations: LocaleString(),
           locale: const Locale('kr_KR'), // kr_KR, en_US
           // home: const WebSignUpPage(),
-          home: SessionUser.isLogin ? PersonalView() : LoginView(),
-          // home: PersonalView(),
+          // home: SessionUser.isLogin ? PersonalView() : LoginView(),
+          home: HomePage(),
           // home: PersonalPage(),
           initialRoute: SessionUser.isLogin ? RoutePage.home : RoutePage.login,
           // initialRoute: RoutePage.sign,

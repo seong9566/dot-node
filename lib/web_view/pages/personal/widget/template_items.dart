@@ -7,11 +7,20 @@ class TemplateItems extends StatefulWidget {
   State<TemplateItems> createState() => _TemplateItemsState();
 }
 
+/// ctrl + w , ctrl shift l
 class _TemplateItemsState extends State<TemplateItems> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("template"),
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text("Banner"),
+            Text("Layout"),
+            Text("List"),
+          ],
+        )
+      ],
     );
   }
 }
