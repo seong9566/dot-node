@@ -1,7 +1,7 @@
 import 'package:dot_node/core/network/dio_api.dart';
-import 'package:dot_node/core/util/api_error.dart';
-import 'package:dot_node/core/util/urls.dart';
 import 'package:dot_node/model/login_model.dart';
+import 'package:dot_node/util/api_error.dart';
+import 'package:dot_node/util/urls.dart';
 
 class DotApi extends DioBaseApi {
   DotApi(super.dio);

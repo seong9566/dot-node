@@ -1,4 +1,4 @@
-import 'package:dot_node/web_view/pages/home/components/home_banner.dart';
+import 'package:dot_node/dot_widgets/home_banner.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -16,8 +16,6 @@ import 'package:flutter_test/flutter_test.dart';
  */
 
 void main() {
-  double totalBannerWidth = 920.w;
-  double totalBannerHeight = 360.h;
   testWidgets("pageView 테스트", (WidgetTester widgetTester) async {
     widgetTester.pumpWidget(HomeBanner());
   });

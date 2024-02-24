@@ -1,4 +1,4 @@
-import 'package:dot_node/widget/custom_snack_bar.dart';
+import 'package:dot_node/component_widget/custom_snack_bar.dart';
 import 'package:dot_node/main.dart';
 import 'package:dot_node/web_view/pages/home/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';

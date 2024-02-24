@@ -1,6 +1,6 @@
+import 'package:dot_node/component_widget/custom_snack_bar.dart';
 import 'package:dot_node/constant.dart';
 import 'package:dot_node/controller/dot_controller.dart';
-import 'package:dot_node/widget/custom_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

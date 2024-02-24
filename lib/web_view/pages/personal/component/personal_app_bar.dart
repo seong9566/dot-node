@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../personal_page.dart';
+import '../old_personal_page.dart';
 
 class PersonalAppBar extends StatelessWidget implements PreferredSizeWidget {
   const PersonalAppBar({Key? key}) : super(key: key);

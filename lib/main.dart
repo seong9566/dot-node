@@ -1,9 +1,9 @@
 import 'package:dot_node/core/route_page.dart';
 import 'package:dot_node/models/session_user.dart';
 import 'package:dot_node/service/local_service.dart';
-import 'package:dot_node/core/util/locale_string.dart';
+import 'package:dot_node/util/locale_string.dart';
 import 'package:dot_node/web_view/pages/auth/sign_in_view.dart';
-import 'package:dot_node/web_view/pages/login/login_view.dart';
+import 'package:dot_node/web_view/pages/auth/login_view.dart';
 import 'package:dot_node/web_view/pages/home/home_page.dart';
 import 'package:dot_node/web_view/pages/personal/personal_view.dart';
 import 'package:dot_node/web_view/pages/personal/widget_update_view.dart';
@@ -54,7 +54,7 @@ class MyWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(1024, 740),
+      designSize: const Size(1024, 1633),
       builder: (context, child) {
         return GetMaterialApp(
           navigatorKey: navigatorKey,

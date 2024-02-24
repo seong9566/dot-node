@@ -1,13 +1,15 @@
-import 'package:dot_node/core/ui/color_asset.dart';
-import 'package:dot_node/core/ui/img_res.dart';
+import 'package:dot_node/component_widget/custom_marquee.dart';
+import 'package:dot_node/component_widget/custom_search_bar.dart';
 import 'package:dot_node/models/app_bar_model.dart';
+import 'package:dot_node/util/ui/color_asset.dart';
+import 'package:dot_node/util/ui/img_res.dart';
 import 'package:dot_node/web_view/pages/personal/personal_view.dart';
-import 'package:dot_node/web_view/pages/personal/page_controller.dart';
-import 'package:dot_node/widget/custom_marquee.dart';
-import 'package:dot_node/widget/custom_search_bar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:widgets_to_image/widgets_to_image.dart';
 
 class WidgetUpdateView extends ConsumerStatefulWidget {
   const WidgetUpdateView({super.key});
@@ -19,9 +21,10 @@ class WidgetUpdateView extends ConsumerStatefulWidget {
 class WidgetUpdateViewState extends ConsumerState
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  WidgetsToImageController widgetImgController = WidgetsToImageController();
   bool isWidget = true;
   bool isTemplates = false;
-
+  Uint8List? bytes;
   @override
   void initState() {
     super.initState();
@@ -40,15 +43,39 @@ class WidgetUpdateViewState extends ConsumerState
 
   @override
   Widget build(BuildContext context) {
-    final animationPageController = ref.watch(animationPageProvider);
+    // final animationPageController = ref.watch(animationPageProvider);
 
-    List<Widget> listItem = [
+    List<Widget> itemList = [
       widgetItem(),
       widgetItem(),
       widgetItem(),
       widgetItem(),
       widgetItem(),
-      widgetItem(),
+      // ListView(
+      //   shrinkWrap: true,
+      //   scrollDirection: Axis.horizontal,
+      //   children: [
+      //     widgetItem(),
+      //     widgetItem(),
+      //     widgetItem(),
+      //   ],
+      // ),
+      // ListView(
+      //   scrollDirection: Axis.horizontal,
+      //   children: [
+      //     widgetItem(),
+      //     widgetItem(),
+      //     widgetItem(),
+      //   ],
+      // ),
+      // ListView(
+      //   scrollDirection: Axis.horizontal,
+      //   children: [
+      //     widgetItem(),
+      //     widgetItem(),
+      //     widgetItem(),
+      //   ],
+      // ),
     ];
     return Scaffold(
         body: SingleChildScrollView(
@@ -60,28 +87,66 @@ class WidgetUpdateViewState extends ConsumerState
                   customAppBar(),
                   personalHeader(),
                   widthDivider(),
-                  selectWidgetAndTemplates(animationPageController),
+                  selectWidgetAndTemplates(),
                 ],
               ),
               // Expanded(child: _body(animationPageController)),
               categoryText(context),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, // 가로에 표시할 아이템 수
-                    childAspectRatio: 1,
-                    mainAxisSpacing: 10, //수평 Padding
-                    crossAxisSpacing: 10, //수직 Padding
+              ListView(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.sizeOf(context).width,
+                    height: 300,
+                    child: Center(
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        children: [
+                          widgetItem(),
+                          SizedBox(width: 50.w),
+                          widgetItem(),
+                          SizedBox(width: 50.w),
+                          widgetItem(),
+                        ],
+                      ),
+                    ),
                   ),
-                  itemCount: listItem.length,
-                  itemBuilder: (context, index) {
-                    return listItem[index];
-                  },
-                ),
-              )
+                  SizedBox(
+                    height: 300,
+                    child: Center(
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        children: [
+                          widgetItem(),
+                          SizedBox(width: 50.w),
+                          widgetItem(),
+                          SizedBox(width: 50.w),
+                          widgetItem(),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 300,
+                    child: Center(
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        children: [
+                          widgetItem(),
+                          SizedBox(width: 50.w),
+                          widgetItem(),
+                          SizedBox(width: 50.w),
+                          widgetItem(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -140,15 +205,13 @@ class WidgetUpdateViewState extends ConsumerState
     );
   }
 
-  Widget selectWidgetAndTemplates(
-      AnimationPageController animationPageController) {
+  Widget selectWidgetAndTemplates() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         GestureDetector(
           onTap: () {
             setState(() {
-              animationPageController.back();
               isWidget = true;
               isTemplates = false;
             });
@@ -177,7 +240,6 @@ class WidgetUpdateViewState extends ConsumerState
         GestureDetector(
           onTap: () {
             setState(() {
-              animationPageController.next();
               isWidget = false;
               isTemplates = true;
             });
@@ -226,10 +288,7 @@ class WidgetUpdateViewState extends ConsumerState
               SizedBox(
                 width: 60.w,
                 height: 60.h,
-                child: Image.asset(
-                  ImgRes.profilePath,
-                  fit: BoxFit.cover,
-                ),
+                child: SvgPicture.asset(ImgRes.profilePath),
               ),
               CustomSearchBar(),
             ],
@@ -264,12 +323,12 @@ class WidgetUpdateViewState extends ConsumerState
   Widget widgetItem() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         /// image
         Container(
-          width: 280,
-          height: 200,
+          width: 280.w,
+          height: 280.h,
           color: DotColor.dotGray,
         ),
         SizedBox(height: 8),
@@ -295,32 +354,6 @@ class WidgetUpdateViewState extends ConsumerState
     );
   }
 
-  // Widget _body(AnimationPageController animationPageController) {
-  //   return Stack(
-  //     children: [
-  //       AnimatedPositioned(
-  //         left: 0,
-  //         right: 0,
-  //         bottom: 0,
-  //         top: animationPageController.top,
-  //         duration: animationPageController.animationDuration,
-  //         child: AnimatedOpacity(
-  //           opacity: animationPageController.opacity,
-  //           duration: animationPageController.animationDuration,
-  //           child: pages()[animationPageController.pageNum],
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  // List<Widget> pages() {
-  //   return [
-  //     WidgetItems(),
-  //     TemplateItems(),
-  //   ];
-  // }
-
   List<Container> bottomDot() {
     return [
       Container(
@@ -343,4 +376,30 @@ class WidgetUpdateViewState extends ConsumerState
       ),
     ];
   }
+
+// Widget _body(AnimationPageController animationPageController) {
+//   return Stack(
+//     children: [
+//       AnimatedPositioned(
+//         left: 0,
+//         right: 0,
+//         bottom: 0,
+//         top: animationPageController.top,
+//         duration: animationPageController.animationDuration,
+//         child: AnimatedOpacity(
+//           opacity: animationPageController.opacity,
+//           duration: animationPageController.animationDuration,
+//           child: pages()[animationPageController.pageNum],
+//         ),
+//       ),
+//     ],
+//   );
+// }
+
+// List<Widget> pages() {
+//   return [
+//     WidgetItems(),
+//     TemplateItems(),
+//   ];
+// }
 }

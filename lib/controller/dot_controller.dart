@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dot_node/core/network/dot_api.dart';
-import 'package:dot_node/core/util/urls.dart';
 import 'package:dot_node/model/login_model.dart';
+import 'package:dot_node/util/urls.dart';
 
 class DotController {
   DotController._();
