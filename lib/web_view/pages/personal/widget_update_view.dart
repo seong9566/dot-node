@@ -1,11 +1,11 @@
-import 'package:dot_node/core/ui/color_asset.dart';
-import 'package:dot_node/core/ui/img_res.dart';
+import 'package:dot_node/component_widget/custom_marquee.dart';
+import 'package:dot_node/component_widget/custom_search_bar.dart';
 import 'package:dot_node/models/app_bar_model.dart';
+import 'package:dot_node/util/ui/color_asset.dart';
+import 'package:dot_node/util/ui/img_res.dart';
 import 'package:dot_node/web_view/pages/personal/widget/template_items.dart';
 import 'package:dot_node/web_view/pages/personal/widget/widget_items.dart';
 import 'package:dot_node/web_view/pages/personal/page_controller.dart';
-import 'package:dot_node/widget/custom_marquee.dart';
-import 'package:dot_node/widget/custom_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

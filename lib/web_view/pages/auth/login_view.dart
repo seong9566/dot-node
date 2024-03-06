@@ -33,7 +33,7 @@ class _WebLoginViewState extends ConsumerState<LoginView> {
     return Center(
       child: IntrinsicHeight(
         child: Container(
-          width: 520.w,
+          width: 800.w,
           margin: EdgeInsets.symmetric(horizontal: 70),
           padding: EdgeInsets.symmetric(horizontal: 90, vertical: 78),
           decoration: BoxDecoration(

@@ -1,11 +1,10 @@
+import 'package:dot_node/util/ui/color_asset.dart';
 import 'package:dot_node/web_view/pages/personal/widget/banner_tab.dart';
 import 'package:dot_node/web_view/pages/personal/widget/layout_tab.dart';
 import 'package:dot_node/web_view/pages/personal/widget/list_tab.dart';
 import 'package:dot_node/controller/tab_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../../core/ui/color_asset.dart';
 
 class WidgetItems extends ConsumerStatefulWidget {
   const WidgetItems({super.key});

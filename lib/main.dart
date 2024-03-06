@@ -1,9 +1,8 @@
 import 'package:dot_node/core/route_page.dart';
 import 'package:dot_node/models/session_user.dart';
 import 'package:dot_node/service/local_service.dart';
-import 'package:dot_node/core/util/locale_string.dart';
+import 'package:dot_node/web_view/pages/auth/login_view.dart';
 import 'package:dot_node/web_view/pages/auth/sign_in_view.dart';
-import 'package:dot_node/web_view/pages/login/login_view.dart';
 import 'package:dot_node/web_view/pages/home/home_page.dart';
 import 'package:dot_node/web_view/pages/personal/personal_view.dart';
 import 'package:dot_node/web_view/pages/personal/widget_update_view.dart';
@@ -13,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import 'util/locale_string.dart';
 
 /*
  * Project Name:  [DOTnode]
