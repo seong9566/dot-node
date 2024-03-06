@@ -10,8 +10,8 @@ class TemplateItems extends StatefulWidget {
 class _TemplateItemsState extends State<TemplateItems> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("template"),
+    return Center(
+      child: Text("Template"),
     );
   }
 }

@@ -24,12 +24,12 @@ class WidgetUpdateViewState extends ConsumerState
   bool isTemplates = false;
   @override
   void initState() {
-    super.initState();
     tabController = TabController(
       length: 2,
       vsync: this,
       animationDuration: Duration(milliseconds: 400),
     );
+    super.initState();
   }
 
   @override
@@ -80,7 +80,7 @@ class WidgetUpdateViewState extends ConsumerState
             });
           },
           child: Container(
-            width: 160.w,
+            width: 240.w,
             padding: EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
               color: isWidget ? DotColor.dotPrimary : DotColor.dotGray,
@@ -110,7 +110,7 @@ class WidgetUpdateViewState extends ConsumerState
             });
           },
           child: Container(
-            width: 160.w,
+            width: 240.w,
             padding: EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
               color: isTemplates ? DotColor.dotPrimary : DotColor.dotGray,
@@ -188,25 +188,28 @@ class WidgetUpdateViewState extends ConsumerState
     );
   }
 
+  // Widget _body(AnimationPageController animationPageController) {
+  //   return Expanded(
+  //     child: Stack(
+  //       children: [
+  //         AnimatedPositioned(
+  //           left: 0,
+  //           right: 0,
+  //           bottom: 0,
+  //           top: animationPageController.top,
+  //           duration: animationPageController.animationDuration,
+  //           child: AnimatedOpacity(
+  //             opacity: animationPageController.opacity,
+  //             duration: animationPageController.animationDuration,
+  //             child: pages()[animationPageController.pageNum],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
   Widget _body(AnimationPageController animationPageController) {
-    return Expanded(
-      child: Stack(
-        children: [
-          AnimatedPositioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            top: animationPageController.top,
-            duration: animationPageController.animationDuration,
-            child: AnimatedOpacity(
-              opacity: animationPageController.opacity,
-              duration: animationPageController.animationDuration,
-              child: pages()[animationPageController.pageNum],
-            ),
-          ),
-        ],
-      ),
-    );
+    return Expanded(child: pages()[animationPageController.pageNum]);
   }
 
   List<Widget> pages() {
@@ -218,6 +221,15 @@ class WidgetUpdateViewState extends ConsumerState
 
   List<Container> bottomDot() {
     return [
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 2),
+        width: 5,
+        height: 5,
+        decoration: BoxDecoration(
+          color: DotColor.dotGray,
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
+      ),
       Container(
         margin: EdgeInsets.symmetric(horizontal: 2),
         width: 5,

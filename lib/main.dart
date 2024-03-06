@@ -54,7 +54,7 @@ class MyWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(1024, 740),
+      designSize: const Size(1920, 1080),
       builder: (context, child) {
         return GetMaterialApp(
           navigatorKey: navigatorKey,
