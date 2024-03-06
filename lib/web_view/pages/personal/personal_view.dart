@@ -1,13 +1,14 @@
+import 'package:dot_node/component_widget/custom_marquee.dart';
+import 'package:dot_node/component_widget/custom_search_bar.dart';
+import 'package:dot_node/component_widget/dot_widget.dart';
 import 'package:dot_node/core/route_page.dart';
-import 'package:dot_node/core/ui/color_asset.dart';
-import 'package:dot_node/core/ui/img_res.dart';
 import 'package:dot_node/models/app_bar_model.dart';
-import 'package:dot_node/widget/custom_marquee.dart';
-import 'package:dot_node/widget/custom_search_bar.dart';
-import 'package:dot_node/widget/dot_widget.dart';
+import 'package:dot_node/util/ui/color_asset.dart';
+import 'package:dot_node/util/ui/img_res.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 /// 새로 리뉴얼 한 Personal
 class PersonalView extends StatefulWidget {
@@ -48,10 +49,11 @@ class _PersonalViewState extends State<PersonalView> {
               SizedBox(
                 width: 60.w,
                 height: 60.h,
-                child: Image.asset(
-                  ImgRes.profilePath,
-                  fit: BoxFit.cover,
-                ),
+                child: SvgPicture.asset(ImgRes.profilePath),
+                // child: Image.asset(
+                //   ImgRes.profilePath,
+                //   fit: BoxFit.cover,
+                // ),
               ),
               CustomSearchBar(),
             ],

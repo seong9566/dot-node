@@ -1,29 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
-
-import '../../../../constant.dart';
-import 'animated_banner_content.dart';
-
-/*
- * Project Name:  [DOTnode]
- * Created Date: 2023-10-09
- * Last Modified: 2023-10-30
- * Author: Hyeonseong
- * Modified By: Hyeonseong
- * copyright @ 2023 TeamDOT
- * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
- *              Description
- * Banner 위젯 주의사항
- * Stack위젯 사용의 특징을 주의해야함
- * 제일 위에 보이는 Banner가 User에겐 1번 Banner 이지만, Stack위젯 기준으로 4번(가장 위에 쌓여있음) Banner임 헷갈림 주의하기!
- * 
- * 10.30 - Banner 위젯 Animated -> PageView.builder로 수정 
- * --- ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
- */
+import '../constant.dart';
 
 class HomeBanner extends StatefulWidget {
   const HomeBanner({super.key});
@@ -107,10 +87,9 @@ class _HomeBannerState extends State<HomeBanner> {
                   currentPage = value;
                 }),
                 itemBuilder: (context, index) {
-                  return BannerContent(
-                    content: "${bannerData[index]['text']}",
-                    currentPage: currentPage,
-                    onTap: () {
+                  return bannerWidget(
+                    "${bannerData[index]['text']}",
+                    () {
                       Logger().d("Banner ${index + 1} 눌려짐");
                     },
                   );
@@ -156,6 +135,41 @@ class _HomeBannerState extends State<HomeBanner> {
               );
             })
       ],
+    );
+  }
+
+  Widget bannerWidget(String content, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 100),
+        width: totalBannerHeight,
+        height: 360.h,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade800,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(240),
+            bottomRight: Radius.circular(240),
+            topLeft: Radius.circular(20),
+            bottomLeft: Radius.circular(20),
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(left: 60),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              content,
+              style: TextStyle(
+                fontFamily: "Akira",
+                fontWeight: FontWeight.bold,
+                fontSize: 22.sp,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

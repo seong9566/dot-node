@@ -1,6 +1,6 @@
-import 'package:dot_node/core/ui/color_asset.dart';
+import 'package:dot_node/component_widget/dot_widget.dart';
+import 'package:dot_node/util/ui/color_asset.dart';
 import 'package:dot_node/web_view/pages/auth/sign_in_view_model.dart';
-import 'package:dot_node/widget/dot_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

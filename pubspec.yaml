@@ -41,6 +41,11 @@ dependencies:
   firebase_auth: ^4.17.5
   firebase_auth_platform_interface: ^7.1.7
 
+  flutter_svg: ^2.0.10+1
+
+  #widget to Image
+  widgets_to_image: ^0.0.2
+
  #dio
   dio: ^5.4.0
  

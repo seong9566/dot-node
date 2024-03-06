@@ -1,11 +1,11 @@
+import 'package:dot_node/component_widget/custom_marquee.dart';
+import 'package:dot_node/component_widget/custom_search_bar.dart';
 import 'package:dot_node/models/app_bar_model.dart';
-import 'package:dot_node/widget/custom_search_bar.dart';
-import 'package:dot_node/widget/custom_marquee.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'home_banner.dart';
+import '../../../../dot_widgets/home_banner.dart';
 
 /*
  * Project Name:  [DOTnode]
