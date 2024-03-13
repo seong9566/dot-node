@@ -29,8 +29,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 20),
-      width: 700.w,
+      margin: EdgeInsets.only(top: 20.h),
+      width: 1200,
       height: 68.h,
       child: TextFormField(
         decoration: InputDecoration(

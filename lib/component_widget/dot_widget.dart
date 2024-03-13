@@ -41,11 +41,13 @@ Widget backgroundImg() {
 }
 
 List<Container> bottomDot() {
+  double width = 10;
+  double height = 10;
   return [
     Container(
       margin: EdgeInsets.symmetric(horizontal: 2),
-      width: 5.w,
-      height: 5.h,
+      width: width.w,
+      height: height.h,
       decoration: BoxDecoration(
         color: DotColor.dotGray,
         borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -53,8 +55,8 @@ List<Container> bottomDot() {
     ),
     Container(
       margin: EdgeInsets.symmetric(horizontal: 2),
-      width: 5.w,
-      height: 5.h,
+      width: width.w,
+      height: height.h,
       decoration: BoxDecoration(
         color: DotColor.dotGray,
         borderRadius: BorderRadius.all(Radius.circular(20)),

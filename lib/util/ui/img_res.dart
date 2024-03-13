@@ -8,7 +8,7 @@ class ImgRes {
   static const backgroundImgPath = "assets/login_background.gif";
 
   ///svg
-  static const profilePath = "assets/profile.svg";
+  static const profilePath = "assets/profile.jpeg";
 
   static Map<String, String> pill = {
     ImgStatus.def: profilePath,

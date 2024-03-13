@@ -1,5 +1,5 @@
 import 'package:dot_node/controller/widget_controller.dart';
-import 'package:dot_node/models/widget_model.dart';
+import 'package:dot_node/web_view/components/widget_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
@@ -23,7 +23,11 @@ import 'package:logger/logger.dart';
  */
 
 class InsertWidget extends StatefulWidget {
-  InsertWidget({required this.widgetList, required this.onWidgetAdd, required this.wControl, super.key});
+  InsertWidget(
+      {required this.widgetList,
+      required this.onWidgetAdd,
+      required this.wControl,
+      super.key});
   List<Widget>? widgetList;
   final VoidCallback onWidgetAdd;
   WidgetController wControl;
@@ -64,7 +68,8 @@ class _InsertWidget extends State<InsertWidget> {
               actions: [
                 ElevatedButton(
                   onPressed: () async {
-                    final XFile? imageFile = await picker.pickImage(source: ImageSource.gallery);
+                    final XFile? imageFile =
+                        await picker.pickImage(source: ImageSource.gallery);
                     imagePath = imageFile?.path ?? '';
                     Logger().d("선택 이미지 경로 : $imagePath");
                     setState(() {});
@@ -98,7 +103,8 @@ class _InsertWidget extends State<InsertWidget> {
     );
   }
 
-  void selectedWidget(BuildContext context, List<String> dropDownButtonItems, List<Widget> widgetList) {
+  void selectedWidget(BuildContext context, List<String> dropDownButtonItems,
+      List<Widget> widgetList) {
     showDialog(
       context: context,
       builder: (BuildContext context) => StatefulBuilder(
@@ -117,7 +123,8 @@ class _InsertWidget extends State<InsertWidget> {
               children: [
                 DropdownButton(
                   value: _selectedValue,
-                  items: dropDownButtonItems.map<DropdownMenuItem<String>>((value) {
+                  items: dropDownButtonItems
+                      .map<DropdownMenuItem<String>>((value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),

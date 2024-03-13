@@ -5,7 +5,7 @@ import 'package:dot_node/web_view/pages/auth/login_view.dart';
 import 'package:dot_node/web_view/pages/auth/sign_in_view.dart';
 import 'package:dot_node/web_view/pages/home/home_page.dart';
 import 'package:dot_node/web_view/pages/personal/personal_view.dart';
-import 'package:dot_node/web_view/pages/personal/widget_update_view.dart';
+import 'package:dot_node/web_view/pages/personal/personal_widget_update_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +73,7 @@ class MyWeb extends StatelessWidget {
             RoutePage.sign: (_) => const SignInView(),
             RoutePage.home: (_) => const HomePage(),
             RoutePage.personal: (_) => const PersonalView(),
-            RoutePage.widgetUpdate: (_) => const WidgetUpdateView(),
+            RoutePage.widgetUpdate: (_) => const PersonalWidgetUpdateView(),
           },
         );
       },

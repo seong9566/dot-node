@@ -42,19 +42,24 @@ class WidgetUpdateViewState extends ConsumerState
   Widget build(BuildContext context) {
     final animationPageController = ref.watch(animationPageProvider);
     return Scaffold(
-        body: Column(
+      body: Column(
+        children: [
+          _header(animationPageController),
+          _body(animationPageController),
+        ],
+      ),
+    );
+  }
+
+  Widget _header(AnimationPageController animationPageController) {
+    return Column(
       children: [
-        Column(
-          children: [
-            customAppBar(),
-            personalHeader(),
-            widthDivider(),
-            selectWidgetAndTemplates(animationPageController),
-          ],
-        ),
-        _body(animationPageController),
+        customAppBar(),
+        personalHeader(),
+        widthDivider(),
+        selectWidgetAndTemplates(animationPageController),
       ],
-    ));
+    );
   }
 
   Widget customAppBar() {
@@ -150,17 +155,14 @@ class WidgetUpdateViewState extends ConsumerState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(
-                width: 60.w,
-                height: 60.h,
-                child: Image.asset(
-                  ImgRes.profilePath,
-                  fit: BoxFit.cover,
-                ),
+              ///임시 프로필 아이콘 -> 나중에 변경 필요
+              CircleAvatar(
+                backgroundImage: AssetImage(ImgRes.profilePath),
               ),
               CustomSearchBar(),
             ],
           ),
+          SizedBox(height: 40.h),
           Container(
             height: 266,
             decoration: BoxDecoration(

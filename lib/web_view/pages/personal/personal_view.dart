@@ -2,6 +2,7 @@ import 'package:dot_node/component_widget/custom_marquee.dart';
 import 'package:dot_node/component_widget/custom_search_bar.dart';
 import 'package:dot_node/component_widget/dot_widget.dart';
 import 'package:dot_node/core/route_page.dart';
+import 'package:dot_node/dot_widgets/header_items.dart';
 import 'package:dot_node/models/app_bar_model.dart';
 import 'package:dot_node/util/ui/color_asset.dart';
 import 'package:dot_node/util/ui/img_res.dart';
@@ -58,28 +59,8 @@ class _PersonalViewState extends State<PersonalView> {
               CustomSearchBar(),
             ],
           ),
-          Container(
-            height: 266.h,
-            decoration: BoxDecoration(
-              color: DotColor.dotGray,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "HI!",
-                  style: TextStyle(
-                    fontSize: 223,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  "배너 위젯\n큰 이미지나 영상으로\n사람들의 이목을 끌 수 있습니다 !",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-          ),
+          SizedBox(height: 40.h),
+          HeaderItems().bannerHeaderWidget(),
         ],
       ),
     );
@@ -110,14 +91,14 @@ class _PersonalBottomNavState extends State<PersonalBottomNav> {
               });
             },
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-              width: 492.w,
-              height: 68.h,
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+              width: 800.w,
+              height: 120.h,
               decoration: BoxDecoration(
                 color: Color(0xFFE9E9E9),
                 borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(34.r),
-                  bottomRight: Radius.circular(34.r),
+                  topRight: Radius.circular(80.r),
+                  bottomRight: Radius.circular(80.r),
                 ),
               ),
               child: Row(
@@ -137,13 +118,13 @@ class _PersonalBottomNavState extends State<PersonalBottomNav> {
   Widget bottomNavText() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 12.r),
-      width: 340.w,
-      height: 52.h,
+      width: 540.w,
+      height: 80.h,
       decoration: BoxDecoration(
         color: DotColor.dotGray,
         borderRadius: BorderRadius.only(
-          topRight: Radius.circular(34.r),
-          bottomRight: Radius.circular(34.r),
+          topRight: Radius.circular(60.r),
+          bottomRight: Radius.circular(60.r),
         ),
       ),
       child: Row(
@@ -160,14 +141,14 @@ class _PersonalBottomNavState extends State<PersonalBottomNav> {
     );
   }
 
-  GestureDetector bottomNavTextBtn(String text, VoidCallback onTap) {
+  Widget bottomNavTextBtn(String text, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Text(
         text,
         style: TextStyle(
           color: Colors.white,
-          fontSize: 18.sp,
+          fontSize: 24.sp,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -176,8 +157,8 @@ class _PersonalBottomNavState extends State<PersonalBottomNav> {
 
   Widget verticalDivider() {
     return SizedBox(
-      height: 16.h,
-      child: VerticalDivider(color: Colors.white, thickness: 2),
+      height: 28.h,
+      child: VerticalDivider(color: Colors.white, thickness: 3),
     );
   }
 
@@ -196,13 +177,16 @@ class _PersonalBottomNavState extends State<PersonalBottomNav> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 50.w,
-        height: 50.h,
+        width: 80.w,
+        height: 80.h,
         decoration: BoxDecoration(
           color: DotColor.dotGray,
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
-        child: Icon(icon, size: 28.sp),
+        child: Icon(
+          icon,
+          size: 40.sp,
+        ),
       ),
     );
   }

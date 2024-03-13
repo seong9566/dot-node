@@ -6,8 +6,8 @@ import 'package:dot_node/models/session_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../constant.dart';
-import '../web_view/pages/personal/component/custom_detail_form_modal.dart';
+import '../../constant.dart';
+import '../pages/personal/component/custom_detail_form_modal.dart';
 
 /*
  * Project Name:  [DOTnode]
@@ -59,7 +59,13 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
     final wControl = ref.read(widgetController);
     return GestureDetector(
       onTap: () {
-        customDetailFormModal(context: context, formField: formField, wControl: wControl, model: widget.model, title: oldTitle, content: oldContent);
+        customDetailFormModal(
+            context: context,
+            formField: formField,
+            wControl: wControl,
+            model: widget.model,
+            title: oldTitle,
+            content: oldContent);
       },
       child: Container(
         width: fWidth,
@@ -76,7 +82,8 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
               SizedBox(height: 24),
               Divider(thickness: 1, height: 1, color: Colors.black),
               SizedBox(height: 24),
-              if (widget.model!.widgetElement[1].imageFile != null) Image.network(widget.model!.widgetElement[1].imageFile!),
+              if (widget.model!.widgetElement[1].imageFile != null)
+                Image.network(widget.model!.widgetElement[1].imageFile!),
               Text(
                 widget.model!.widgetElement[1].content,
                 style: TextStyle(fontSize: fContentSize),
@@ -88,7 +95,9 @@ class _ContainerWidgetState extends ConsumerState<ContainerWidget> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      wControl.deleteWidget(widgetId: widget.model!.widgetId, userUid: "${SessionUser.user.uid}");
+                      wControl.deleteWidget(
+                          widgetId: widget.model!.widgetId,
+                          userUid: "${SessionUser.user.uid}");
                     },
                     child: Text("삭제"),
                   ),
